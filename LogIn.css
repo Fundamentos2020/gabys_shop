@@ -1,0 +1,15 @@
+#imagen{
+    background-color: blanchedalmond;
+    height: 100px;
+}
+
+h1{
+    text-align: center;
+    font-family: sans-serif;
+}
+
+#form_label, a{
+    font-family: sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
