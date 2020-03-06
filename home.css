@@ -1,0 +1,119 @@
+*{
+    box-sizing: border-box;
+}
+
+.col-1{
+    width: 8.33%;
+}
+
+.col-2{
+    width: 16.66%;
+}
+
+.col-3{
+    width: 25%;
+}
+
+.col-4{
+    width: 33.33%;
+}
+
+.col-5{
+    width: 41.66%;
+}
+
+.col-6{
+    width: 50%;
+}
+
+.col-7{
+    width: 58.33%;
+}
+
+.col-8{
+    width: 66.66%;
+}
+
+.col-9{
+    width: 75%;
+}
+
+.col-10{
+    width: 83.33%;
+}
+
+.col-11{
+    width: 91.66%;
+}
+
+.col-12{
+    width: 100%;
+}
+
+[class*="col-"]{
+    float: left;
+} 
+
+.row::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.Menu{
+    background-color: green;
+    color: white;
+    height: 50%;
+    /*padding: 0px;*/
+    /*display: inline-block;*/
+    margin: 0px;
+    margin-top: 2em;
+}
+
+.Menu li{
+    display: flex;
+    padding: 1%;
+    height: 6em;
+}
+
+.Encabezado{
+    background-color: darkseagreen; 
+}
+
+.Encabezado div{
+    display: inline-block;
+}
+
+.Search{
+    display: inline-block;
+    width: 30%;
+    
+}
+
+.Productos{
+    background-color: tomato;
+    /*width: 75%;*/
+    /*float: right;
+    margin-right: 1em;
+    
+    margin-top: 2em;*/
+}
+
+.m-1{
+    margin: 1em;
+}
+
+.p-1{
+    padding: 1em;
+}
+
+.border{
+    border: black solid 1px;
+    
+}
+
+.prod{
+    display: inline-block;
+    width: 24.7%;
+    height: 10em;
+}
