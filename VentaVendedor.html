@@ -1,54 +1,61 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Perfil Comprador</title>
-        <link rel="stylesheet" type="text/css" href="home.css">
-    </head>
-    <body>
 
-        <div class="col-12">
-            <div class="Encabezado m-1">
-                <div class="contenidoflexEncabezado">
-                    <div>
-                        <a href="home.html">
-                            <img src="Logo.png" alt="Inicio" width="100px" height="100px">
-                        </a>
-                    </div>
-                    <div>
-                        <input type="search" name="" id="">
-                    </div>
-                    <div>
-                        <input type="button" value="Buscar" name="Buscar" >
-                    </div>
-                    <div>
-                        Aqui va el link <br> hacia el perfil
-                    </div>
-                    <div>
-                        Aqui va el link <br> hacia el carrito
-                    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Perfil Comprador</title>
+    <link rel="stylesheet" type="text/css" href="home.css">
+</head>
+
+<body>
+    <div>
+        <div class="col-m-12 Encabezado col-s-12">
+            <div class="col-m-2 col-s-2 m-1-top-bot textcenter">
+                <a href="home.html">Gaby's shop</a>
+            </div>
+            <div class="col-s-6 col-m-8 m-1-top-bot textcenter">
+                <div class="Search col-s-8">
+                    <input type="search" name="" id="" class="col-m-12 col-s-12">
+                </div>
+                <div class="col-s-4">
+                    <input type="button" value="Buscar" name="Buscar">
                 </div>
             </div>
-        </div>
-
-        <div class="col-2">
-            <div class="Menu m-1">
-                <ul>
-                <li><a href="InicioVendedor.html">Inicio</a></li>
-                <li><a href="PerfilComprador.html">Perfil</a></li>
-                <li><a href="OfertasVendedor.html">Tus ofertas</a></li>
-                <li><a href="VentaVendedor.html">Venta</a></li>
-                <li><a href="SolicitudVendedor.html">Enviar Solicitud</a></li>
-                <li><a href="LogIn.html">Cerrar Sesión</a></li> 
-                </ul>
+            <div class="col-s-4 col-m-1 m-1-top-bot textcenter">
+                <a href="PerfilComprador.html">perfil</a>
             </div>
         </div>
 
-        <div class="col-4 p-1 textgeneral">
+
+        <div class="Menu col-m-2 col-s-12">
+            <ul>
+                <div class="col-s-2 col-m-12 text">
+                    <li><a href="InicioVendedor.html">Inicio</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="PerfilComprador.html">Perfil</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="OfertasVendedor.html">Tus ofertas</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="VentaVendedor.html">Venta</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="SolicitudVendedor.html">Enviar Solicitud</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="LogIn.html">Cerrar Sesión</a></li>
+                </div>
+            </ul>
+        </div>
+
+        <div class="col-m-5 col-s-12 p-1 textgeneral">
             <div>
                 <img src="" alt="Aqui va la imagen del producto">
+                <input type="file" name="" id="">
                 <p>*Foto obligatoria*</p>
             </div>
 
@@ -59,29 +66,29 @@
             </div>
         </div>
 
-        <div class="col-3 textgeneral">
-            <div class="m-1">
+        <div class="col-m-5 col-s-12 p-1 textgeneral">
+            <div class="m-t-1">
                 <div>
                     Nombre del producto
                 </div>
                 <input type="text">
             </div>
 
-            <div class="m-1">
+            <div class="m-t-1">
                 <div>
                     Descripcion del producto
                 </div>
-                <input type="text" >
+                <textarea></textarea>
             </div>
 
-            <div class="m-1">
+            <div class="m-t-1">
                 <div>
                     Precio del producto
                 </div>
                 <input type="text">
             </div>
 
-            <div class="m-1">
+            <div class="m-t-1">
                 <div>
                     Cantidad del producto
                 </div>
@@ -89,6 +96,6 @@
             </div>
 
         </div>
-    </body>
+    </div>
+</body>
 </html>
-

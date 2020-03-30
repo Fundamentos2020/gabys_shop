@@ -7,7 +7,7 @@ html{
     font-family: sans-serif;
 }
 
-.col-1{width: 8.33%;}
+/*.col-1{width: 8.33%;}
 .col-2{width: 16.66%;}
 .col-3{width: 25%;}
 .col-4{width: 33.33%}
@@ -18,40 +18,44 @@ html{
 .col-9{width: 75%;}
 .col-10{width: 83.22%;}
 .col-11{width: 91.66%}
-.col-12{width: 100%;}
+.col-12{width: 100%;}*/
 
-@media (min-width: 0 px)
+@media (min-width: 0px)
 {
     .col-s-1{width: 8.33%;}
     .col-s-2{width: 16.66%;}
     .col-s-3{width: 25%;}
     .col-s-4{width: 33.33%}
-    .col-s-5{width: 41%;}
+    .col-s-5{width: 41.66%;}
     .col-s-6{width: 50%;}
     .col-s-7{width: 58.33%;}
-    .col-s-8{width: 66%;}
+    .col-s-8{width: 66.66%;}
     .col-s-9{width: 75%;}
-    .col-s-10{width: 83.22%;}
+    .col-s-10{width: 83.33%;}
     .col-s-11{width: 91.66%}
     .col-s-12{width: 100%;}
-    
+    /*.Menu-s{
+        display: inline-block;
+    }*/
 }
 
-@media (min-width: 780 px)
+@media (min-width: 768px)
 {
     .col-m-1{width: 8.33%;}
     .col-m-2{width: 16.66%;}
     .col-m-3{width: 25%;}
     .col-m-4{width: 33.33%}
-    .col-m-5{width: 41%;}
+    .col-m-5{width: 41.66%;}
     .col-m-6{width: 50%;}
     .col-m-7{width: 58.33%;}
-    .col-m-8{width: 66%;}
+    .col-m-8{width: 66.66%;}
     .col-m-9{width: 75%;}
-    .col-m-10{width: 83.22%;}
+    .col-m-10{width: 83.33%;}
     .col-m-11{width: 91.66%}
     .col-m-12{width: 100%;}
-    
+    .b-prod-top{
+        border-top: 1px black solid;
+    }
 }
 
 [class*="col-"]{
@@ -70,15 +74,15 @@ html{
     color: white;
     height: 50%;
     /*padding: 0px;*/
-    /*display: inline-block;*/
+    /*display: flex;*/
     margin: 0px;
-    margin-top: 2em;
+    margin-top: 1em;
 }
 
 .Menu li{
     display: flex;
     padding: 1%;
-    height: 6em;
+    height: 4em;
 }
 
 a{
@@ -99,13 +103,10 @@ a{
     display: inline-block;
 }
 
-.Search{
-    /*display: inline-block;*/
-    width: 30%;
-}
-
 .Productos{
     font-size: 18px;
+    margin-top: 1em;
+    padding-left: 1em;
     /*width: 75%;*/
     /*float: right;
     margin-right: 1em;
@@ -132,8 +133,22 @@ a{
     border-top: black 1px solid;
 }
 
-.m-1{
-    margin: 1em;
+
+.m-t-1{
+    margin-top: 1em;
+}
+
+.m-r-1{
+    margin-right: 1em;
+}
+
+.m-l-1{
+    margin-left: 1em;
+}
+
+.m-1-top-bot{
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .p-1{
@@ -145,6 +160,18 @@ a{
     padding: 1.5em;
 }
 
+.p-l-1{
+    padding-left: 1em;
+}
+
+.p-t-1{
+    padding-top: 1em;
+}
+
+.p-r-1{
+    padding-right: 1em;
+}
+
 .border{
     border: black solid 1px;
     
@@ -152,8 +179,9 @@ a{
 
 .prod{
     display: inline-block;
-    width: 24.7%;
-    height: 10em;
+    padding-bottom: 1em;
+    /*width: 24.7%;*/
+    /*height: 10em;*/
 }
 
 .textcenter
@@ -279,6 +307,26 @@ a{
 
 .textgeneral
 {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    /*font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;*/
     font-size: 1.5em;
+}
+
+.b-1{
+    border: black 1px solid;
+}
+
+textarea{
+    width: 75%;
+    height: 100%;
+}
+
+.ImagenProd{
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+}
+
+.ImagenProd img{
+    max-width: 100%;
+    max-height: 100%;
 }
