@@ -133,6 +133,9 @@ a{
     border-top: black 1px solid;
 }
 
+.m-1{
+    margin: 1em;
+}
 
 .m-t-1{
     margin-top: 1em;
