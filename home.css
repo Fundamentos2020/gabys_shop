@@ -1,3 +1,4 @@
+
 *
 {
     box-sizing: border-box;
@@ -69,6 +70,7 @@ html{
     display: table;
 }
 
+/*------------------------------------Parte del menu--------------------------*/
 .Menu{
     background-color: rgb(193, 230, 230);
     color: rgb(54,64,64);
@@ -87,11 +89,7 @@ html{
     transition: height 0.5s;
 }
 
-a{
-    text-decoration: none;
-    color: rgb(54,64,64);
-}
-
+/*Encabezado*/
 .Encabezado a{
     text-decoration: none;
     color: black;
@@ -106,6 +104,7 @@ a{
     display: inline-block;
 }
 
+/*---------------------------------Productos-------------------------------------*/
 .Productos{
     font-size: 18px;
     margin-top: 1em;
@@ -131,56 +130,15 @@ a{
     width: 1em;
 }
 
-
-.border-top{
-    border-top: rgb(54,64,64) 1px solid;
+.ImagenProd{
+    align-items: center;
+    text-align: center;
+    display: inline-block;
 }
 
-.m-1{
-    margin: 1em;
-}
-
-.m-t-1{
-    margin-top: 1em;
-}
-
-.m-r-1{
-    margin-right: 1em;
-}
-
-.m-l-1{
-    margin-left: 1em;
-}
-
-.m-1-top-bot{
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.p-1{
-    padding: 1em;
-}
-
-.p-2
-{
-    padding: 1.5em;
-}
-
-.p-l-1{
-    padding-left: 1em;
-}
-
-.p-t-1{
-    padding-top: 1em;
-}
-
-.p-r-1{
-    padding-right: 1em;
-}
-
-.border{
-    border: rgb(54,64,64) solid 1px;
-    
+.ImagenProd img{
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .prod{
@@ -188,6 +146,117 @@ a{
     padding-bottom: 1em;
     /*width: 24.7%;*/
     /*height: 10em;*/
+}
+
+/*--------Botones------------------------------------------------------*/
+.CheckButton
+{
+    color: black;
+    height: 50%;
+    margin: 0px;
+    margin-top: 1em;
+}
+
+.CheckButton a
+{
+    display: flex;
+    padding: 1%;
+    height: 4em;
+    color: black;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.CheckButton button
+{
+    line-height: auto;
+    text-align: center;
+    width: 120px;
+    height: 75px;
+}
+
+.botonConfirma
+{
+    margin-left: 500px;
+    font-size: 25px;
+    padding: .3em;
+    margin-bottom: 10px;
+}
+
+/*----------------------------Flex--------------------------------------------------*/
+.contenidoflex
+{
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+.contenidoflex div
+{
+    padding: 1.75em;
+    font-size: 1em;
+}
+
+.flexarchivo
+{
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+.flexarchivo input
+{
+    margin-left: 100px;
+    height: 20px;
+    width: 20px;
+}
+
+.InfoPerFlex
+{
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+/*.InfoPerFlex div
+{
+    /*padding: 1.5em;
+}*/
+
+.contenidoflexEncabezado
+{
+    display: flex;
+    align-content: space-between;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.contenidoflexEncabezado div
+{
+    padding: 1em;
+    font-size: 2em;
+}
+
+
+/*---------------------Miscelanos-------------------------------*/
+.textgeneral
+{
+    /*font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;*/
+    font-size: 1.5em;
+}
+
+.b-1{
+    border: black 1px solid;
+}
+
+textarea{
+    width: 75%;
+    height: 100%;
 }
 
 .textcenter
@@ -268,77 +337,60 @@ a{
     color: whitesmoke;
 }
 
-.contenidoflex
-{
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: row;
-    align-content: space-around;
+a{
+    text-decoration: none;
+    color: white;
 }
 
-.contenidoflex div
-{
-    padding: 1.75em;
-    font-size: 1em;
+
+
+
+.border-top{
+    border-top: rgb(54,64,64) 1px solid;
 }
 
-.InfoPerFlex
-{
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: row;
-    align-content: space-around;
+.m-1{
+    margin: 1em;
 }
 
-/*.InfoPerFlex div
-{
-    /*padding: 1.5em;
-}*/
-
-.contenidoflexEncabezado
-{
-    display: flex;
-    align-content: space-between;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+.m-t-1{
+    margin-top: 1em;
 }
 
-.contenidoflexEncabezado div
-{
+.m-r-1{
+    margin-right: 1em;
+}
+
+.m-l-1{
+    margin-left: 1em;
+}
+
+.m-1-top-bot{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.p-1{
     padding: 1em;
-    font-size: 2em;
 }
 
-.textgeneral
+.p-2
 {
-    /*font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;*/
-    font-size: 1.5em;
+    padding: 1.5em;
 }
 
-.b-1{
-    border: rgb(54,64,64) 1px solid;
+.p-l-1{
+    padding-left: 1em;
 }
 
-textarea{
-    width: 75%;
-    height: 100%;
+.p-t-1{
+    padding-top: 1em;
 }
 
-.ImagenProd{
-    align-items: center;
-    text-align: center;
-    display: inline-block;
+.p-r-1{
+    padding-right: 1em;
 }
 
-.ImagenProd img{
-    max-width: 100%;
-    max-height: 100%;
-}
-
-
-
-.Menu li:hover{
-    height: 100px;
+.border{
+    border: black solid 1px;    
 }
