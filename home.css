@@ -106,7 +106,7 @@ html{
 
 /*---------------------------------Productos-------------------------------------*/
 .Productos{
-    font-size: 18px;
+    font-size: 14px;
     margin-top: 1em;
     padding-left: 1em;
     /*width: 75%;*/
@@ -368,6 +368,11 @@ a{
 .m-1-top-bot{
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+.p-0{
+    padding-left: 0px;
+    align-items: center;
 }
 
 .p-1{
