@@ -339,7 +339,7 @@ textarea{
 
 a{
     text-decoration: none;
-    color: white;
+    color: rgb(54,64,64);
 }
 
 
@@ -394,3 +394,8 @@ a{
 .border{
     border: black solid 1px;    
 }
+
+/*Animacion*/
+.Menu li:hover{
+    height: 100px;
+} 
