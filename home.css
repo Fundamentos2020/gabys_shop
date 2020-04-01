@@ -38,6 +38,14 @@ html{
     /*.Menu-s{
         display: inline-block;
     }*/
+    
+    .Menu li{
+        display: flex;
+        padding: 1%;
+        height: 4em;
+        transition: height 0.5s;
+        font-size: 15px;
+    }
 }
 
 @media (min-width: 768px)
