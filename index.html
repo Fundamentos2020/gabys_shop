@@ -9,32 +9,30 @@
     <title>Inicia Sesion</title>
 </head>
 
-<body>
-    <div>
-    <div class="imagen">
-        <img src="Logo.png">
-    </div>
-    <h1>Inicia Sesión</h1>
-    <div>
-        <form id="form_label">
-            Email:
-            <input type="email" name="" id="">
-            <br>
-            <br>
-            Contraseña:
-            <input type="password" name="" id="">
-            <br>
-            <br>
-            <button type="button" onclick="location='/home.html'">Entrar</button>
-        </form>
-    </div>
-    <div class="p-1">
-        <a href="Registrarse.html">¿Aun no estás registrado?</a>
-        <br>
-        <a href="InicioAdmin.html">Home Administrador</a>
-        <br>
-        <a href="InicioVendedor.html">Home Vendedor</a>
-    </div>
+<body class="fondo">
+            <div class="imagen">
+                <img src="Logo.png">
+            </div>
+            <div>
+                <h1>Inicia Sesión</h1>
+                <div class="contenido">
+                    <div class="form_login">
+                        <input type="email" name="" id="" placeholder="Correo">
+                        <input type="password" name="" id="" placeholder="Contraseña">
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div class="form_login">
+                        <button class="boton" onclick="location='/home.html'">Entrar</button>
+                    </div>
+                </div>
+                <div class="contenido">
+                    <div class="form_login">
+                        <button class="boton2" onclick="location='/Registrarse.html'">Registrate</button>
+                        <button class="boton2" onclick="location='/InicioAdmin.html'">Home Administrador</button>
+                        <button class="boton2" onclick="location='/InicioVendedor.html'">Home Vendedor</button>
+                    </div>
+                </div>
+            </div>
 </body>
-
 </html>
