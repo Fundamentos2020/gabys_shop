@@ -5,7 +5,12 @@
 }
 
 html{
-    font-family: "copperplate";
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+body
+{
+    background-color: #F8E1FA;
 }
 
 /*.col-1{width: 8.33%;}
@@ -46,6 +51,38 @@ html{
         transition: height 0.5s;
         font-size: 12px; 
     }
+
+    .Search-s
+    {
+        border-radius: 15px;
+        text-align: center;
+        cursor: text;
+        width: 100%;
+        padding: 3px 3px;
+
+        background-color: whitesmoke;
+        color: black;
+        font-weight: 800;  
+    }
+
+    .boton-s
+    {
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        width: 80%;
+        padding: 3px 3px;
+
+        background-color: plum;
+        color: black;
+        font-weight: 800;
+    }
+
+    .Menu li:hover{
+        transform: rotate(-10deg);
+        transition: .3s;
+        font-weight: 800;
+    }
 }
 
 @media (min-width: 768px)
@@ -65,6 +102,41 @@ html{
     .b-prod-top{
         border-top: 1px black solid;
     }
+
+    .Search-m
+    {
+        border-radius: 15px;
+        text-align: center;
+        cursor: text;
+        margin-left: 30.4em;
+        width: 40%;
+        padding: 3px 3px;
+
+        background-color: whitesmoke;
+        color: black;
+        font-weight: 800;  
+    }
+
+    .boton-m
+    {
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        margin-right: 10em;
+        width: 25%;
+        padding: 3px 3px;
+
+        background-color: plum;
+        color: black;
+        font-weight: 800;
+    }
+
+    .Menu li:hover{
+        height: 100px;
+        font-weight: 800;
+        transform: rotate(0deg);
+    }    
+    
 }
 
 [class*="col-"]{
@@ -80,12 +152,11 @@ html{
 
 /*------------------------------------Parte del menu--------------------------*/
 .Menu{
-    background-color: rgb(193, 230, 230);
-    color: rgb(54,64,64);
+    background-color: #FFF0F5;
+    /*color: rgb(54,64,64);*/
     height: 50%;
     /*padding: 0px;*/
-    /*display: flex;*/
-    margin: 0px;
+    /*display: f*/
     margin-top: 1em;
     border: rgb(54,64,64) 1px solid;
 }
@@ -95,6 +166,7 @@ html{
     padding: 1%;
     height: 4em;
     transition: height 0.5s;
+    display: block;
 }
 
 /*Encabezado*/
@@ -106,7 +178,7 @@ html{
 .Encabezado{
     /*background-color: darkseagreen; */
     /*background-color: rgb(161,191,191);*/
-    background-color: #FFC7FF;
+    background-color: #EFA8E4;
 }
 
 .Encabezado div{
@@ -114,10 +186,12 @@ html{
 }
 
 /*---------------------------------Productos-------------------------------------*/
+
 .Productos{
     font-size: 14px;
     margin-top: 1em;
     padding-left: 1em;
+    background-color: #F8E1FA;
     /*width: 75%;*/
     /*float: right;
     margin-right: 1em;
@@ -129,9 +203,15 @@ html{
     text-align: center;
     align-items: center;    
     height: 10em;
-    width: 10em;
+    width: 100%;
+    background-color: #F8E1FA;
     /*width: 100%;
     height: 100%;*/
+}
+
+.prod{
+    display: inline-block; 
+    background-color: white;
 }
 
 .Foto{
@@ -148,13 +228,6 @@ html{
 .ImagenProd img{
     max-width: 100%;
     max-height: 100%;
-}
-
-.prod{
-    display: inline-block;
-    padding-bottom: 1em;
-    /*width: 24.7%;*/
-    /*height: 10em;*/
 }
 
 /*--------Botones------------------------------------------------------*/
@@ -356,8 +429,6 @@ a{
     color: white;
 }
 
-
-
 .border-top{
     border-top: rgb(54,64,64) 1px solid;
 }
@@ -414,6 +485,5 @@ a{
 }
 
 /*Animacion*/
-.Menu li:hover{
-    height: 100px;
-} 
+
+
