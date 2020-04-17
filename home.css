@@ -105,7 +105,8 @@ html{
 
 .Encabezado{
     /*background-color: darkseagreen; */
-    background-color: rgb(161,191,191);
+    /*background-color: rgb(161,191,191);/*
+    background-color: #FFC7FF;
 }
 
 .Encabezado div{
