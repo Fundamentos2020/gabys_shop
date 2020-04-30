@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', cargaProductos);
 
 document.getElementById("listaProductos").addEventListener('click', llena);
-document.getElementById("listaProductos").addEventListener('touchstart', llena);
+
 
 //Funcion que llena el listBox con los productos existentes
 function cargaProductos(e){
@@ -32,6 +32,7 @@ function cargaProductos(e){
 function llena(e){
     e.preventDefault();
     const listaProd = document.getElementById('listaProductos');
+
     const productoSeleccionado = listaProd.options[listaProd.selectedIndex].value;
 
     const xhr = new XMLHttpRequest();
