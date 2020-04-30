@@ -1,0 +1,68 @@
+{
+    "producto":[
+        {
+            "id": 1,
+            "nombre": "Playera Selección Mexicana",
+            "descripcion": "Playera - hombre",
+            "precio": 1150.00,
+            "cantidad": 20,
+            "descuento": 0
+        },
+        {
+            "id": 2,
+            "nombre": "Reloj",
+            "descripcion": "Reloj - hombre",
+            "precio": 450.00,
+            "cantidad": 10,
+            "descuento": 0
+        },
+        {
+            "id": 3,
+            "nombre": "Perfume CH",
+            "descripcion": "Perfume - mujer",
+            "precio": 300.00,
+            "cantidad": 50,
+            "descuento": 0
+        },
+        {
+            "id": 4,
+            "nombre": "Tenis Nike",
+            "descripcion": "Tenis deportivos - mujer",
+            "precio": 950.00,
+            "cantidad": 30,
+            "descuento": 0
+        },
+        {
+            "id": 5,
+            "nombre": "Mouse inalámbrico",
+            "descripcion": "Mouse",
+            "precio": 200.00,
+            "cantidad": 50,
+            "descuento": 0
+        },
+        {
+            "id": 6,
+            "nombre": "Mochila Adidas",
+            "descripcion": "Mochila - mujer",
+            "precio": 600.00,
+            "cantidad": 60,
+            "descuento": 0
+        },
+        {
+            "id": 7,
+            "nombre": "Zapatos piel",
+            "descripcion": "Zapatos - hombre",
+            "precio": 750.00,
+            "cantidad": 50,
+            "descuento": 0
+        },
+        {
+            "id": 8,
+            "nombre": "Sudadera Nike",
+            "descripcion": "Sudadera - mujer",
+            "precio": 800.00,
+            "cantidad": 35,
+            "descuento": 0
+        }
+    ]
+}
