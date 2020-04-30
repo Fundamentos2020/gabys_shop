@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', cargaProductos);
 
 document.getElementById("listaProductos").addEventListener('click', llena);
+document.getElementById("listaProductos").addEventListener('touchend', llena);
 
 //Funcion que llena el listBox con los productos existentes
 function cargaProductos(e){
