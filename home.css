@@ -419,6 +419,10 @@ textarea{
     color: whitesmoke;
 }
 
+.textTac{
+    text-decoration: line-through;
+}
+
 a{
     text-decoration: none;
     color: rgb(54,64,64);

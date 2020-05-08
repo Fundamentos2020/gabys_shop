@@ -15,7 +15,7 @@
             "descripcion": "Reloj - hombre",
             "precio": 450.00,
             "cantidad": 10,
-            "descuento": 0,
+            "descuento": 10,
             "url": "https://cdn.shopify.com/s/files/1/0067/8612/products/3_a443f5a1-b748-49e2-a283-b354d3c6a1f3_grande.jpg?v=1534867399"
         },
         {
@@ -42,7 +42,7 @@
             "descripcion": "Mouse",
             "precio": 200.00,
             "cantidad": 50,
-            "descuento": 0,
+            "descuento": 20,
             "url": "https://resources.claroshop.com/medios-plazavip/s2/10252/1142815/5d0ba9a1cd8f2-mouse-inalambrico-recargable-victsing-optico-adaptador-usb-c-1600x1600.jpg"
         },
         {

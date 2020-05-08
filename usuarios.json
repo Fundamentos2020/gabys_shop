@@ -1,0 +1,17 @@
+{
+    "usuario":[
+        {
+            "id": 0,
+            "nombre": "Alfredo",
+            "apellidos":"Ortiz",
+            "correo":"alfredo@correo.com",
+            "password":"1234",
+            "direccion":"Himno #123",
+            "codigo_postal": 78569,
+            "rol": "Comprador",
+            "ciudad":"S.L.P",
+            "estado":"S.L.P",
+            "foto":"https://picsum.photos/seed/picsum/200/300"
+        }
+    ]
+}
