@@ -1,7 +1,37 @@
 document.addEventListener('DOMContentLoaded', cargaProducto);
 
+const botonCarrito = null;
+
+//console.log(botonCarrito);
+//botonCarrito.addEventListener('click', agregaCarrito);
+
 var pro = 2;
 //var pro = 4;
+var nombreP;
+var precioP;
+
+//eventListeners();
+
+function eventListeners(){
+    botonCarrito = document.getElementById('boton-carrito');
+
+    console.log(botonCarrito);
+}
+
+
+function agregaCarrito(){
+    let idUser = 0;
+    let productoCarrito = [];
+    productoCarrito['idUser'] = idUser;
+    productoCarrito['idProd'] = pro;
+    productoCarrito['nombre'] = nombreP;
+    productoCarrito['precio'] = precioP;
+    productoCarrito['cantidad'] = 2;
+
+    console.log(productoCarrito);
+
+    localStorage.setItem('productoCarrito', JSON.stringify(productoCarrito));
+}
 
 function cargaProducto(e){
     e.preventDefault();
@@ -28,6 +58,8 @@ function cargaProducto(e){
                         var descuento = (prod.precio * prod.descuento) / 100;
                         var precioFinal = prod.precio - descuento;
 
+                        nombreP = prod.nombre;
+                        precioP = precioFinal;
                         html = `
                     
                         <div class="border ImagenProd col-m-7 col-s-6">
@@ -43,7 +75,8 @@ function cargaProducto(e){
                         Oferta:${prod.descuento} % de descuento.
                         <br>
                             <div>
-                                <button>Agregar al Carrito</button>
+                                <!--<button id="boton-carrito">Agregar al Carrito</button>-->
+                                <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito();">
                             </div>
                             <br>
                             Descripción:
@@ -54,6 +87,8 @@ function cargaProducto(e){
                         `;
                     }
                     else{
+                        nombreP = prod.nombre;
+                        precioP = prod.precio;
                         html = `
                         <div class="border ImagenProd col-m-7 col-s-6">
                             <img src="${prod.url}">
@@ -66,7 +101,8 @@ function cargaProducto(e){
                         Oferta: ${prod.descuento} % de descuento.
                         <br>
                             <div>
-                                <button>Agregar al Carrito</button>
+                            <!--<button id="boton-carrito">Agregar al Carrito</button>-->
+                            <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito();">
                             </div>
                             <br>
                             Descripción:
