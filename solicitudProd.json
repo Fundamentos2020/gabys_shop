@@ -1,0 +1,92 @@
+{
+    "producto":[
+        {
+            "id": 1,
+            "nombre": "Playera Selección Mexicana",
+            "descripcion": "Playera - hombre",
+            "precio": 1150.00,
+            "cantidad": 20,
+            "descuento": 0,
+            "url": "https://assets.adidas.com/images/w_840,h_840,f_auto,q_auto:sensitive,fl_lossy/4b12d5462aec410faee9ab1000feb34f_9366/Jersey_Visitante_Seleccion_Nacional_de_Mexico_Blanco_GC7946_01_laydown.jpg",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        },
+        {
+            "id": 2,
+            "nombre": "Reloj",
+            "descripcion": "Reloj - hombre",
+            "precio": 450.00,
+            "cantidad": 10,
+            "descuento": 10,
+            "url": "https://cdn.shopify.com/s/files/1/0067/8612/products/3_a443f5a1-b748-49e2-a283-b354d3c6a1f3_grande.jpg?v=1534867399",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        },
+        {
+            "id": 3,
+            "nombre": "Perfume CH",
+            "descripcion": "Perfume - mujer",
+            "precio": 300.00,
+            "cantidad": 50,
+            "descuento": 0,
+            "url": "https://www.sanborns.com.mx/imagenes-sanborns-ii/1200/8411061607152.jpg",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        },
+        {
+            "id": 4,
+            "nombre": "Tenis Nike",
+            "descripcion": "Tenis deportivos - mujer",
+            "precio": 950.00,
+            "cantidad": 30,
+            "descuento": 0,
+            "url": "https://sneakerstore.com.mx/1864-large_default/tenis-nike-air-force-1-shadow-pale-ivory-.jpg",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        },
+        {
+            "id": 5,
+            "nombre": "Mouse inalámbrico",
+            "descripcion": "Mouse",
+            "precio": 200.00,
+            "cantidad": 50,
+            "descuento": 20,
+            "url": "https://resources.claroshop.com/medios-plazavip/s2/10252/1142815/5d0ba9a1cd8f2-mouse-inalambrico-recargable-victsing-optico-adaptador-usb-c-1600x1600.jpg",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        },
+        {
+            "id": 6,
+            "nombre": "Mochila Adidas",
+            "descripcion": "Mochila - mujer",
+            "precio": 600.00,
+            "cantidad": 60,
+            "descuento": 0,
+            "url": "https://assets.adidas.com/images/w_320,h_320,f_auto,q_auto:sensitive,fl_lossy/fca1e2e89a3f47fbba4daa5c00a9641a_9366/Mochila_Nylon_Negro_ED4725_01_standard.jpg",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        },
+        {
+            "id": 7,
+            "nombre": "Zapatos piel",
+            "descripcion": "Zapatos - hombre",
+            "precio": 750.00,
+            "cantidad": 50,
+            "descuento": 0,
+            "url": "https://http2.mlstatic.com/zapatos-piel-cocodrilo-vestir-casual-D_NQ_NP_880533-MLM29069191932_122018-F.webp",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        },
+        {
+            "id": 8,
+            "nombre": "Sudadera Nike",
+            "descripcion": "Sudadera - mujer",
+            "precio": 800.00,
+            "cantidad": 35,
+            "descuento": 0,
+            "url": "https://www.innovasport.com/medias/IS-CJ3871-063-1.png?context=bWFzdGVyfGltYWdlc3wxNjcwMTN8aW1hZ2UvcG5nfGltYWdlcy9oZDAvaDg0LzkxNzEzMzE3NDM3NzQucG5nfDcwNGZjNmU3NGY2N2YxZmJkN2E2MjZkYzUwNmNhNDg5NDJhZjA0M2Q5ZGJjMjFiOTRkZjc1YTMxN2FiNzc1M2U",
+            "id_vendedor": 2,
+            "vendedor": "AA"
+        }
+    ]
+}
