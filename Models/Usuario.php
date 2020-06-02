@@ -20,14 +20,17 @@
         public function __construct($id, $nombre, $apellido_pat, $apellido_mat, $correo, $contrasena, $direccion, $cod_postal, 
         $ciudad, $estado, $foto_perfil, $rol){
             $this->setId($id);
-            $this->setIdVendedor($id_vendedor);
-            $this->setNombreProducto($nombre);
-            $this->setDescripcion($descripcion);
-            $this->setPrecio($precio);
-            $this->setCantidad($cantidad);
-            $this->setDescuento($descuento);
-            $this->setAprobado($aprobado);
-            $this->setImagen($imagen);
+            $this->setNombre($nombre);
+            $this->setApPaterno($apellido_pat);
+            $this->setApMaterno($apellido_mat);
+            $this->setCorreo($correo);
+            $this->setContrasena($contrasena);
+            $this->setDireccion($direccion);
+            $this->setCodigoPostal($cod_postal);
+            $this->setCiudad($ciudad);
+            $this->setEstado($estado);
+            $this->setFotoPerfil($foto_perfil);
+            $this->setRol($rol);
        }
 
         public function getId(){
@@ -157,24 +160,27 @@
 
         public function setRol($rol){
             if($rol !== 0 && $rol !== 1 && $rol !== 2){
-                throw new TareaException("Error en rol del usuario");
+                throw new UsuarioException("Error en rol del usuario");
             }
             $this->_rol = $rol;
         }
 
 
-        public function getProductos(){
-            $producto = array();
-            $producto['id_producto'] = $this->getId();
-            $producto['id_vendedor'] = $this->getIdVendedor();
-            $producto['nombre'] = $this->getNombreProducto();
-            $producto['descripcion'] = $this->getDescripcion();
-            $producto['precio'] = $this->getPrecio();
-            $producto['cantidad'] = $this->getCantidad();
-            $producto['descuento'] = $this->getDescuento();
-            $producto['aprobado'] = $this->getAprobado();
-            //$producto['imagen'] = $this->getImagen();
-            return $producto;
+        public function getUsuario(){
+            $usuario = array();
+            $usuario['id_usuario'] = $this->getId();
+            $usuario['nombre'] = $this->getNombre();
+            $usuario['apellido_pat'] = $this->getApPaterno();
+            $usuario['apellido_mat'] = $this->getApMaterno();
+            $usuario['correo'] = $this->getCorreo();
+            $usuario['contrasena'] = $this->getContrasena();
+            $usuario['direccion'] = $this->getDireccion();
+            $usuario['cod_postal'] = $this->getCodigoPostal();
+            $usuario['ciudad'] = $this->getCiudad();
+            $usuario['estado'] = $this->getEstado();
+            $usuario['foto_perfil'] = $this->getFotoPerfil();
+            $usuario['rol'] = $this->getRol();
+            return $usuario;
         }
     }
 ?>

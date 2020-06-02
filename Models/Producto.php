@@ -42,7 +42,7 @@
         }
 
         public function setIdVendedor($id_vendedor){
-            if(!is_numeric($id_vendedor) || $id_vendedor <=0 || $id_vendedor >= 2147483647 || $this->_id_vendedor !== null){
+            if(!is_numeric($id_vendedor) || $id_vendedor <=0 || $id_vendedor >= 2147483647){
                 throw new ProductoException("Error en ID de Vendedor");
             }
             $this->_id_vendedor = $id_vendedor;
@@ -126,7 +126,7 @@
         }
 
 
-        public function getProductos(){
+        public function getProducto(){
             $producto = array();
             $producto['id_producto'] = $this->getId();
             $producto['id_vendedor'] = $this->getIdVendedor();
