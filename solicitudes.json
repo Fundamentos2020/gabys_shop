@@ -1,0 +1,20 @@
+{
+    "solicitud":[
+        {
+            "id": 0,
+            "archivo":"Imagenes/solicitud.pdf"
+        },
+        {
+            "id": 1,
+            "archivo":"Imagenes/solicitud.pdf"
+        },
+        {
+            "id": 2,
+            "archivo":"Imagenes/solicitud.pdf"
+        },
+        {
+            "id": 3,
+            "archivo":"Imagenes/solicitud.pdf"
+        }
+    ]
+}

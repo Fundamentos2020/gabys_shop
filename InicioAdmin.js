@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', cargaProductos);
+document.addEventListener('DOMContentLoaded', cargaSolicitudes);
+
 //document.addEventListener('DOMContentLoaded',Producto);
 const botonBuscar = document.getElementById('bot-busca');
 const textoBuscar = document.getElementById('text-busca');
@@ -41,6 +43,44 @@ function cargaProductos(e) {
                 padre.innerHTML += html;
             });
         }
+    }
+    xhr.send();
+}
+
+function cargaProductos(e) {
+    e.preventDefault();
+
+    const padre = document.getElementById('muestraSoli');
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', "solicitudes.json", true);
+
+    xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
+        let html = "";
+        if (this.status === 200) {
+            const s = JSON.parse(this.responseText);
+
+            s.solicitud.forEach(function (soli) {
+                
+                /*html = `<option value="${prod.nombre}">${prod.nombre}</option>`;*/
+
+                html += `
+                    <div class="CheckButton m-1 flexarchivo ">
+                    <button class="m-1"> <a href="${soli.archivo}" target="_blank">Ver Solicitud</a> </button>
+                    <div class="col-m-12 col-s-12">
+                        <input type="radio">
+                        <label for="">Aprobada</label>
+                        <input type="radio">
+                        <label for="">Desaprobada</label>
+                    </div>
+                    </div>
+                    `;
+                 //padre.innerHTML += html;
+            });
+            html+= ` <input class="botonConfirma" type="submit" value="Guardar">`
+            padre.innerHTML += html;
+        }
+        
     }
     xhr.send();
 }
