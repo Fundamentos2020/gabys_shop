@@ -5,7 +5,11 @@ const textoBuscar = document.getElementById('text-busca');
 
 botonBuscar.addEventListener('click', buscar);
 
+
+
 //var pro="-1";
+
+let productos =[];
 
 /*Funcion que carga los productos al home de la página*/
 function cargaProductos(e) {
@@ -14,16 +18,61 @@ function cargaProductos(e) {
     const padre = document.getElementById('visualProd');
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', "productos.json", true);
+    //xhr.open('GET', "productos.json", true);
+    xhr.open("GET", "Controllers/productoController.php", true);
+    console.log("entre 1");
+
+    
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
+        
+        if (this.status === 200) {
+            var data = JSON.parse(this.responseText);
+            console.log(data);
+            console.log("entre 2");
+            if (data.success === true){
+        
+                productos = data.data;
+                var html = "";
+                productos.forEach(producto => {
+                    html += `
+                        <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
+                            <div class="prod border col-m-12 col-s-12">
+                                <div class="col-m-12 col-s-6" onclick="verificaProd('${producto.id}'); location='/VerProductoComprador.html' ">
+                                    
+                                </div>
+                                <div class="b-prod-top-s col-m-12 col-s-6">
+                                    <div class="m-1">${producto.nombre}</div>
+                                    <div class="m-1">Precio: $ ${producto.precio}</div>
+                                </div>
+                            </div>
+                        </div> `;
+        
+                    padre.innerHTML += html;
+                });
+            }
+            else {
+                alert(data.messages);
+            }
+        }
+        else {
+            var data = JSON.parse(this.responseText);
+            
+            alert(data.messages);
+        }
+    }
+    xhr.send();
+    //<img src="${producto.url}"></img>*/
+
+    
+
+    /*xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
 
         if (this.status === 200) {
             const p = JSON.parse(this.responseText);
 
             p.producto.forEach(function (prod) {
                 let html = "";
-                /*html = `<option value="${prod.nombre}">${prod.nombre}</option>`;*/
 
                 html = `
                     <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
@@ -42,7 +91,7 @@ function cargaProductos(e) {
             });
         }
     }
-    xhr.send();
+    xhr.send();*/
 }
 
 function buscar(){
@@ -97,10 +146,3 @@ function borraProductos(){
     while(document.getElementById("producto"))
         document.getElementById("producto").remove();
 }
-
-
-function verificaProd(e) {
-    
-}
-
-

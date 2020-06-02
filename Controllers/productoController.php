@@ -18,9 +18,9 @@
         exit();
     }
 
-    if($_SERVER['REQUEST_METHOD'] === 'GET'){//GET DE TODOS LOS PRODUCTOS
+    if($_SERVER['REQUEST_METHOD'] === 'GET'){//GET
         try{
-            $query = $connection->prepare('SELECT * FROM producto');
+            $query = $connection->prepare('SELECT * FROM producto WHERE aprobado = 1');
             $query->execute();
     
             $rowCount = $query->rowCount();    
@@ -29,7 +29,9 @@
             while($row = $query->fetch(PDO::FETCH_ASSOC)){
                 $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], 
                     $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
-                $productos[] = $producto->getProductos();
+                $productos[] = $producto->getProducto();
+                /*header('Content-type: image/png');
+                echo $row['imagen'];*/
             }
             $returnData = array();
             $returnData['total registros'] = $rowCount;
