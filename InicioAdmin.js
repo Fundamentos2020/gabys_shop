@@ -47,7 +47,7 @@ function cargaProductos(e) {
     xhr.send();
 }
 
-function cargaProductos(e) {
+function cargaSolicitudes(e) {
     e.preventDefault();
 
     const padre = document.getElementById('muestraSoli');
