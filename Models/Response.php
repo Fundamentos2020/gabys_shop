@@ -55,6 +55,7 @@ class Response{
         //echo($this->_responseData['data']);
         //var_dump($this->_responseData['data']);
         echo json_encode($this->_responseData);
+        //echo $this->_responseData;
         //echo_json_encode($this->_responseData['messages']);
     }
 }

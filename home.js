@@ -13,25 +13,28 @@ let productos =[];
 
 /*Funcion que carga los productos al home de la página*/
 function cargaProductos(e) {
-    e.preventDefault();
+    //e.preventDefault();
 
     const padre = document.getElementById('visualProd');
 
-    const xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
     //xhr.open('GET', "productos.json", true);
     xhr.open("GET", "Controllers/productoController.php", true);
+    //xhr.setRequestHeader("Content-Type", "application/json");
+    
     console.log("entre 1");
 
     
-
+    //console.log(this.responseText);
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-        
         if (this.status === 200) {
-            var data = JSON.parse(this.responseText);
-            console.log(data);
             console.log("entre 2");
+            console.log(this.status);
+            console.log(this.responseText);
+            var data = JSON.parse(this.responseText);
+            //console.log(data);
+            console.log("entre 3");
             if (data.success === true){
-        
                 productos = data.data;
                 var html = "";
                 productos.forEach(producto => {
@@ -54,6 +57,7 @@ function cargaProductos(e) {
             else {
                 alert(data.messages);
             }
+
         }
         else {
             var data = JSON.parse(this.responseText);
@@ -61,7 +65,9 @@ function cargaProductos(e) {
             alert(data.messages);
         }
     }
+    
     xhr.send();
+    
     //<img src="${producto.url}"></img>*/
 
     

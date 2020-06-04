@@ -10,7 +10,7 @@
             
                     self::$connection = new PDO($dns, $username, $password);
                     self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    //self::$connection->setAttribute(PDO::ATTR_EMULATE, false);
+                    self::$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                     return self::$connection;
             }
         }

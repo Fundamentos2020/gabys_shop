@@ -1,8 +1,8 @@
 <?php
 
-    require_once("../Models/DB.php");
-    require_once("../Models/Producto.php");
-    require_once("../Models/Response.php");
+    require_once('../Models/DB.php');
+    require_once('../Models/Producto.php');
+    require_once('../Models/Response.php');
 
     try{//Conexion al principio
         $connection = Conexion::conecta();
@@ -20,15 +20,14 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'GET'){//GET
         try{
-            $query = $connection->prepare('SELECT * FROM producto WHERE aprobado = 1');
+            $query = $connection->prepare('SELECT id_producto, id_vendedor, nombre, descripcion, precio, cantidad, descuento, aprobado, imagen FROM producto WHERE aprobado = 1');
             $query->execute();
     
             $rowCount = $query->rowCount();    
             $productos = array();
         
             while($row = $query->fetch(PDO::FETCH_ASSOC)){
-                $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], 
-                    $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
+                $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
                 $productos[] = $producto->getProducto();
                 /*header('Content-type: image/png');
                 echo $row['imagen'];*/
@@ -37,15 +36,16 @@
             $returnData['total registros'] = $rowCount;
             $returnData['productos'] = $productos;
 
+
             $response = new Response();
             $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
             $response->setSuccess(true);
             $response->setToCache(true);//Cache es solo para listados
             $response->setData($returnData);
             $response->send();
-            exit();
-            echo json_encode($productos);
-            
+            //return $returnData;
+            //json_encode($productos);
+            exit();            
         }
         catch(ProductoException $e){//Error en Tarea
             $response = new Response();
