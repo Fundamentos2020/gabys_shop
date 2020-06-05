@@ -18,7 +18,7 @@
     }
 
     //if (empty($_GET)){
-        //if($_SERVER['REQUEST_METHOD'] === 'POST'){//Registro de nuevo usuario
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){//Registro de nuevo usuario
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 $response = new Response();
                 $response->setHttpStatusCode(405);
@@ -161,6 +161,6 @@
                 $response->send();
                 exit();
             }
-        //}
+        }
     //}
 ?>

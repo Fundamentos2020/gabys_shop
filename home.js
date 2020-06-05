@@ -9,7 +9,7 @@ botonBuscar.addEventListener('click', buscar);
 
 //var pro="-1";
 
-let productos =[];
+//let productos =[];
 
 /*Funcion que carga los productos al home de la página*/
 function cargaProductos(e) {
@@ -19,7 +19,7 @@ function cargaProductos(e) {
 
     var xhr = new XMLHttpRequest();
     //xhr.open('GET', "productos.json", true);
-    xhr.open("GET", "Controllers/productoController.php", true);
+    xhr.open("GET", "http://localhost:80/Gaby's%20shop/productos", true);
     //xhr.setRequestHeader("Content-Type", "application/json");
     
     console.log("entre 1");
@@ -30,14 +30,17 @@ function cargaProductos(e) {
         if (this.status === 200) {
             console.log("entre 2");
             console.log(this.status);
-            console.log(this.responseText);
+            //console.log(this.responseText);
             var data = JSON.parse(this.responseText);
             //console.log(data);
-            console.log("entre 3");
+            
             if (data.success === true){
-                productos = data.data;
-                var html = "";
+                console.log("entre 3");
+                let productos = data.data.productos;
+                console.log(productos);
+                //var html = "";
                 productos.forEach(producto => {
+                    var html = "";
                     html += `
                         <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
                             <div class="prod border col-m-12 col-s-12">
