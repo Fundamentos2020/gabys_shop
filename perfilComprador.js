@@ -6,25 +6,27 @@ function cargaInfo(e) {
     e.preventDefault();
 
     const padre = document.getElementById('infoPerfil');
-
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', "usuarios.json", true);
+    xhr.open("GET","http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
+    //xhr.open('GET', "usuarios.json", true);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
 
         if (this.status === 200) {
-            const p = JSON.parse(this.responseText);
-
-            p.usuario.forEach(function (us) {
-                let html = "";
-                //html = `<option value="${prod.nombre}">${prod.nombre}</option>`;
-
-                if (idUser == us.id) {
+            //const p = JSON.parse(this.responseText);
+            var data = JSON.parse(this.responseText);
+            if (data.success === true){
+                user = data.data.usuario;
+                user.forEach(us => {
+                    var html = "";
+                    //<img src="${us.foto}" alt="Aqui deberia estar la imagen">
                     html = `
                     <div class="col-m-3 col-s-12 textcenter border m-t-1 textgeneral">
                         <div class="">
-                            <img src="${us.foto}" alt="Aqui deberia estar la imagen">
-                            <div>${us.nombre} ${us.apellidos}</div>
+                            
+                            <div>${us.nombre} ${us.apellido_pat}</div>
                         </div>
                         <div class="fondogris">
                             <div class="grisfuerte">
@@ -52,7 +54,7 @@ function cargaInfo(e) {
                                     Apellidos: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.apellidos}">  
+                                    <input type="text" value="${us.apellido_pat}">  
                                 </div>
                             </div>
         
@@ -70,7 +72,7 @@ function cargaInfo(e) {
                                     Actualizar contraseña: 
                                 </div>
                                 <div>
-                                    <input type="password" value="${us.password}">  
+                                    <input type="password" value="">  
                                 </div>
                             </div>
         
@@ -88,7 +90,7 @@ function cargaInfo(e) {
                                     C.P: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.codigo_postal}">  
+                                    <input type="text" value="${us.cod_postal}">  
                                 </div>
                             </div>
         
@@ -117,10 +119,9 @@ function cargaInfo(e) {
                         </div>
                     </div>
                     `;
-                }
-
-                padre.innerHTML += html;
-            });
+                    padre.innerHTML += html;
+                });
+            }
         }
     }
     xhr.send();

@@ -17,7 +17,75 @@
         exit();
     }
 
-    //if (empty($_GET)){
+    if(array_key_exists('id_usuario', $_GET)) {
+        $id_usuario = $_GET['id_usuario'];
+        if ($id_usuario == '' || !is_numeric($id_usuario)) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage("El id del usuario no puede estar vacío y debe ser numérico");
+            $response->send();
+            exit();
+        }
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){//obtener info de usuario
+            try {
+                $query = $connection->prepare('SELECT * FROM usuario WHERE id_usuario = :id_usuario');
+                $query->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+                if($rowCount !== 1){
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage("El id del usuario no fue encontrado");
+                    $response->send();
+                    exit();
+                }
+                
+                $infousuario = array();
+    
+                while($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                    $usuario = new Usuario($row['id_usuario'], $row['nombre'], $row['apellido_pat'], $row['apellido_mat'], $row['correo'], $row['contrasena'], $row['direccion'], $row['cod_postal'], $row['ciudad'], $row['estado'], $row['foto_perfil'], $row['rol']);
+                    $infousuario = $usuario->getUsuario();
+                }
+    
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['usuario'] = $infousuario;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);
+                $response->setSuccess(true);
+                $response->setToCache(true);
+                $response->setData($returnData);
+                $response->send();
+                exit();
+            }
+            catch(TareaException $e){
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e) {
+                error_log("Error en BD - " . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de tareas");
+                $response->send();
+                exit();
+            }
+        }
+        elseif($_SERVER['REQUEST_METHOD'] === 'PATCH'){//actualizar info de usuario
+
+        }
+    }
+    elseif (empty($_GET)){
         if($_SERVER['REQUEST_METHOD'] === 'POST'){//Registro de nuevo usuario
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 $response = new Response();
@@ -114,7 +182,7 @@
                 $query->bindParam(':ciudad', $ciudad, PDO::PARAM_STR);
                 $query->bindParam(':estado', $estado, PDO::PARAM_STR);
                 $query->bindParam(':foto_perfil', $foto_perfil, PDO::PARAM_LOB);
-                $query->bindParam(':rol', $rol, PDO::PARAM_INT);
+                $query->bindParam(':rol', $rol, PDO::PARAM_STR);
                 $query->execute();
             
                 $rowCount = $query->rowCount();
@@ -162,5 +230,5 @@
                 exit();
             }
         }
-    //}
+    }
 ?>

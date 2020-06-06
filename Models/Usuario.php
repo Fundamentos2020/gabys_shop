@@ -159,7 +159,7 @@
         }
 
         public function setRol($rol){
-            if($rol !== 0 && $rol !== 1 && $rol !== 2){
+            if($rol !== '0' && $rol !== '1' && $rol !== '2'){
                 throw new UsuarioException("Error en rol del usuario");
             }
             $this->_rol = $rol;

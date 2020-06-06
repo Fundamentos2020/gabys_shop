@@ -136,7 +136,7 @@
             $producto['cantidad'] = $this->getCantidad();
             $producto['descuento'] = $this->getDescuento();
             $producto['aprobado'] = $this->getAprobado();
-            //$producto['imagen'] = $this->getImagen();
+            $producto['imagen'] = $this->getImagen();
             return $producto;
         }
     }

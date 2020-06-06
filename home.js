@@ -19,27 +19,27 @@ function cargaProductos(e) {
 
     var xhr = new XMLHttpRequest();
     //xhr.open('GET', "productos.json", true);
-    xhr.open("GET", "./Controllers/productoController.php", true);
+    //xhr.open("GET", "./Controllers/productoController.php", true);
+    xhr.open("GET", "http://localhost:80/Gaby's%20shop/Controllers/productoController.php", true);
     //xhr.setRequestHeader("Content-Type", "application/json");
 
     //console.log(this.responseText);
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         if (this.status === 200) {
-            console.log(this.status);
-            console.log(this.responseText);
+            //console.log(this.status);
+            //console.log(this.responseText);
             var data = JSON.parse(this.responseText);
             if (data.success === true){
-                productos = data.data;
-                var html = "";
-                productos.productos.forEach(producto => {
+                productos = data.data.productos;
+                productos.forEach(producto => {
+                    var html = "";
                     html += `
                         <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
                             <div class="prod border col-m-12 col-s-12">
                                 <div class="col-m-12 col-s-6" onclick="verificaProd('${producto.id}'); location='/VerProductoComprador.html' ">
-                                    
+                                    <img src="${producto.imagen}"> 
                                 </div>
-                                <div class="b-prod-top-s col-m-12 col-s-6">
-                                    <img src="${producto.imagen}">    
+                                <div class="b-prod-top-s col-m-12 col-s-6">   
                                     <div class="m-1">${producto.nombre}</div>
                                     <div class="m-1">Precio: $ ${producto.precio} </div>                
                                 </div>
@@ -64,35 +64,6 @@ function cargaProductos(e) {
     xhr.send();
     
     //<img src="${producto.url}"></img>*/
-
-    
-
-    /*xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-
-        if (this.status === 200) {
-            const p = JSON.parse(this.responseText);
-
-            p.producto.forEach(function (prod) {
-                let html = "";
-
-                html = `
-                    <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
-                        <div class="prod border col-m-12 col-s-12">
-                            <div class="col-m-12 col-s-6" onclick="verificaProd('${prod.id}'); location='/VerProductoComprador.html' ">
-                                <img src="${prod.url}">
-                            </div>
-                            <div class="b-prod-top-s col-m-12 col-s-6">
-                                <div class="m-1">${prod.nombre}</div>
-                                <div class="m-1">Precio: $ ${prod.precio}</div>
-                            </div>
-                        </div>
-                    </div> `;
-
-                padre.innerHTML += html;
-            });
-        }
-    }
-    xhr.send();*/
 }
 
 function buscar(){
