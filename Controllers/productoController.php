@@ -28,9 +28,8 @@
         
             while($row = $query->fetch(PDO::FETCH_ASSOC)){
                 $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
+                $producto->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
                 $productos[] = $producto->getProducto();
-                /*header('Content-type: image/png');
-                echo $row['imagen'];*/
             }
             $returnData = array();
             $returnData['total registros'] = $rowCount;
