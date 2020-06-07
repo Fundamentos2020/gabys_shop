@@ -8,7 +8,6 @@ botonBuscar.addEventListener('click', buscar);
 
 
 //var pro="-1";
-
 let productos =[];
 
 /*Funcion que carga los productos al home de la página*/
@@ -19,8 +18,8 @@ function cargaProductos(e) {
 
     var xhr = new XMLHttpRequest();
     //xhr.open('GET', "productos.json", true);
-    //xhr.open("GET", "./Controllers/productoController.php", true);
-    xhr.open("GET", "http://localhost:80/Gaby's%20shop/Controllers/productoController.php", true);
+    xhr.open("GET", "./Controllers/productoController.php", true);
+    //xhr.open("GET", "http://localhost:80/Gaby's%20shop/Controllers/productoController.php", true);
     //xhr.setRequestHeader("Content-Type", "application/json");
 
     //console.log(this.responseText);
@@ -30,18 +29,18 @@ function cargaProductos(e) {
             //console.log(this.responseText);
             var data = JSON.parse(this.responseText);
             if (data.success === true){
-                productos = data.data.productos;
-                productos.forEach(producto => {
-                    var html = "";
+                productos = data.data;
+                var html = "";
+                productos.productos.forEach(producto => {
                     html += `
-                        <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
+                        <div class="Productos col-m-3 col-s-12 p-r-1" onclick="verificaProd('${producto.id_producto}')">
                             <div class="prod border col-m-12 col-s-12">
-                                <div class="col-m-12 col-s-6" onclick="verificaProd('${producto.id}'); location='/VerProductoComprador.html' ">
-                                    <img src="${producto.imagen}"> 
-                                </div>
-                                <div class="b-prod-top-s col-m-12 col-s-6">   
+                                <div class="col-m-12 col-s-6">                                                      
+                                <div class="b-prod-top-s col-m-12 col-s-6">
+                                    <img src="${producto.imagen}">
                                     <div class="m-1">${producto.nombre}</div>
                                     <div class="m-1">Precio: $ ${producto.precio} </div>                
+                                </div>
                                 </div>
                             </div>
                         </div> `;
@@ -62,8 +61,16 @@ function cargaProductos(e) {
     }
     
     xhr.send();
-    
-    //<img src="${producto.url}"></img>*/
+}
+
+function verificaProd(e)
+{
+    ///le mando parametros a la pagina para saber que producto vamos a manejar 
+    ///lo concatene asi porque con el "." me daba problemas
+    var cadena1 = "http://localhost/gabys_shop-master/VerProductoComprador.html?id_producto=";
+    var cadena2 = e;
+    var cadena3 = cadena1+cadena2;
+    window.location.href = cadena3;
 }
 
 function buscar(){
