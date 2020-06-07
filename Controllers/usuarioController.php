@@ -47,6 +47,7 @@
     
                 while($row = $query->fetch(PDO::FETCH_ASSOC)) {
                     $usuario = new Usuario($row['id_usuario'], $row['nombre'], $row['apellido_pat'], $row['apellido_mat'], $row['correo'], $row['contrasena'], $row['direccion'], $row['cod_postal'], $row['ciudad'], $row['estado'], $row['foto_perfil'], $row['rol']);
+                    $usuario->setFotoPerfil("data:imagen/jpg;base64,". base64_encode($row['foto_perfil']));
                     $infousuario = $usuario->getUsuario();
                 }
     

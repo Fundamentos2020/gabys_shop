@@ -358,6 +358,7 @@
             $returnData['caducidad_token_acceso'] = $caducidad_tacceso_s;
             $returnData['token_actualizacion'] = $token_actualizacion;
             $returnData['caducidad_token_actualizacion'] = $caducidad_tactualizacion_s;
+            $returnData['id_usuario'] = $consulta_id;
     
             $response = new Response();
             $response->setHttpStatusCode(201);

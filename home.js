@@ -18,8 +18,8 @@ function cargaProductos(e) {
 
     var xhr = new XMLHttpRequest();
     //xhr.open('GET', "productos.json", true);
-    xhr.open("GET", "./Controllers/productoController.php", true);
-    //xhr.open("GET", "http://localhost:80/Gaby's%20shop/Controllers/productoController.php", true);
+    //xhr.open("GET", "./Controllers/productoController.php", true);
+    xhr.open("GET", "http://localhost:80/Gaby's%20shop/Controllers/productoController.php", true);
     //xhr.setRequestHeader("Content-Type", "application/json");
 
     //console.log(this.responseText);
@@ -29,9 +29,9 @@ function cargaProductos(e) {
             //console.log(this.responseText);
             var data = JSON.parse(this.responseText);
             if (data.success === true){
-                productos = data.data;
-                var html = "";
-                productos.productos.forEach(producto => {
+                productos = data.data.productos;
+                productos.forEach(producto => {
+                    var html = "";
                     html += `
                         <div class="Productos col-m-3 col-s-12 p-r-1" onclick="verificaProd('${producto.id_producto}')">
                             <div class="prod border col-m-12 col-s-12">
@@ -67,7 +67,8 @@ function verificaProd(e)
 {
     ///le mando parametros a la pagina para saber que producto vamos a manejar 
     ///lo concatene asi porque con el "." me daba problemas
-    var cadena1 = "http://localhost/gabys_shop-master/VerProductoComprador.html?id_producto=";
+    //var cadena1 = "http://localhost/gabys_shop-master/VerProductoComprador.html?id_producto=";
+    var cadena1 = "http://localhost/Gaby's%20shop/VerProductoComprador.html?id_producto=";
     var cadena2 = e;
     var cadena3 = cadena1+cadena2;
     window.location.href = cadena3;

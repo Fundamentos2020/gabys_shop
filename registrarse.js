@@ -32,7 +32,7 @@ function registrar(e) {
     var ciu = document.getElementById('ciu').value;
     var est = document.getElementById('est').value;
     var foto = document.getElementById('foto').value;
-    if(document.getElementById("ven").value == true)
+    if(document.getElementById("ven").checked)
         var rol = 1;//vendedor
     else
         var rol = 0;//usuario

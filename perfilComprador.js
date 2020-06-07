@@ -9,6 +9,7 @@ function cargaInfo(e) {
     var sesion = localStorage.getItem('usuario_sesion');
     sesionJson = JSON.parse(sesion);
     const xhr = new XMLHttpRequest();
+    console.log(sesionJson.id_usuario);
     xhr.open("GET","http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
     //xhr.open('GET', "usuarios.json", true);
 
@@ -17,16 +18,19 @@ function cargaInfo(e) {
         if (this.status === 200) {
             //const p = JSON.parse(this.responseText);
             var data = JSON.parse(this.responseText);
+            console.log(data);
             if (data.success === true){
                 user = data.data.usuario;
-                user.forEach(us => {
+                console.log(user);
                     var html = "";
-                    //<img src="${us.foto}" alt="Aqui deberia estar la imagen">
+                    
                     html = `
                     <div class="col-m-3 col-s-12 textcenter border m-t-1 textgeneral">
                         <div class="">
-                            
-                            <div>${us.nombre} ${us.apellido_pat}</div>
+                        <div class="ImagenProd">
+                            <img src="${user.foto_perfil}" alt="Aqui deberia estar la imagen">
+                        </div>
+                            <div>${user.nombre} ${user.apellido_pat}</div>
                         </div>
                         <div class="fondogris">
                             <div class="grisfuerte">
@@ -45,7 +49,7 @@ function cargaInfo(e) {
                                     Nombre:
                                 </div>
                                 <div>
-                                <input type="text" value="${us.nombre}" >
+                                <input type="text" value="${user.nombre}" >
                                 </div>
                             </div>
         
@@ -54,7 +58,7 @@ function cargaInfo(e) {
                                     Apellidos: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.apellido_pat}">  
+                                    <input type="text" value="${user.apellido_pat} ${user.apellido_mat}">  
                                 </div>
                             </div>
         
@@ -63,7 +67,7 @@ function cargaInfo(e) {
                                     Correo: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.correo}">  
+                                    <input type="text" value="${user.correo}">  
                                 </div>
                             </div>
         
@@ -81,7 +85,7 @@ function cargaInfo(e) {
                                     Direccion: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.direccion}">  
+                                    <input type="text" value="${user.direccion}">  
                                 </div>
                             </div>
         
@@ -90,7 +94,7 @@ function cargaInfo(e) {
                                     C.P: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.cod_postal}">  
+                                    <input type="text" value="${user.cod_postal}">  
                                 </div>
                             </div>
         
@@ -99,7 +103,7 @@ function cargaInfo(e) {
                                     Ciudad: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.ciudad}">  
+                                    <input type="text" value="${user.ciudad}">  
                                 </div>
                             </div>
         
@@ -108,7 +112,7 @@ function cargaInfo(e) {
                                     Estado: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${us.estado}">  
+                                    <input type="text" value="${user.estado}">  
                                 </div>
                             </div>
                         </div>
@@ -120,7 +124,6 @@ function cargaInfo(e) {
                     </div>
                     `;
                     padre.innerHTML += html;
-                });
             }
         }
     }

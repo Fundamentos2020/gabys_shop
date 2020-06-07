@@ -96,7 +96,7 @@ function cargaProducto(e){
                             precioP = prod.precio;
                             html = `
                             <div class="border ImagenProd col-m-7 col-s-6">
-                                <img src="${prod.url}">
+                                <img src="${prod.imagen}">
                             </div>
                             <div class="DetallesProd col-m-4 p-l-1 col-s-4">
                             ${prod.nombre}
