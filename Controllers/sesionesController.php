@@ -315,7 +315,7 @@
                 $response = new Response();
                 $response->setHttpStatusCode(401);
                 $response->setSuccess(false);
-                $response->addMessage("Nombre de usuario o contraseña incorrectos");
+                $response->addMessage("correo o contraseña incorrectos");
                 $response->send();
                 exit();
             }

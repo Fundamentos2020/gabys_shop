@@ -49,7 +49,7 @@ function cargaInfo(e) {
                                     Nombre:
                                 </div>
                                 <div>
-                                <input type="text" value="${user.nombre}" >
+                                <input type="text" id="nombre" value="${user.nombre}" >
                                 </div>
                             </div>
         
@@ -67,7 +67,7 @@ function cargaInfo(e) {
                                     Correo: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${user.correo}">  
+                                    <input type="text" id="correo" value="${user.correo}">  
                                 </div>
                             </div>
         
@@ -76,7 +76,7 @@ function cargaInfo(e) {
                                     Actualizar contraseña: 
                                 </div>
                                 <div>
-                                    <input type="password" value="">  
+                                    <input type="password" id="contrasena" value="">  
                                 </div>
                             </div>
         
@@ -85,7 +85,7 @@ function cargaInfo(e) {
                                     Direccion: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${user.direccion}">  
+                                    <input type="text" id="direccion" value="${user.direccion}">  
                                 </div>
                             </div>
         
@@ -94,7 +94,7 @@ function cargaInfo(e) {
                                     C.P: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${user.cod_postal}">  
+                                    <input type="text" id="cod_postal" value="${user.cod_postal}">  
                                 </div>
                             </div>
         
@@ -103,7 +103,7 @@ function cargaInfo(e) {
                                     Ciudad: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${user.ciudad}">  
+                                    <input type="text" id="ciudad" value="${user.ciudad}">  
                                 </div>
                             </div>
         
@@ -112,12 +112,12 @@ function cargaInfo(e) {
                                     Estado: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${user.estado}">  
+                                    <input type="text" id="estado" value="${user.estado}">  
                                 </div>
                             </div>
                         </div>
                         <div class="p-1">
-                            <button class="teal p-1 textwhite">
+                            <button class="teal p-1 textwhite" onclick="actualizaInfo();">
                                 Actualizar
                             </button>
                         </div>
@@ -128,4 +128,64 @@ function cargaInfo(e) {
         }
     }
     xhr.send();
+}
+
+function actualizaInfo(){
+
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
+
+    if (sesionJson == null) {
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, false);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+
+    //Llenar el json con la informacion de los textbox
+    var correo = document.getElementById('correo').value;
+    var contrasena = document.getElementById('contrasena').value;
+    var nombre = document.getElementById('nombre').value;
+    /*var apPat = document.getElementById('apPat').value;
+    var apMat = document.getElementById('apMat').value;*/
+    var dir = document.getElementById('direccion').value;
+    var codPos = document.getElementById('cod_postal').value;
+    var ciu = document.getElementById('ciudad').value;
+    var est = document.getElementById('estado').value;
+    //var foto = document.getElementById('foto').value;
+
+    var json = { 
+        "nombre": nombre,
+        /*"apellido_pat": apPat,
+        "apellido_mat": apMat,*/
+        "correo": correo,
+        "contrasena": contrasena,
+        "direccion": dir,
+        "cod_postal": codPos,
+        "ciudad": ciu,
+        "estado": est
+    };
+    var json_string = JSON.stringify(json);
+
+    xhttp.send(json_string);
+
+    var data = JSON.parse(xhttp.responseText);
+
+    if (data.success === true){
+        //localStorage.setItem('ltareas_sesion', JSON.stringify(data.data));
+        //window.location.href = client;
+        alert("Informacion actualizada!");
+    }
+    else{
+        alert(data.messages);
+        //window.location.href = client;
+    }
+
+    //xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
+
+
+
+
 }

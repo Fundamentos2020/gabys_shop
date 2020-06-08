@@ -63,7 +63,7 @@
                 $response->send();
                 exit();
             }
-            catch(TareaException $e){
+            catch(UsuarioException $e){
                 $response = new Response();
                 $response->setHttpStatusCode(500);
                 $response->setSuccess(false);
@@ -77,13 +77,224 @@
                 $response = new Response();
                 $response->setHttpStatusCode(500);
                 $response->setSuccess(false);
-                $response->addMessage("Error en consulta de tareas");
+                $response->addMessage("Error en consulta de usuario");
                 $response->send();
                 exit();
             }
         }
         elseif($_SERVER['REQUEST_METHOD'] === 'PATCH'){//actualizar info de usuario
+            try {
+                if ($_SERVER['CONTENT_TYPE'] !== 'application/json'){
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('Encabezado "Content type" no es JSON');
+                    $response->send();
+                    exit();
+                }
+    
+                $patchData = file_get_contents('php://input');
+    
+                if (!$json_data = json_decode($patchData)) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('El cuerpo de la solicitud no es un JSON válido');
+                    $response->send();
+                    exit();
+                }
 
+                $actualizaNombre = false;
+                //$actualizaApellidos = false;
+                $actualizaCorreo = false;
+                $actualizaContrasena = false;
+                $actualizaDireccion = false;
+                $actualizaCP = false;
+                $actualizaCiudad = false;
+                $actualizaEstado = false;
+
+                $campos_query = "";
+
+                if (isset($json_data->nombre)) {
+                    $actualizaNombre = true;
+                    $campos_query .= "nombre = :nombre, ";
+                }
+
+                if (isset($json_data->correo)) {
+                    $actualizaCorreo = true;
+                    $campos_query .= "correo = :correo, ";
+                }
+
+                if (isset($json_data->contrasena)) {
+                    $actualizaContrasena = true;
+                    $campos_query .= "contrasena = :contrasena, ";
+                }
+
+                if (isset($json_data->direccion)) {
+                    $actualizaDireccion = true;
+                    $campos_query .= "direccion = :direccion, ";
+                }
+
+                if (isset($json_data->cod_postal)) {
+                    $actualizaCP = true;
+                    $campos_query .= "cod_postal = :cod_postal, ";
+                }
+
+                if (isset($json_data->ciudad)) {
+                    $actualizaCiudad = true;
+                    $campos_query .= "ciudad = :ciudad, ";
+                }
+
+                if (isset($json_data->estado)) {
+                    $actualizaEstado = true;
+                    $campos_query .= "estado = :estado, ";
+                }
+
+                $campos_query = rtrim($campos_query, ", ");
+
+                if ($actualizaNombre === false && $actualizaCorreo === false && $actualizaContrasena === false && $actualizaDireccion === false 
+                        && $actualizaCP === false && $actualizaCiudad === false && $actualizaEstado === false) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage("No hay campos para actualizar");
+                    $response->send();
+                    exit();
+                }
+
+                $query = $connection->prepare('SELECT * FROM usuario WHERE id_usuario = :id_usuario');
+                $query->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el usuario");
+                    $response->send();
+                    exit();
+                }
+
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $usuario = new Usuario($row['id_usuario'], $row['nombre'], $row['apellido_pat'], $row['apellido_mat'], $row['correo'], 
+                    $row['contrasena'], $row['direccion'], $row['cod_postal'], $row['ciudad'], $row['estado'], $row['foto_perfil'], $row['rol']);
+                }
+    
+                $cadena_query = 'UPDATE usuario SET ' . $campos_query . ' WHERE id_usuario = :id_usuario';
+                $query = $connection->prepare($cadena_query);
+
+                if($actualizaNombre === true) {
+                    $usuario->setNombre($json_data->nombre);
+                    $up_nombre = $usuario->getnombre();
+                    $query->bindParam(':nombre', $up_nombre, PDO::PARAM_STR);
+                }
+
+                if($actualizaCorreo === true) {
+                    $usuario->setCorreo($json_data->correo);
+                    $up_correo = $usuario->getCorreo();
+                    $query->bindParam(':correo', $up_correo, PDO::PARAM_STR);
+                }
+                
+                if($actualizaContrasena === true) {
+                    $contrasena_hash = password_hash($json_data->contrasena, PASSWORD_DEFAULT);
+                    $usuario->setContrasena($contrasena_hash);
+                    $up_contrasena = $usuario->getContrasena();
+                    $query->bindParam(':contrasena', $up_contrasena, PDO::PARAM_STR);
+                }
+                
+                if($actualizaDireccion === true) {
+                    $usuario->setDireccion($json_data->direccion);
+                    $up_direccion = $usuario->getDireccion();
+                    $query->bindParam(':direccion', $up_direccion, PDO::PARAM_STR);
+                }
+
+                if($actualizaCP === true) {
+                    $usuario->setCodigoPostal($json_data->cod_postal);
+                    $up_cod_postal = $usuario->getCodigoPostal();
+                    $query->bindParam(':cod_postal', $up_cod_postal, PDO::PARAM_STR);
+                }
+
+                if($actualizaCiudad === true) {
+                    $usuario->setCiudad($json_data->ciudad);
+                    $up_ciudad = $usuario->getCiudad();
+                    $query->bindParam(':ciudad', $up_ciudad, PDO::PARAM_STR);
+                }
+                
+                if($actualizaEstado === true) {
+                    $usuario->setEstado($json_data->estado);
+                    $up_estado = $usuario->getEstado();
+                    $query->bindParam(':estado', $up_estado, PDO::PARAM_STR);
+                }
+
+                $query->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+    
+                if ($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(500);
+                    $response->setSuccess(false);
+                    $response->addMessage("Error al actualizar la informacion del usuario");
+                    $response->send();
+                    exit();
+                }
+
+                $query = $connection->prepare('SELECT * FROM usuario WHERE id_usuario = :id_usuario');
+                $query->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $query->execute();
+
+                $rowCount = $query->rowCount();
+
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el usuario después de actualizar");
+                    $response->send();
+                    exit();
+                }
+
+                $infousuario = array();
+    
+                while($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                    $usuario = new Usuario($row['id_usuario'], $row['nombre'], $row['apellido_pat'], $row['apellido_mat'], $row['correo'], $row['contrasena'], $row['direccion'], $row['cod_postal'], $row['ciudad'], $row['estado'], $row['foto_perfil'], $row['rol']);
+                    $usuario->setFotoPerfil("data:imagen/jpg;base64,". base64_encode($row['foto_perfil']));
+                    $infousuario = $usuario->getUsuario();
+                }
+    
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['usuario'] = $infousuario;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);
+                $response->setSuccess(true);
+                $response->addMessage("Usuario actualizado");
+                $response->setData($returnData);
+                $response->send();
+                exit();
+            }
+            catch(UsuarioException $e){
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e) {
+                error_log("Error en BD - " . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de usuario");
+                $response->send();
+                exit();
+            }
         }
     }
     elseif (empty($_GET)){
