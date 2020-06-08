@@ -6,7 +6,8 @@ function registrar(e) {
     //const padre = document.getElementById('bot-reg');
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("POST", "http://localhost:80/Gaby's%20shop/" + "usuarios", true);
+    //xhttp.open("POST", "http://localhost:80/Gaby's%20shop/" + "usuarios", true);
+    xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "usuarios", true);
     //xhttp.open("POST", "http://localhost/Gaby's%20shop/Controllers/usuarioController.php", true);
     
     xhttp.setRequestHeader("Content-Type", "application/json");
@@ -14,10 +15,14 @@ function registrar(e) {
     xhttp.onload = function() {
         if (this.status == 201) {
             var data = JSON.parse(this.responseText);
+            localStorage.setItem('usuario_sesion', JSON.stringify(data.data));
+            console.log("entre a estatus 201");
+            console.log(data);
         }
         else {
             var data = JSON.parse(this.responseText);
             console.log(data);
+            console.log("Error al obtener estatus");
             alert(data);
             alert(data.messages);
         }
@@ -32,10 +37,11 @@ function registrar(e) {
     var ciu = document.getElementById('ciu').value;
     var est = document.getElementById('est').value;
     var foto = document.getElementById('foto').value;
+    var rol; 
     if(document.getElementById("ven").checked)
-        var rol = 1;//vendedor
+         rol = 1;//vendedor
     else
-        var rol = 0;//usuario
+         rol = 0;//usuario
     var json = {
         "nombre": nombre,
         "apellido_pat": apPat,
@@ -53,4 +59,10 @@ function registrar(e) {
     //console.log(this.status);
 
     xhttp.send(json_string);
+
+    if(rol == 1){
+        window.location.href = "http://localhost:80/gabys_shop-master/InicioVendedor.html";
+    }else{
+        window.location.href = "http://localhost:80/gabys_shop-master/Home.html";
+    }
 }
