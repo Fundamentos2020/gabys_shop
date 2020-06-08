@@ -280,7 +280,7 @@
             $correo = $jsonData->correo;
             $contrasena = $jsonData->contrasena;
         
-            $query = $connection->prepare('SELECT id_usuario, correo, contrasena FROM usuario WHERE correo = :correo');
+            $query = $connection->prepare('SELECT id_usuario, correo, contrasena, rol FROM usuario WHERE correo = :correo');
             $query->bindParam(':correo', $correo, PDO::PARAM_STR);
             $query->execute();
     
@@ -300,6 +300,7 @@
             $consulta_id = $row['id_usuario'];
             $consulta_correo = $row['correo'];
             $consulta_contrasena = $row['contrasena'];
+            $consulta_rol = $row['rol'];
             /*$consulta_activo = $row['activo'];
     
             if ($consulta_activo !== 'SI') {
@@ -359,7 +360,8 @@
             $returnData['token_actualizacion'] = $token_actualizacion;
             $returnData['caducidad_token_actualizacion'] = $caducidad_tactualizacion_s;
             $returnData['id_usuario'] = $consulta_id;
-    
+            $returnData['rol'] = $consulta_rol;
+
             $response = new Response();
             $response->setHttpStatusCode(201);
             $response->setSuccess(true);
