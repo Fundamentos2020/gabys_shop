@@ -61,14 +61,14 @@
         }*/
         date_default_timezone_set("America/Mexico_City");
     
-        if (strtotime($consulta_cadTokenAcceso) < time()) {
+        /*if (strtotime($consulta_cadTokenAcceso) < time()) {
             $response = new Response();
             $response->setHttpStatusCode(401);
             $response->setSuccess(false);
             $response->addMessage("Token de acceso ha caducado");
             $response->send();
             exit();
-        }
+        }*/
     } 
     catch (PDOException $e) {
         error_log('Error en DB - ' . $e);
