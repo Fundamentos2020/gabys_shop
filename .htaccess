@@ -20,3 +20,6 @@ RewriteRule ^productos/aprobado=([0-9]+)$ Controllers/productoController.php?apr
 #Sesiones
 RewriteRule ^sesiones$ Controllers/sesionesController.php [L]
 RewriteRule ^sesiones/([0-9]+)$ Controllers/sesionesController.php?id_sesion=$1 [L]
+
+#Solicitud
+RewriteRule ^solicitud$ Controllers/solicitudController.php [L]

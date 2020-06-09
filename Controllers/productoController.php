@@ -93,7 +93,6 @@
             $response->send();
             exit();
         }
-        
         if($_SERVER['REQUEST_METHOD'] === 'GET'){//GET
             try{
                 $query = $connection->prepare('SELECT id_producto, id_vendedor, nombre, descripcion, precio, cantidad, descuento, aprobado, imagen FROM producto WHERE aprobado = :aprobado');
@@ -136,6 +135,138 @@
 
                 $response = new Response();
                 $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de producto");
+                $response->send();
+                exit();
+            }
+        }
+        elseif($_SERVER['REQUEST_METHOD'] === 'PATCH'){//Admin aprueba producto
+            try {
+                if ($_SERVER['CONTENT_TYPE'] !== 'application/json'){
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('Encabezado "Content type" no es JSON');
+                    $response->send();
+                    exit();
+                }
+    
+                $patchData = file_get_contents('php://input');
+    
+                if (!$json_data = json_decode($patchData)) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('El cuerpo de la solicitud no es un JSON válido');
+                    $response->send();
+                    exit();
+                }
+
+                $actualizaAprobado = false;
+
+                if (isset($json_data->aprobado)) {
+                    $actualizaAprobado = true;
+                }
+
+                $id_producto = $json_data->id_producto;
+                $aprobado = $json_data->aprobado;
+                //echo $aprobado;
+
+                if ($actualizaAprobado === false) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage("No hay campos para actualizar");
+                    $response->send();
+                    exit();
+                }
+
+                $query = $connection->prepare('SELECT * FROM producto WHERE id_producto = :id_producto');
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el producto");
+                    $response->send();
+                    exit();
+                }
+
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], 
+                    $row['descuento'], $row['aprobado'], $row['imagen']);
+                }
+
+                $query = $connection->prepare('UPDATE producto SET aprobado = :_aprobado WHERE id_producto = :id_producto');
+                $query->bindParam(':_aprobado', $aprobado, PDO::PARAM_STR);
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+    
+                if ($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(500);
+                    $response->setSuccess(false);
+                    $response->addMessage("Error al aprobar el producto");
+                    $response->send();
+                    exit();
+                }
+
+                
+                $query = $connection->prepare('SELECT * FROM producto WHERE id_producto = :id_producto');
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el producto despues de aprobar");
+                    $response->send();
+                    exit();
+                }
+
+                while($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                    $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], 
+                        $row['descuento'], $row['aprobado'], $row['imagen']);
+                    $producto->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
+                    $infoproducto = $producto->getProducto();
+                }
+    
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['producto'] = $infoproducto;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);
+                $response->setSuccess(true);
+                $response->addMessage("Producto aprobado");
+                $response->setData($returnData);
+                $response->send();
+                exit();
+
+            }
+            catch(ProductoException $e){
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e) {
+                error_log("Error en BD - " . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500);
                 $response->setSuccess(false);
                 $response->addMessage("Error en consulta de producto");
                 $response->send();

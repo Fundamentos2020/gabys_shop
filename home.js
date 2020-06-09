@@ -11,8 +11,6 @@ function cargaProductos(e) {
     var sesion = localStorage.getItem('usuario_sesion');
     //console.log(sesion);
     sesionJson = JSON.parse(sesion);
-    console.log(sesionJson.token_acceso);
-    console.log("sdfsf");
     var xhr = new XMLHttpRequest();
     //xhr.open("GET", "./Controllers/productoController.php", true);
     xhr.open("GET", "http://localhost:80/Gaby's%20shop/productos", true);

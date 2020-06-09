@@ -41,7 +41,7 @@ function cargaProducto(e){
     ///Como mando un parametro, que es el id_producto lo obtengo para poder hacer la seleccion al tener el get
     let parametro = new URLSearchParams(location.search);
     var param = parametro.get('id_producto');
-    console.log(param);
+    //console.log(param);
     const padre = document.getElementById('muestraProd');
 
     const xhr = new XMLHttpRequest();
@@ -54,8 +54,8 @@ function cargaProducto(e){
                 productos = data.data;
                 var html = "";
                 productos.productos.forEach(prod => {
-                    console.log(prod.id_producto);
-                    console.log(param);
+                    //console.log(prod.id_producto);
+                    //console.log(param);
                     if(param == prod.id_producto)
                     {
                         var precioDesc = " ";
@@ -74,8 +74,8 @@ function cargaProducto(e){
                             ${prod.nombre}
                             <br> 
                             Precio:
-                            <div class="textTac">$${prod.precio}</div>
-                            $${precioFinal}
+                            <div class="textTac">$ ${prod.precio}</div>
+                            $ ${precioFinal}
                             <br>
                             Oferta:${prod.descuento} % de descuento.
                             <br>
@@ -101,7 +101,7 @@ function cargaProducto(e){
                             <div class="DetallesProd col-m-4 p-l-1 col-s-4">
                             ${prod.nombre}
                             <br> 
-                            Precio: ${prod.precio}
+                            Precio: $ ${prod.precio}
                             <br>
                             Oferta: ${prod.descuento} % de descuento.
                             <br>

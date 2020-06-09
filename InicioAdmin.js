@@ -1,144 +1,69 @@
 document.addEventListener('DOMContentLoaded', cargaProductos);
-document.addEventListener('DOMContentLoaded', cargaSolicitudes);
 
-//document.addEventListener('DOMContentLoaded',Producto);
-const botonBuscar = document.getElementById('bot-busca');
-const textoBuscar = document.getElementById('text-busca');
-
-botonBuscar.addEventListener('click', buscar);
-
-//var pro="-1";
+let productos =[];
 
 /*Funcion que carga los productos al home de la página*/
+//El administrador vera los mismos productos aprobados que el comprador
 function cargaProductos(e) {
-    e.preventDefault();
-
-    const padre = document.getElementById('muestraProd');
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', "productos.json", true);
-
-    xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-
-        if (this.status === 200) {
-            const p = JSON.parse(this.responseText);
-
-            p.producto.forEach(function (prod) {
-                let html = "";
-                /*html = `<option value="${prod.nombre}">${prod.nombre}</option>`;*/
-
-                html = `
-                    <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
-                        <div class="prod border col-m-12 col-s-12">
-                            <div class="col-m-12 col-s-6" onclick="verificaProd('${prod.id}'); location='/VerProductoComprador.html' ">
-                                <img src="${prod.url}">
-                            </div>
-                            <div class="b-prod-top-s col-m-12 col-s-6">
-                                <div class="m-1">${prod.nombre}</div>
-                                <div class="m-1">Precio: $ ${prod.precio}</div>
-                            </div>
-                        </div>
-                    </div> `;
-
-                padre.innerHTML += html;
-            });
-        }
-    }
-    xhr.send();
-}
-
-function cargaSolicitudes(e) {
-    e.preventDefault();
-
-    const padre = document.getElementById('muestraSoli');
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', "solicitudes.json", true);
-
-    xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-        let html = "";
-        if (this.status === 200) {
-            const s = JSON.parse(this.responseText);
-
-            s.solicitud.forEach(function (soli) {
-                
-                /*html = `<option value="${prod.nombre}">${prod.nombre}</option>`;*/
-
-                html += `
-                    <div class="CheckButton m-1 flexarchivo ">
-                    <button class="m-1"> <a href="${soli.archivo}" target="_blank">Ver Solicitud</a> </button>
-                    <div class="col-m-12 col-s-12">
-                        <input type="radio">
-                        <label for="">Aprobada</label>
-                        <input type="radio">
-                        <label for="">Desaprobada</label>
-                    </div>
-                    </div>
-                    `;
-                 //padre.innerHTML += html;
-            });
-            html+= ` <input class="botonConfirma" type="submit" value="Guardar">`
-            padre.innerHTML += html;
-        }
-        
-    }
-    xhr.send();
-}
-
-function buscar(){
-    borraProductos();
+    //e.preventDefault();
 
     const padre = document.getElementById('visualProd');
+    var sesion = localStorage.getItem('usuario_sesion');
+    //console.log(sesion);
+    sesionJson = JSON.parse(sesion);
+    var xhr = new XMLHttpRequest();
+    //xhr.open("GET", "./Controllers/productoController.php", true);
+    xhr.open("GET", "http://localhost:80/Gaby's%20shop/productos", true);
 
-    let busca = textoBuscar.value;
-    console.log(busca);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', "productos.json", true);
-
+    //console.log(this.responseText);
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-
         if (this.status === 200) {
-            const p = JSON.parse(this.responseText);
-
-            p.producto.forEach(function (prod) {
-
-                let nombre = prod.nombre;
-                let nombreMin = nombre.toLowerCase();
-                let descripcion = prod.descripcion;
-                let descripcionMin = descripcion.toLowerCase();
-                if(nombre.includes(busca) || descripcion.includes(busca) || nombreMin.includes(busca) || descripcionMin.includes(busca))
-                {//Si lo que se busca existe lo pone en la pagina
-                    let html = "";
-
-                    html = `
-                        <div class="Productos col-m-3 col-s-12 p-r-1" id="producto">
+            //console.log(this.status);
+            //console.log(this.responseText);
+            var data = JSON.parse(this.responseText);
+            if (data.success === true){
+                productos = data.data.productos;
+                productos.forEach(producto => {
+                    var html = "";
+                    html += `
+                        <div id="producto" class="Productos col-m-3 col-s-12 p-r-1" onclick="verificaProd('${producto.id_producto}')">
                             <div class="prod border col-m-12 col-s-12">
-                                <div class="col-m-12 col-s-6" onclick="verificaProd('${prod.id}'); location='/VerProductoComprador.html' ">
-                                    <img src="${prod.url}">
-                                </div>
+                                <div class="col-m-12 col-s-6">                                                      
                                 <div class="b-prod-top-s col-m-12 col-s-6">
-                                    <div class="m-1">${prod.nombre}</div>
-                                    <div class="m-1">Precio: $ ${prod.precio}</div>
+                                    <img src="${producto.imagen}">
+                                    <div class="m-1">${producto.nombre}</div>
+                                    <div class="m-1">Precio: $ ${producto.precio} </div>                
+                                </div>
                                 </div>
                             </div>
                         </div> `;
-
-                    padre.innerHTML += html;   
-                }
-            });
+        
+                    padre.innerHTML += html;
+                });
+            }
+            else {
+                alert(data.messages);
+            }
+        }
+        else {
+            var data = JSON.parse(this.responseText);
+            
+            alert(data.messages);
         }
     }
+    
     xhr.send();
 }
 
-/*Funcion que borra los productos que se muestran en el home*/
-function borraProductos(){
-    while(document.getElementById("producto"))
-        document.getElementById("producto").remove();
-}
-
-
-function verificaProd(e) {
-    
+function verificaProd(e)
+{
+    ///le mando parametros a la pagina para saber que producto vamos a manejar 
+    ///lo concatene asi porque con el "." me daba problemas
+    //var cadena1 = "http://localhost/gabys_shop-master/VerProductoComprador.html?id_producto=";
+    var cadena1 = "http://localhost/Gaby's%20shop/VerProductoComprador.html?id_producto=";
+    var cadena2 = e;
+    var cadena3 = cadena1+cadena2;
+    window.location.href = cadena3;
 }

@@ -17,7 +17,7 @@
         exit();
     }
 
-    if(array_key_exists('id_usuario', $_GET)) {
+    if(array_key_exists('id_usuario', $_GET)) {//Parametro con id de usuario
         $id_usuario = $_GET['id_usuario'];
         if ($id_usuario == '' || !is_numeric($id_usuario)) {
             $response = new Response();

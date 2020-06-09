@@ -1,5 +1,33 @@
 document.querySelector('#guardar').addEventListener('click',guardarProducto);
 
+var id_v;
+var id_p;
+
+function crearSolicitud(e){
+    e.preventDefault();
+    var xhttp = new XMLHttpRequest();
+
+    //xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "productos", true);
+    xhttp.open("POST", "http://localhost:80/Gaby's%20shop/solicitud", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    console.log(xhttp.status);
+    xhttp.onload = function() {
+        if (this.status == 201) {
+            var data = JSON.parse(this.responseText);
+            console.log("entre a estatus 201");
+            //console.log(data);
+        }
+        else {
+            var data = JSON.parse(this.responseText);
+            console.log(data);
+            console.log("Error al obtener estatus");
+            alert(data);
+            alert(data.messages);
+        }
+    };
+}
+
+
 function guardarProducto(e){
     ///window.alert("alertaaaaaaa");
     e.preventDefault();
@@ -50,4 +78,8 @@ function guardarProducto(e){
     //console.log(this.status);
 
     xhttp.send(json_string);
+
+    /*id_v = id_vendedor;
+    id_p = id_p
+    crearSolicitud();*/
 }

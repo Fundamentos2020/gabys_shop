@@ -49,3 +49,14 @@ function verOfertas(e){
     xhr.send();
 }
 
+function verificaProd(e)
+{
+    ///le mando parametros a la pagina para saber que producto vamos a manejar 
+    ///lo concatene asi porque con el "." me daba problemas
+    //var cadena1 = "http://localhost/gabys_shop-master/VerProductoComprador.html?id_producto=";
+    var cadena1 = "http://localhost/Gaby's%20shop/VerProductoComprador.html?id_producto=";
+    var cadena2 = e;
+    var cadena3 = cadena1+cadena2;
+    window.location.href = cadena3;
+}
+

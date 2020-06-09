@@ -9,23 +9,23 @@ function cargaInfo(e) {
     var sesion = localStorage.getItem('usuario_sesion');
     sesionJson = JSON.parse(sesion);
     const xhr = new XMLHttpRequest();
-    console.log(sesionJson.id_usuario);
-    console.log("Probando");
-    //xhr.open("GET","http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
+    console.log(sesionJson);
+    //console.log("Probando");
+    xhr.open("GET","http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
     //xhr.open("GET","http://localhost:80/gabys_shop-master/usuarios/2"/* + sesionJson.id_usuario*/, true);
     //xhr.open("GET","http://localhost:80/gabys_shop-master/usuarios/"+ sesionJson.id_usuario,false /*true*/);
-    xhr.open("GET","./Controllers/usuarioController.php?id_usuario="+ sesionJson.id_usuario, true);
+    //xhr.open("GET","./Controllers/usuarioController.php?id_usuario="+ sesionJson.id_usuario, true);
     //xhr.open('GET', "usuarios.json", true);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-        console.log("El estatus es " + this.status);
+        //console.log("El estatus es " + this.status);
         if (this.status === 200) {
             //const p = JSON.parse(this.responseText);
             var data = JSON.parse(this.responseText);
-            console.log(data);
+            //console.log(data);
             if (data.success === true){
                 user = data.data.usuario;
-                console.log(user);
+                //console.log(user);
                     var html = "";
                     
                     html = `
@@ -80,7 +80,7 @@ function cargaInfo(e) {
                                     Actualizar contraseña: 
                                 </div>
                                 <div>
-                                    <input type="password" id="contrasena" value="${sesionJson.contrasena}">  
+                                    <input type="password" id="contrasena">  
                                 </div>
                             </div>
         
@@ -140,14 +140,14 @@ function actualizaInfo(){
     sesionJson = JSON.parse(sesion);
 
     if (sesionJson == null) {
-        //window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
-        window.location.href = "http://localhost:80/gabys_shop-master/index.html";
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+        //window.location.href = "http://localhost:80/gabys_shop-master/index.html";
     }
 
     var xhttp = new XMLHttpRequest();
 
-    //xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, false);
-    xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/usuarios/" + sesionJson.id_usuario, false);
+    xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, false);
+    //xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/usuarios/" + sesionJson.id_usuario, false);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     //Llenar el json con la informacion de los textbox
@@ -176,7 +176,7 @@ function actualizaInfo(){
         "estado": est
     };
     var json_string = JSON.stringify(json);
-    console.log(json_string);
+    //console.log(json_string);
     xhttp.send(json_string);
 
     var data = JSON.parse(xhttp.responseText);
@@ -185,7 +185,7 @@ function actualizaInfo(){
         //localStorage.setItem('ltareas_sesion', JSON.stringify(data.data));
         //window.location.href = client;
         alert("Informacion actualizada!");
-        window.localtion.href = "PerfilComprador.html";
+        //window.localtion.href = "PerfilComprador.html";
     }
     else{
         alert(data.messages);

@@ -7,6 +7,42 @@ var precioP;
 
 
 
+function guardaCambios(id_p, id_v){
+    //e.preventDefault();
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('PATCH', "http://localhost/Gaby's%20shop/productos/aprobado=0", false);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    //console.log(id_p);
+    //console.log(id_v);
+    
+    var json = { 
+        "id_producto": id_p,
+        "id_vendedor": id_v,
+        "aprobado": 1
+    };
+
+    var json_string = JSON.stringify(json);
+    //console.log(json_string);
+    xhr.send(json_string);
+
+    //console.log(this.responseText);
+
+    var data = JSON.parse(xhr.responseText);
+    //console.log(data);
+    if (data.success === true){
+        //localStorage.setItem('ltareas_sesion', JSON.stringify(data.data));
+        //window.location.href = client;
+        alert("Producto Aprobado");
+        window.location.href = "SolicitudVentas.html";
+    }
+    else{
+        alert(data.messages);
+        //window.location.href = client;
+    }
+}
+
+
 function cargaSolicitudes(e) {
     e.preventDefault();
 
@@ -34,12 +70,10 @@ function cargaSolicitudes(e) {
                             <div class="col-m-12 col-s-12 m-b-1">Descripcion: ${prod.descripcion}</div>
                             <div class="col-m-12 col-s-12 m-b-1">Precio: $${prod.precio}</div>
                             <div class="col-m-12 col-s-12 m-b-1">ID Vendedor: ${prod.id_vendedor}</div>
-                            <div class="col-m-12 col-s-12 m-b-1">
-                                <input type="radio">
-                                <label for="">Aprobada</label>
-                                <input type="radio">
-                                <label for="">Desaprobada</label>
-                            </div>
+
+                            <button class="teal p-1 textwhite" onclick="guardaCambios('${prod.id_producto}, ${prod.id_vendedor}')">
+                                Aprobar
+                            </button>
                         </div> 
                     </div> 
                     `;
