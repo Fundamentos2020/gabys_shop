@@ -18,7 +18,7 @@
         exit();
     }
 
-    if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
+    /*if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
         $response = new Response();
         $response->setHttpStatusCode(401);
         $response->setSuccess(false);
@@ -51,24 +51,24 @@
         $consulta_cadTokenAcceso = $row['caducidad_token_acceso'];
         //$consulta_activo = $row['activo'];
     
-        /*if($consulta_activo !== 'SI') {
+        if($consulta_activo !== 'SI') {
             $response = new Response();
             $response->setHttpStatusCode(401);
             $response->setSuccess(false);
             $response->addMessage("Cuenta de usuario no activa");
             $response->send();
             exit();
-        }*/
+        }
         date_default_timezone_set("America/Mexico_City");
     
-        /*if (strtotime($consulta_cadTokenAcceso) < time()) {
+        if (strtotime($consulta_cadTokenAcceso) < time()) {
             $response = new Response();
             $response->setHttpStatusCode(401);
             $response->setSuccess(false);
             $response->addMessage("Token de acceso ha caducado");
             $response->send();
             exit();
-        }*/
+        }
     } 
     catch (PDOException $e) {
         error_log('Error en DB - ' . $e);
@@ -79,7 +79,7 @@
         $response->addMessage("Error al autenticar usuario");
         $response->send();
         exit();
-    }
+    }*/
 
     if($_SERVER['REQUEST_METHOD'] === 'GET'){//GET
         try{

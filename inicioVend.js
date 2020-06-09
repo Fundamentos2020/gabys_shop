@@ -14,15 +14,15 @@ function cargaProductos(e) {
 
     var sesion = localStorage.getItem('usuario_sesion');
     sesionJson = JSON.parse(sesion);
-    console.log(sesionJson);
+    //console.log(sesionJson);
     const padre = document.getElementById('visualProd');
-    console.log("holi");
-    console.log("comoestas");
-    console.log(sesionJson.id_usuario);
+    //console.log("holi");
+    //console.log("comoestas");
+    //console.log(sesionJson.id_usuario);
 
     const xhr = new XMLHttpRequest();
-    //xhr.open('GET', "http://localhost:80/Gaby's%20shop/Controllers/productoController.php", true);
-    xhr.open("GET", "./Controllers/productoController.php", true);
+    xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
+    //xhr.open("GET", "./Controllers/productoController.php", true);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
 
