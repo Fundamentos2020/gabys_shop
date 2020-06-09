@@ -414,7 +414,8 @@
                 $returnData['id_usuario'] = $ultimoID;
                 $returnData['nombre'] = $nombre;
                 $returnData['correo'] = $correo;
-            
+                $returnData['contrasena'] = $contrasena;    
+
                 $response = new Response();
                 $response->setHttpStatusCode(201);
                 $response->setSuccess(true);
