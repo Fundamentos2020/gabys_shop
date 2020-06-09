@@ -55,15 +55,17 @@
 
         <div class="col-m-5 col-s-12 p-1 textgeneral">
             <div>
-                <img src="" alt="Aqui va la imagen del producto">
-                <input type="file" name="" id="">
+                <img src="" alt="Ingrese una foto para su producto">
+                <input type="file" name="" id="Imagen" accept=".jpg">
                 <p>*Foto obligatoria*</p>
             </div>
 
             <div>
-                <button class="teal p-1 textwhite">
-                    Solicitar Venta
-                </button>
+                <form action="#" id="guardar">
+                    <button class="teal p-1 textwhite">
+                        Solicitar Venta
+                    </button>
+                </form>
             </div>
 
             <div>
@@ -78,31 +80,32 @@
                 <div>
                     Nombre:
                 </div>
-                <input type="text">
+                <input type="text" id="Nombre">
             </div>
 
             <div class="m-t-1">
                 <div>
                     Descripción:
                 </div>
-                <textarea></textarea>
+                <textarea id="Descripcion"></textarea>
             </div>
 
             <div class="m-t-1">
                 <div>
                     Precio:
                 </div>
-                <input type="text">
+                <input type="text" id="Precio">
             </div>
 
             <div class="m-t-1">
                 <div>
                     Existencias:
                 </div>
-                <input type="number">
+                <input type="number" id="Cantidad">
             </div>
 
         </div>
     </div>
 </body>
+<script src="VentaVendedor.js"></script>
 </html>
