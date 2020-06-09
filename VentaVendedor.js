@@ -5,7 +5,8 @@ function guardarProducto(e){
     e.preventDefault();
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "productos", true);
+    //xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "productos", true);
+    xhttp.open("POST", "http://localhost:80/Gaby's%20shop/productos", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     console.log(xhttp.status);
     xhttp.onload = function() {
@@ -41,7 +42,7 @@ function guardarProducto(e){
         "descripcion": descripcion,
         "precio": precio,
         "cantidad": cantidad,
-        "descuento": 0.0,
+        "descuento": 0,
         "aprobado": 0,
         "imagen": imagen
         };
