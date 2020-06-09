@@ -10,11 +10,15 @@ function cargaInfo(e) {
     sesionJson = JSON.parse(sesion);
     const xhr = new XMLHttpRequest();
     console.log(sesionJson.id_usuario);
-    xhr.open("GET","http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
+    console.log("Probando");
+    //xhr.open("GET","http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
+    //xhr.open("GET","http://localhost:80/gabys_shop-master/usuarios/2"/* + sesionJson.id_usuario*/, true);
+    //xhr.open("GET","http://localhost:80/gabys_shop-master/usuarios/"+ sesionJson.id_usuario,false /*true*/);
+    xhr.open("GET","./Controllers/usuarioController.php?id_usuario="+ sesionJson.id_usuario, true);
     //xhr.open('GET', "usuarios.json", true);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-
+        console.log("El estatus es " + this.status);
         if (this.status === 200) {
             //const p = JSON.parse(this.responseText);
             var data = JSON.parse(this.responseText);
@@ -28,7 +32,7 @@ function cargaInfo(e) {
                     <div class="col-m-3 col-s-12 textcenter border m-t-1 textgeneral">
                         <div class="">
                         <div class="ImagenProd">
-                            <img src="${user.foto_perfil}" alt="Aqui deberia estar la imagen">
+                            <img src="${user.foto_perfil}">
                         </div>
                             <div>${user.nombre} ${user.apellido_pat}</div>
                         </div>
@@ -58,7 +62,7 @@ function cargaInfo(e) {
                                     Apellidos: 
                                 </div>
                                 <div>
-                                    <input type="text" value="${user.apellido_pat} ${user.apellido_mat}">  
+                                    <input type="text" id="apellidos" value="${user.apellido_pat} ${user.apellido_mat}">  
                                 </div>
                             </div>
         
@@ -76,7 +80,7 @@ function cargaInfo(e) {
                                     Actualizar contraseña: 
                                 </div>
                                 <div>
-                                    <input type="password" id="contrasena" value="">  
+                                    <input type="password" id="contrasena" value="${sesionJson.contrasena}">  
                                 </div>
                             </div>
         
@@ -136,20 +140,24 @@ function actualizaInfo(){
     sesionJson = JSON.parse(sesion);
 
     if (sesionJson == null) {
-        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+        //window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+        window.location.href = "http://localhost:80/gabys_shop-master/index.html";
     }
 
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, false);
+    //xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, false);
+    xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/usuarios/" + sesionJson.id_usuario, false);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     //Llenar el json con la informacion de los textbox
     var correo = document.getElementById('correo').value;
     var contrasena = document.getElementById('contrasena').value;
     var nombre = document.getElementById('nombre').value;
-    /*var apPat = document.getElementById('apPat').value;
-    var apMat = document.getElementById('apMat').value;*/
+    var apellidos = document.getElementById('apellidos').value; 
+    var apellidos2 =[];
+    apellidos2 = apellidos.split(" ");
+    console.log(apellidos2);
     var dir = document.getElementById('direccion').value;
     var codPos = document.getElementById('cod_postal').value;
     var ciu = document.getElementById('ciudad').value;
@@ -158,8 +166,8 @@ function actualizaInfo(){
 
     var json = { 
         "nombre": nombre,
-        /*"apellido_pat": apPat,
-        "apellido_mat": apMat,*/
+        "apellido_pat": apellidos2[0],
+        "apellido_mat": apellidos2[1],
         "correo": correo,
         "contrasena": contrasena,
         "direccion": dir,
@@ -168,7 +176,7 @@ function actualizaInfo(){
         "estado": est
     };
     var json_string = JSON.stringify(json);
-
+    console.log(json_string);
     xhttp.send(json_string);
 
     var data = JSON.parse(xhttp.responseText);
@@ -177,6 +185,7 @@ function actualizaInfo(){
         //localStorage.setItem('ltareas_sesion', JSON.stringify(data.data));
         //window.location.href = client;
         alert("Informacion actualizada!");
+        window.localtion.href = "PerfilComprador.html";
     }
     else{
         alert(data.messages);
@@ -184,8 +193,5 @@ function actualizaInfo(){
     }
 
     //xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
-
-
-
 
 }
