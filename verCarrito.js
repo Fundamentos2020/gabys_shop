@@ -69,7 +69,7 @@ function obtenProducto(id_prod, cant){
                         </div>
                         <div class="DetallesProd col-m-9 p-l-1 col-s-4">
                             <div class="col-m-12 col-s-12 m-b-1">${pro.nombre}</div>
-                            <div class="col-m-12 col-s-12 m-b-1">Cantidad: ${pro.cantidad}</div>
+                            <div class="col-m-12 col-s-12 m-b-1">Cantidad: ${cant}</div>
                             <div class="col-m-12 col-s-12 m-b-1">Precio: $${precioFinal}</div>
                             <div class="col-m-12 col-s-12 m-b-1">Subtotal: $${subtotal}</div>
         
