@@ -43,7 +43,7 @@
         }
 
         public function setTotal($total){
-            if(!is_numeric($total) || $total <=0){
+            if(!is_numeric($total) || $total <0){
                 throw new PedidoException("Error en total del pedido");
             }
             $this->_total = $total;
@@ -54,7 +54,7 @@
         }
 
         public function setFechaEstimada($fecha_estimada) {
-            if ($fecha_estimada !== null && date_format(date_create_from_format('Y-m-d H:i', $fecha_estimada), 'Y-m-d H:i') !== $fecha_estimada) {
+            if ($fecha_estimada !== null && date_format(date_create_from_format('Y-m-d', $fecha_estimada), 'Y-m-d') !== $fecha_estimada) {
                 throw new PedidoException("Error en fecha estimada de pedido");
             }
             $this->_fecha_estimada = $fecha_estimada;

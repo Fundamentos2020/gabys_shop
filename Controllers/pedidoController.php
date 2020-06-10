@@ -18,8 +18,147 @@
         exit();
     }
 
+    if(array_key_exists('id_pedido', $_GET)){//Parametro con id del pedido
+        $id_pedido = $_GET['id_pedido'];
+        if ($id_pedido == '' || !is_numeric($id_pedido)) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage("El id del pedido no puede estar vacío y debe ser numérico");
+            $response->send();
+            exit();
+        }
+        if($_SERVER['REQUEST_METHOD'] === 'PATCH'){
+            try {
+                if ($_SERVER['CONTENT_TYPE'] !== 'application/json'){
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('Encabezado "Content type" no es JSON');
+                    $response->send();
+                    exit();
+                }
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST'){//POST registro de nuevo predido
+                $patchData = file_get_contents('php://input');
+    
+                if (!$json_data = json_decode($patchData)) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('El cuerpo de la solicitud no es un JSON válido');
+                    $response->send();
+                    exit();
+                }
+
+                $actualizaTotal = false;
+
+                if (isset($json_data->total)) {
+                    $actualizaTotal = true;
+                }
+
+                $total = $json_data->total; 
+                
+
+                if ($actualizaTotal === false) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage("No hay campos para actualizar");
+                    $response->send();
+                    exit();
+                }
+                
+                $query = $connection->prepare('SELECT id_pedido, id_usuario, total, DATE_FORMAT(fecha_estimada, "%Y-%m-%d") fecha_estimada FROM pedido WHERE id_pedido = :id_pedido');
+                $query->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el pedido");
+                    $response->send();
+                    exit();
+                }                
+
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $pedido = new Pedido($row['id_pedido'], $row['id_usuario'], $row['total'], $row['fecha_estimada']);
+                }
+                echo $total;
+
+                $query = $connection->prepare('UPDATE pedido SET total = :_total WHERE id_pedido = :id_pedido');
+                $query->bindParam(':_total', $total, PDO::PARAM_STR);
+                $query->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+    
+                if ($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(500);
+                    $response->setSuccess(false);
+                    $response->addMessage("Error al actualizar el total del pedido");
+                    $response->send();
+                    exit();
+                }
+
+                $query = $connection->prepare('SELECT id_pedido, id_usuario, total, DATE_FORMAT(fecha_estimada, "%Y-%m-%d") fecha_estimada FROM pedido WHERE id_pedido = :id_pedido');
+                $query->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
+                $query->execute();
+                $rowCount = $query->rowCount();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el pedido despues de actualizar el total");
+                    $response->send();
+                    exit();
+                }
+
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $pedido = new Pedido($row['id_pedido'], $row['id_usuario'], $row['total'], $row['fecha_estimada']);
+                    $infoPedido = $pedido->getPedido();
+                }
+    
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['pedido'] = $infoPedido;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);
+                $response->setSuccess(true);
+                $response->addMessage("Total del pedido actualizado!!");
+                $response->setData($returnData);
+                $response->send();
+                exit();
+
+
+            }
+            catch(PedidoException $e){
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e) {
+                error_log("Error en BD - " . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de pedido");
+                $response->send();
+                exit();
+            }
+        }
+
+    }
+    elseif($_SERVER['REQUEST_METHOD'] === 'POST'){//POST registro de nuevo pedido
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $response = new Response();
             $response->setHttpStatusCode(405);

@@ -1,13 +1,154 @@
 document.addEventListener('DOMContentLoaded', cargaCarrito);
 const padre = document.getElementById('verProd');
 
+const compra = document.getElementById('comprar');
+
+compra.addEventListener("click", hacerPedido);
+var exito = false;
+
+function actualizaTotalPedido(id_ped, total){
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
+    id_usuario = sesionJson.id_usuario;
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/pedido/" + id_ped, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    var json = { 
+        "total": total
+    };
+    var json_string = JSON.stringify(json);
+    xhttp.send(json_string);
+
+    /*var data = JSON.parse(xhttp.responseText);
+    if(data.success === true){
+        alert("Compra exitosa!!");
+    }
+    else{
+        alert("Error! intenta de nuevo");
+    }*/
+}
+
+//var regresaIDpedido; 
+function hacerPedido(){
+    id_pe = crearPedido();
+    console.log(id_pe);
+}
+
+function crearPedido(){
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
+    id_usuario = sesionJson.id_usuario;
+    
+
+    var id_ped;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost/Gaby's%20shop/pedido", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+
+    xhr.onload = function() {
+        if (this.status == 201) {
+            var data = JSON.parse(this.responseText);
+            if(data.success === true){
+                var ped = data.data;
+                //console.log(ped.id_pedido);
+                //console.log(typeof(ped.id_pedido));
+                id_ped = ped.id_pedido;
+                comprar(id_ped);
+                //return id_ped;
+            }
+        }
+        else {
+            var data = JSON.parse(this.responseText);
+            console.log(data);
+            console.log("Error al obtener estatus Pedido");
+            alert(data.messages);
+        }
+    };
+
+    var id_user = sesionJson.id_usuario;
+    var total = 0;
+    var fecha_estimada = "2020-06-15";
+
+    var json = {
+        "id_usuario": id_user,
+        "total": total,
+        "fecha_estimada": fecha_estimada
+        };
+    var json_string = JSON.stringify(json);
+    //console.log(this.status);
+    xhr.send(json_string);
+
+    //console.log(id_ped);
+}
+
+function comprar(id_pe){
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
+    id_usuario = sesionJson.id_usuario;
+    //console.log(id_pe);
+    total = 0;
+
+    if(id_pe > 0){
+        let productosCompra = obtieneCarrito();
+        const xhr = new XMLHttpRequest();
+        //Crear detalles de pedido
+        productosCompra.forEach(prod => {
+            //let p = obtenProducto(prod.id_producto, prod.cantidad);
+            xhr.open("POST", "http://localhost/Gaby's%20shop/detalle_pedido", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+            xhr.onload = function() {
+                if (this.status == 201) {
+                    var data = JSON.parse(this.responseText);
+                    if(data.success === true){    
+                        console.log(data);
+                        console.log(total);
+                        actualizaTotalPedido(id_pe, total);
+                        localStorage.removeItem('productoCarrito' + id_usuario);
+                        alert("Compra exitosa!!");
+                    }
+                }
+                else {
+                    var data = JSON.parse(this.responseText);
+                    console.log(data);
+                    console.log("Error al obtener estatus");
+                    alert(data);
+                    alert(data.messages);
+                }
+            }
+            var id_producto = prod.id_producto;
+            var cantidad = prod.cantidad;
+            var subtotal = prod.precio * prod.cantidad;
+            total += subtotal;
+
+            var json = {
+                "id_pedido": id_pe,
+                "id_producto": id_producto,
+                "cantidad": cantidad,
+                "subtotal": subtotal
+                };
+            var json_string = JSON.stringify(json);
+            //console.log(this.status);
+            xhr.send(json_string);
+        });
+    }
+    else{
+        alert("Error en ID de pedido");
+    }
+}
+
+
 function cargaCarrito(e){
     var sesion = localStorage.getItem('usuario_sesion');
     sesionJson = JSON.parse(sesion);
     id_usuario = sesionJson.id_usuario;
     let productos = obtieneCarrito();
-    
-
     productos.forEach(prod => {
         let p = obtenProducto(prod.id_producto, prod.cantidad);
         //console.log(p);
@@ -43,7 +184,7 @@ function obtenProducto(id_prod, cant){
     //xhr.open("GET", "./Controllers/productoController.php", true);
     xhr.open("GET", "http://localhost:80/Gaby's%20shop/productos/" + id_prod, true);
 
-    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+    //xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         //console.log("El estatus es " + this.status);
@@ -81,6 +222,7 @@ function obtenProducto(id_prod, cant){
         }
     }
     xhr.send();
+    //xhr.abort();
     //console.log(pro);
     //return pro;
 }

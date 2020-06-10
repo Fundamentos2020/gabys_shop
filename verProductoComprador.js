@@ -19,7 +19,7 @@ function eventListeners(){
 }
 
 
-function agregaCarrito(e){
+function agregaCarrito(e, precioProducto){
     var sesion = localStorage.getItem('usuario_sesion');
     sesionJson = JSON.parse(sesion);
     id_usuario = sesionJson.id_usuario;
@@ -31,6 +31,7 @@ function agregaCarrito(e){
         "id_usuario": id_usuario,
         "id_producto": e,
         "cantidad": 1,
+        "precio": precioProducto
     };
     productos.push(producto);
     console.log(productos);
@@ -99,7 +100,7 @@ function cargaProducto(e){
                             <br>
                                 <div>
                                     <!--<button id="boton-carrito">Agregar al Carrito</button>-->
-                                    <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito(${prod.id_producto});">
+                                    <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito(${prod.id_producto}, ${precioFinal});">
                                 </div>
                                 <br>
                                 Descripción:
@@ -125,7 +126,7 @@ function cargaProducto(e){
                             <br>
                                 <div>
                                 <!--<button id="boton-carrito">Agregar al Carrito</button>-->
-                                <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito(${prod.id_producto});">
+                                <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito(${prod.id_producto}, ${prod.precio});">
                                 </div>
                                 <br>
                                 Descripción:
