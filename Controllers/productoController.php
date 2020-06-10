@@ -274,6 +274,61 @@
             }
         }
     }
+    elseif(array_key_exists('id_producto', $_GET)){//Parametro con id del producto
+        $id_producto = $_GET['id_producto'];
+        if ($id_producto == '' || !is_numeric($id_producto)) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage("El valor de id producto no es valido");
+            $response->send();
+            exit();
+        }
+        try{
+            $query = $connection->prepare('SELECT id_producto, id_vendedor, nombre, descripcion, precio, cantidad, descuento, aprobado, imagen FROM producto WHERE id_producto = :id_producto');
+            $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+            $query->execute();
+    
+            $rowCount = $query->rowCount();    
+            $productos = array();
+        
+            while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
+                $producto->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
+                $infoproducto = $producto->getProducto();
+            }
+            $returnData = array();
+            $returnData['total registros'] = $rowCount;
+            $returnData['productos'] = $infoproducto;
+
+
+            $response = new Response();
+            $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
+            $response->setSuccess(true);
+            $response->setToCache(true);//Cache es solo para listados
+            $response->setData($returnData);
+            $response->send();
+            exit();            
+        }
+        catch(ProductoException $e){//Error en Tarea
+            $response = new Response();
+            $response->setHttpStatusCode(500); 
+            $response->setSuccess(false);
+            $response->addMessage($e->getMessage());
+            $response->send();
+            exit();
+        }
+        catch(PDOException $e){//Error en la consulta
+            error_log("Error en BD" . $e);
+
+            $response = new Response();
+            $response->setHttpStatusCode(500); 
+            $response->setSuccess(false);
+            $response->addMessage("Error en consulta de producto");
+            $response->send();
+            exit();
+        }
+    }
     else{//Sin parametros
         if($_SERVER['REQUEST_METHOD'] === 'GET'){//GET
             try{

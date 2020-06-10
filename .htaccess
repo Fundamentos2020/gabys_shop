@@ -16,6 +16,7 @@ RewriteRule ^usuarios/([0-9]+)$ Controllers/usuarioController.php?id_usuario=$1 
 #Productos
 RewriteRule ^productos$ Controllers/productoController.php [L]
 RewriteRule ^productos/aprobado=([0-9]+)$ Controllers/productoController.php?aprobado=$1 [L]
+RewriteRule ^productos/([0-9]+)$ Controllers/productoController.php?id_producto=$1 [L]
 
 #Sesiones
 RewriteRule ^sesiones$ Controllers/sesionesController.php [L]
