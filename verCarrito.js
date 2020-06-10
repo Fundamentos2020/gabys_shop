@@ -213,7 +213,7 @@ function obtenProducto(id_prod, cant){
                             <div class="col-m-12 col-s-12 m-b-1">Cantidad: ${cant}</div>
                             <div class="col-m-12 col-s-12 m-b-1">Precio: $${precioFinal}</div>
                             <div class="col-m-12 col-s-12 m-b-1">Subtotal: $${subtotal}</div>
-        
+                            <button onclick="eliminaProductoCarrito(${pro.id_producto});">Eliminar</button> 
                         </div> 
                     </div> `;
                     padre.innerHTML += html;
@@ -225,6 +225,24 @@ function obtenProducto(id_prod, cant){
     //xhr.abort();
     //console.log(pro);
     //return pro;
+}
+
+function eliminaProductoCarrito(elim_id_producto){
+    console.log(elim_id_producto);
+    let productos = obtieneCarrito();
+    let newProductos = [];
+    productos.forEach(prod => {
+        console.log(elim_id_producto);
+        console.log(prod.id_producto);
+        if(prod.id_producto != elim_id_producto){
+            newProductos.push(prod);
+        }
+    });
+    localStorage.removeItem('productoCarrito' + id_usuario);
+    alert("Producto eliminado de tu carrito");
+    localStorage.setItem('productoCarrito' + id_usuario, JSON.stringify(newProductos));
+    window.location.href = "http://localhost:80/Gaby's%20shop/Carrito.html";
+    //Checar valores de local storage
 }
 
 function obtieneCarrito(){

@@ -274,7 +274,7 @@
             }
         }
     }
-    elseif(array_key_exists('id_producto', $_GET)){//Parametro con id del producto
+    elseif(array_key_exists('id_producto', $_GET)){//Parametro con id del producto, GET con el ID del producto
         $id_producto = $_GET['id_producto'];
         if ($id_producto == '' || !is_numeric($id_producto)) {
             $response = new Response();

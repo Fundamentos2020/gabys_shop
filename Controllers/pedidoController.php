@@ -156,7 +156,125 @@
                 exit();
             }
         }
+        elseif($_SERVER['REQUEST_METHOD'] === 'GET'){
+            try{
+                $query = $connection->prepare('SELECT id_pedido, id_usuario, total, DATE_FORMAT(fecha_estimada, "%Y-%m-%d") fecha_estimada FROM pedido WHERE id_pedido = :id_pedido');
+                $query->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
+                $query->execute();
+        
+                $rowCount = $query->rowCount();    
+                
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No hay pedido con ese ID");
+                    $response->send();
+                    exit();
+                }
 
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $pedido = new Pedido($row['id_pedido'], $row['id_usuario'], $row['total'], $row['fecha_estimada']);
+                    $infoPedido = $pedido->getPedido();
+                }
+
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['pedido'] = $infoPedido;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
+                $response->setSuccess(true);
+                $response->setToCache(true);//Cache es solo para listados
+                $response->setData($returnData);
+                $response->send();
+                exit();            
+            }
+            catch(PedidoException $e){//Error en Tarea
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e){//Error en la consulta
+                error_log("Error en BD" . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de producto");
+                $response->send();
+                exit();
+            }
+        }
+    }
+    elseif(array_key_exists('id_usuario', $_GET)){
+        $id_usuario = $_GET['id_usuario'];
+        if ($id_usuario == '' || !is_numeric($id_usuario)) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage("El id del usuario no puede estar vacío y debe ser numérico");
+            $response->send();
+            exit();
+        }
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){//Obtener los pedidos de un usuario
+            try{
+                $query = $connection->prepare('SELECT id_pedido, id_usuario, total, DATE_FORMAT(fecha_estimada, "%Y-%m-%d") fecha_estimada FROM pedido WHERE id_usuario = :id_usuario');
+                $query->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $query->execute();
+        
+                $rowCount = $query->rowCount();    
+                $pedidos = array();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("Aún no hay pedidos");
+                    $response->send();
+                    exit();
+                }
+
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $pedido = new Pedido($row['id_pedido'], $row['id_usuario'], $row['total'], $row['fecha_estimada']);
+                    $pedidos[] = $pedido->getPedido();
+                }
+
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['pedidos'] = $pedidos;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
+                $response->setSuccess(true);
+                $response->setToCache(true);//Cache es solo para listados
+                $response->setData($returnData);
+                $response->send();
+                exit();            
+            }
+            catch(PedidoException $e){//Error en Tarea
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e){//Error en la consulta
+                error_log("Error en BD" . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de producto");
+                $response->send();
+                exit();
+            }
+        }
     }
     elseif($_SERVER['REQUEST_METHOD'] === 'POST'){//POST registro de nuevo pedido
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

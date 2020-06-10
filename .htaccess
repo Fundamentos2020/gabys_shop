@@ -28,6 +28,7 @@ RewriteRule ^solicitud$ Controllers/solicitudController.php [L]
 #Pedido
 RewriteRule ^pedido$ Controllers/pedidoController.php [L]
 RewriteRule ^pedido/([0-9]+)$ Controllers/pedidoController.php?id_pedido=$1 [L]
+RewriteRule ^pedido/id_usuario/([0-9]+)$ Controllers/pedidoController.php?id_usuario=$1 [L]
 
 #Detalle Pedido
 RewriteRule ^detalle_pedido$ Controllers/detallePedidoController.php [L]
