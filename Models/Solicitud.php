@@ -6,14 +6,14 @@
 
         private $_id;
         private $_id_vendedor;
-        private $_id_producto;
+        private $_archivo;
         private $_id_admi;
         private $_aprobada;
 
-        public function __construct($id, $id_vendedor, $id_producto, $id_admi, $aprobada){
+        public function __construct($id, $id_vendedor, $archivo, $id_admi, $aprobada){
             $this->setId($id);
             $this->setIdVendedor($id_vendedor);
-            $this->setIdProducto($id_producto);
+            $this->setArchivo($archivo);
             $this->setIdAdmi($id_admi);
             $this->setAprobada($aprobada);
        }
@@ -40,15 +40,15 @@
             $this->_id_vendedor = $id_vendedor;
         }
 
-        public function getIdProducto(){
-            return $this->_id_producto;
+        public function getArchivo(){
+            return $this->_archivo;
         }
 
-        public function setIdProducto($id_producto){
-            if(!is_numeric($id_producto) || $id_producto <=0 || $id_producto >= 2147483647){
-                throw new SolicitudException("Error en ID de producto, Solicitud");
+        public function setArchivo($archivo){
+            if($archivo === null){
+                throw new SolicitudException("Error en archivo, Solicitud");
             }
-            $this->_id_producto = $id_producto;
+            $this->_archivo = $archivo;
         }
 
         public function getIdAdmi(){
@@ -78,7 +78,7 @@
             $solicitud = array();
             $solicitud['id_solicitud'] = $this->getId();
             $solicitud['id_vendedor'] = $this->getIdVendedor();
-            $solicitud['id_producto'] = $this->getIdProducto();
+            $solicitud['archivo'] = $this->getArchivo();
             $solicitud['id_admi'] = $this->getIdAdmi();
             $solicitud['aprobada'] = $this->getAprobada();
             return $solicitud;

@@ -7,8 +7,8 @@ function registrar(e) {
     var xhttp = new XMLHttpRequest();
 
     //xhttp.open("POST", "http://localhost:80/Gaby's%20shop/" + "usuarios", true);
-    xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "usuarios", true);
-    //xhttp.open("POST", "http://localhost/Gaby's%20shop/Controllers/usuarioController.php", true);
+    //xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "usuarios", true);
+    xhttp.open("POST", "http://localhost/Gaby's%20shop/Controllers/usuarioController.php", true);
     
     xhttp.setRequestHeader("Content-Type", "application/json");
     console.log(xhttp.status);
@@ -61,8 +61,9 @@ function registrar(e) {
     xhttp.send(json_string);
 
     if(rol == 1){
-        window.location.href = "http://localhost:80/gabys_shop-master/InicioVendedor.html";
+        //window.location.href = "http://localhost:80/gabys_shop-master/InicioVendedor.html";
+        window.location.href = "http://localhost:80/Gaby's%20shop/InicioVendedor.html";
     }else{
-        window.location.href = "http://localhost:80/gabys_shop-master/Home.html";
+        window.location.href = "http://localhost:80/Gaby's%20shop/Home.html";
     }
 }

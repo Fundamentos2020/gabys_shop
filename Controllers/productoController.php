@@ -390,7 +390,7 @@
                     $response = new Response();
                     $response->setHttpStatusCode(409);
                     $response->setSuccess(false);
-                    $response->addMessage("Ya tienes un proudcto con ese nombre");
+                    $response->addMessage("Ya tienes un producto con ese nombre");
                     $response->send();
                     exit();
                 }

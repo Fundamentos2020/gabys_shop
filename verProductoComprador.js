@@ -19,18 +19,36 @@ function eventListeners(){
 }
 
 
-function agregaCarrito(){
-    let idUser = 0;
-    let productoCarrito = [];
-    productoCarrito['idUser'] = idUser;
-    productoCarrito['idProd'] = pro;
-    productoCarrito['nombre'] = nombreP;
-    productoCarrito['precio'] = precioP;
-    productoCarrito['cantidad'] = 2;
+function agregaCarrito(e){
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
+    id_usuario = sesionJson.id_usuario;
+    alert("Se ha añadido el producto a tu carrito");
+    console.log(e);
+    let productos;
+    productos = obtieneCarrito();
+    producto = {
+        "id_usuario": id_usuario,
+        "id_producto": e,
+        "cantidad": 1,
+    };
+    productos.push(producto);
+    console.log(productos);
+    localStorage.setItem('productoCarrito' + id_usuario, JSON.stringify(productos));
+}
 
-    console.log(productoCarrito);
-
-    localStorage.setItem('productoCarrito', JSON.stringify(productoCarrito));
+function obtieneCarrito(){
+    let productos;
+    //Checar valores de local storage
+    if(localStorage.getItem('productoCarrito' + id_usuario) === null)
+    {
+        productos = [];
+    }
+    else
+    {
+        productos = JSON.parse(localStorage.getItem('productoCarrito' + id_usuario));
+    }
+    return productos;
 }
 
 function cargaProducto(e){
@@ -81,7 +99,7 @@ function cargaProducto(e){
                             <br>
                                 <div>
                                     <!--<button id="boton-carrito">Agregar al Carrito</button>-->
-                                    <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito();">
+                                    <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito(${prod.id_producto});">
                                 </div>
                                 <br>
                                 Descripción:
@@ -107,7 +125,7 @@ function cargaProducto(e){
                             <br>
                                 <div>
                                 <!--<button id="boton-carrito">Agregar al Carrito</button>-->
-                                <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito();">
+                                <input type="button" value="Agregar al Carrito" name="" id="boton-carrito" onclick="agregaCarrito(${prod.id_producto});">
                                 </div>
                                 <br>
                                 Descripción:

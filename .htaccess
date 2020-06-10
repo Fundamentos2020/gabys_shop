@@ -23,3 +23,9 @@ RewriteRule ^sesiones/([0-9]+)$ Controllers/sesionesController.php?id_sesion=$1 
 
 #Solicitud
 RewriteRule ^solicitud$ Controllers/solicitudController.php [L]
+
+#Pedido
+RewriteRule ^pedido$ Controllers/pedidoController.php [L]
+
+#Detalle Pedido
+RewriteRule ^detalle_pedido$ Controllers/detallePedidoController.php [L]
