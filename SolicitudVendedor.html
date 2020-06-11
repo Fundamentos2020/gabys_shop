@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,7 +44,7 @@
                 <div class="col-s-2 col-m-12">
                     <li><a href="SolicitudVendedor.html">Enviar Solicitud</a></li>
                 </div>
-                <div class="col-s-2 col-m-12" id="cerrar_sesion">
+                <div class="col-s-2 col-m-12">
                     <li><a href="index.html">Cerrar Sesión</a></li>
                 </div>
             </ul>
@@ -52,18 +53,23 @@
         <div class="Productos col-m-10 col-s-12">
                 <div class="Archivo m-1">
                     <p class="m-1">Suba su archivo en formato PDF</p>
-                    <form enctype="multipart/form-data">
+                    <form enctype="multipart/form-data" method="post" action="pruebasolicitud.php">
                         <div class="m-1">
-                            <input type="file" name="Solicitud" accept=".pdf">
+                            <input type="file" name="archivo" id="solicitud" accept=".pdf">
                         </div>
                         <div class="m-1">
-                            <input type="submit" value="Subir solicitud">
+                           <input type="submit" value="subir" name="subir">                      
+                        </div>
+                        <div id="usuario"> 
+                            
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="cerrarsesion.js"></script>
+<php></php>
 </body>
+<script src="SolicitudVendedor.js"></script>
+<script src="cerrarsesion.js"></script>
 </html>
