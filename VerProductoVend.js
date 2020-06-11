@@ -8,12 +8,18 @@ var precioP;
 
 
 function cargaProducto(e){
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
     e.preventDefault();
 
     const padre = document.getElementById('muestraProd');
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "productos.json", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function(){//Funcion que lee lo que hay en el JSON para llenar la lista
     

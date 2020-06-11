@@ -18,19 +18,19 @@
         exit();
     }
 
-    /*if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
+    if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
         $response = new Response();
         $response->setHttpStatusCode(401);
         $response->setSuccess(false);
         $response->addMessage("No se encontró el token de acceso");
         $response->send();
         exit();
-    }*/
+    }
 
     $accesstoken = $_SERVER['HTTP_AUTHORIZATION']; 
 
 
-    /*try {
+    try {
         $query = $connection->prepare('SELECT caducidad_token_acceso FROM sesiones WHERE token_acceso = :token_acceso');
         $query->bindParam(':token_acceso', $accesstoken, PDO::PARAM_STR);
         $query->execute();
@@ -52,7 +52,7 @@
         $consulta_cadTokenAcceso = $row['caducidad_token_acceso'];
         //$consulta_activo = $row['activo'];
     
-        if($consulta_activo !== 'SI') {
+        /*if($consulta_activo !== 'SI') {
             $response = new Response();
             $response->setHttpStatusCode(401);
             $response->setSuccess(false);
@@ -60,17 +60,17 @@
             $response->send();
             exit();
         }*/
-        //date_default_timezone_set("America/Mexico_City");
+        date_default_timezone_set("America/Mexico_City");
     
-        /*if (strtotime($consulta_cadTokenAcceso) < time()) {
+        if (strtotime($consulta_cadTokenAcceso) < time()) {
             $response = new Response();
             $response->setHttpStatusCode(401);
             $response->setSuccess(false);
             $response->addMessage("Token de acceso ha caducado");
             $response->send();
             exit();
-        }*/
-    /*} 
+        }
+    } 
     catch (PDOException $e) {
         error_log('Error en DB - ' . $e);
     
@@ -80,7 +80,7 @@
         $response->addMessage("Error al autenticar usuario");
         $response->send();
         exit();
-    }*/
+    }
 
 
     if(array_key_exists('aprobado', $_GET)) {//Parametro con valor de aprobado

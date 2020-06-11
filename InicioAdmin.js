@@ -9,7 +9,9 @@ function cargaProductos(e) {
 
     const padre = document.getElementById('visualProd');
     var sesion = localStorage.getItem('usuario_sesion');
-    //console.log(sesion);
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
     sesionJson = JSON.parse(sesion);
     var xhr = new XMLHttpRequest();
     //xhr.open("GET", "./Controllers/productoController.php", true);

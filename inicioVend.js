@@ -13,12 +13,15 @@ function cargaProductos(e) {
 
 
     var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
     sesionJson = JSON.parse(sesion);
     //console.log(sesionJson);
     const padre = document.getElementById('visualProd');
-
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
     //xhr.open("GET", "./Controllers/productoController.php", true);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista

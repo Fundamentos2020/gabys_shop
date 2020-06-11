@@ -11,6 +11,7 @@ function cargaInfo() {
     const xhr = new XMLHttpRequest();
     //console.log("Probando");
     xhr.open("GET", "http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         //console.log("El estatus es " + this.status);
@@ -47,11 +48,14 @@ function cargaInfo() {
 function cargaPedido(){
     const padre = document.getElementById('listaPedidos');
     var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
     sesionJson = JSON.parse(sesion);
     const xhttp = new XMLHttpRequest();
 
     xhttp.open("GET", "http://localhost/Gaby's%20shop/pedido/id_usuario/" + sesionJson.id_usuario, false);
-
+    xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
     xhttp.send();
 
     var data = JSON.parse(xhttp.responseText);
@@ -72,10 +76,16 @@ function cargaPedido(){
 }
 
 function cargaInfoPedido(){
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
     console.log(listaPedidos.value);
         var xhttp = new XMLHttpRequest();
         var id_pedido = listaPedidos.value;
         xhttp.open("GET", "http://localhost:80/Gaby's%20shop/pedido/" + id_pedido, false);
+        xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
         const padre = document.getElementById('infoPedido');
 
         xhttp.onload = function() {

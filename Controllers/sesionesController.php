@@ -123,6 +123,9 @@
                 token_actualizacion, caducidad_token_acceso, caducidad_token_actualizacion FROM sesiones, usuario 
                 WHERE sesiones.id_usuario = usuarios.id_usuario AND sesiones.id = :id_sesion AND sesiones.token_acceso = :token_acceso 
                 AND token_actualizacion = :token_actualizacion');
+                $query = $connection->prepare('SELECT id_sesion, id_usuario, token_acceso, caducidad_token_acceso, token_actualizacion, caducidad_token_actualizacion FROM sesiones 
+                    WHERE id_usuario = :id_usuario AND id_sesion = :id_sesion AND token_acceso = :token_acceso 
+                AND token_actualizacion = :token_actualizacion');
                 $query->bindParam(':id_sesion', $id_sesion, PDO::PARAM_INT);
                 $query->bindParam(':token_acceso', $accesstoken, PDO::PARAM_STR);
                 $query->bindParam(':token_actualizacion', $token_actualizacion, PDO::PARAM_STR);
@@ -381,7 +384,7 @@
             $response->send();
             exit();
         }
-        echo 'listo';
+        //echo 'listo';
     }
     else{
         $response = new Response();

@@ -5,11 +5,17 @@ var id_p;
 
 function crearSolicitud(e){
     e.preventDefault();
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
     var xhttp = new XMLHttpRequest();
 
     //xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "productos", true);
     xhttp.open("POST", "http://localhost:80/Gaby's%20shop/solicitud", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
     console.log(xhttp.status);
     xhttp.onload = function() {
         if (this.status == 201) {
@@ -31,11 +37,17 @@ function crearSolicitud(e){
 function guardarProducto(e){
     ///window.alert("alertaaaaaaa");
     e.preventDefault();
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
     var xhttp = new XMLHttpRequest();
 
     //xhttp.open("POST", "http://localhost:80/gabys_shop-master/" + "productos", true);
     xhttp.open("POST", "http://localhost:80/Gaby's%20shop/productos", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
     console.log(xhttp.status);
     xhttp.onload = function() {
         if (this.status == 201) {
@@ -51,10 +63,6 @@ function guardarProducto(e){
             alert(data.messages);
         }
     };
-
-
-    var sesion = localStorage.getItem('usuario_sesion');
-    sesionJson = JSON.parse(sesion);
 
     var id_vendedor = sesionJson.id_usuario;
 

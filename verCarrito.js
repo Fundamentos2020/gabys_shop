@@ -15,6 +15,7 @@ function actualizaTotalPedido(id_ped, total){
 
     xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/pedido/" + id_ped, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
     var json = { 
         "total": total
     };
@@ -146,6 +147,9 @@ function comprar(id_pe){
 
 function cargaCarrito(e){
     var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
     sesionJson = JSON.parse(sesion);
     id_usuario = sesionJson.id_usuario;
     let productos = obtieneCarrito();
@@ -179,12 +183,15 @@ function cargaCarrito(e){
 }
 
 function obtenProducto(id_prod, cant){
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
+    id_usuario = sesionJson.id_usuario;
     let pro;
     var xhr = new XMLHttpRequest();
     //xhr.open("GET", "./Controllers/productoController.php", true);
     xhr.open("GET", "http://localhost:80/Gaby's%20shop/productos/" + id_prod, true);
 
-    //xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         //console.log("El estatus es " + this.status);

@@ -8,10 +8,16 @@ function cargaInfo(e) {
     const padre = document.getElementById('infoPerfil');
     var sesion = localStorage.getItem('usuario_sesion');
     sesionJson = JSON.parse(sesion);
+
+    if (sesionJson == null) {
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+        //window.location.href = "http://localhost:80/gabys_shop-master/index.html";
+    }
     const xhr = new XMLHttpRequest();
-    console.log(sesionJson);
+    //console.log(sesionJson);
     //console.log("Probando");
     xhr.open("GET","http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
     //xhr.open("GET","http://localhost:80/gabys_shop-master/usuarios/2"/* + sesionJson.id_usuario*/, true);
     //xhr.open("GET","http://localhost:80/gabys_shop-master/usuarios/"+ sesionJson.id_usuario,false /*true*/);
     //xhr.open("GET","./Controllers/usuarioController.php?id_usuario="+ sesionJson.id_usuario, true);
@@ -149,6 +155,7 @@ function actualizaInfo(){
     xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/usuarios/" + sesionJson.id_usuario, false);
     //xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/usuarios/" + sesionJson.id_usuario, false);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     //Llenar el json con la informacion de los textbox
     var correo = document.getElementById('correo').value;

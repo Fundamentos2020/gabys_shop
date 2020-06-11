@@ -19,6 +19,7 @@ function guardaCambios(id_p){
     xhr.open('PATCH',"http://localhost/Gaby's%20shop/solicitud/" + id_p, false);
     //xhr.open('PATCH',"http://localhost/gabys_shop-master/solicitud/aprobado=0",false);
     xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
     //console.log(id_p);
     //console.log(id_v);
     
@@ -53,12 +54,18 @@ function guardaCambios(id_p){
 
 function cargaSolicitudes(e) {
     e.preventDefault();
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
 
     const padre = document.getElementById('muestraSoli');
 
     const xhr = new XMLHttpRequest();
     //xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
     xhr.open('GET', "http://localhost/Gaby's%20shop/solicitud", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         if (this.status === 200) {

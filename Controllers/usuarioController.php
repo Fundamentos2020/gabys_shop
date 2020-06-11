@@ -17,6 +17,7 @@
         exit();
     }
 
+
     if(array_key_exists('id_usuario', $_GET)) {//Parametro con id de usuario
         $id_usuario = $_GET['id_usuario'];
         if ($id_usuario == '' || !is_numeric($id_usuario)) {
@@ -105,7 +106,8 @@
                 }
 
                 $actualizaNombre = false;
-                //$actualizaApellidos = false;
+                $actualizaApellidoPat = false;
+                $actualizaApellidoMat = false;
                 $actualizaCorreo = false;
                 $actualizaContrasena = false;
                 $actualizaDireccion = false;
@@ -118,6 +120,16 @@
                 if (isset($json_data->nombre)) {
                     $actualizaNombre = true;
                     $campos_query .= "nombre = :nombre, ";
+                }
+
+                if (isset($json_data->apellido_pat)) {
+                    $actualizaApellidoPat = true;
+                    $campos_query .= "apellido_pat = :apellido_pat, ";
+                }
+
+                if (isset($json_data->apellido_mat)) {
+                    $actualizaApellidoMat = true;
+                    $campos_query .= "apellido_mat = :apellido_mat, ";
                 }
 
                 if (isset($json_data->correo)) {
@@ -152,7 +164,7 @@
 
                 $campos_query = rtrim($campos_query, ", ");
 
-                if ($actualizaNombre === false && $actualizaCorreo === false && $actualizaContrasena === false && $actualizaDireccion === false 
+                if ($actualizaNombre === false && $actualizaApellidoPat === false && $actualizaApellidoMat === false && $actualizaCorreo === false && $actualizaContrasena === false && $actualizaDireccion === false 
                         && $actualizaCP === false && $actualizaCiudad === false && $actualizaEstado === false) {
                     $response = new Response();
                     $response->setHttpStatusCode(400);
@@ -189,6 +201,18 @@
                     $usuario->setNombre($json_data->nombre);
                     $up_nombre = $usuario->getnombre();
                     $query->bindParam(':nombre', $up_nombre, PDO::PARAM_STR);
+                }
+
+                if($actualizaApellidoPat === true) {
+                    $usuario->setApPaterno($json_data->apellido_pat);
+                    $up_apellido_pat = $usuario->getApPaterno();
+                    $query->bindParam(':apellido_pat', $up_apellido_pat, PDO::PARAM_STR);
+                }
+
+                if($actualizaApellidoMat === true) {
+                    $usuario->setApMaterno($json_data->apellido_mat);
+                    $up_apellido_mat = $usuario->getApMaterno();
+                    $query->bindParam(':apellido_mat', $up_apellido_mat, PDO::PARAM_STR);
                 }
 
                 if($actualizaCorreo === true) {

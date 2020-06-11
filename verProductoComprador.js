@@ -55,6 +55,11 @@ function obtieneCarrito(){
 function cargaProducto(e){
     //e.preventDefault();
     //window.alert(window.name);
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
     var id = window.name;
 
     ///Como mando un parametro, que es el id_producto lo obtengo para poder hacer la seleccion al tener el get
@@ -65,6 +70,7 @@ function cargaProducto(e){
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "./Controllers/productoController.php", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         if (this.status === 200) {

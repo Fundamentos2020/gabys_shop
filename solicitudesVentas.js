@@ -10,9 +10,15 @@ var precioP;
 function guardaCambios(id_p, id_v){
     //e.preventDefault();
 
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
     const xhr = new XMLHttpRequest();
     xhr.open('PATCH', "http://localhost/Gaby's%20shop/productos/aprobado=0", false);
     xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
     //console.log(id_p);
     //console.log(id_v);
     
@@ -45,11 +51,17 @@ function guardaCambios(id_p, id_v){
 
 function cargaSolicitudes(e) {
     e.preventDefault();
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
 
     const padre = document.getElementById('solicitudes');
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         if (this.status === 200) {

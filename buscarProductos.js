@@ -4,6 +4,11 @@ const textoBuscar = document.getElementById('text-busca');
 botonBuscar.addEventListener('click', buscar);
 
 function buscar(){
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
     borraProductos();
 
     const padre = document.getElementById('visualProd');
@@ -12,6 +17,7 @@ function buscar(){
 
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "http://localhost:80/Gaby's%20shop/productos", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         if (this.status === 200) {

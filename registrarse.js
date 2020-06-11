@@ -15,7 +15,8 @@ function registrar(e) {
     xhttp.onload = function() {
         if (this.status == 201) {
             var data = JSON.parse(this.responseText);
-            localStorage.setItem('usuario_sesion', JSON.stringify(data.data));
+            sesiones(correo, contrasena);
+            //localStorage.setItem('usuario_sesion', JSON.stringify(data.data));
             console.log("entre a estatus 201");
             console.log(data);
         }
@@ -62,8 +63,46 @@ function registrar(e) {
 
     if(rol == 1){
         //window.location.href = "http://localhost:80/gabys_shop-master/InicioVendedor.html";
-        window.location.href = "http://localhost:80/Gaby's%20shop/InicioVendedor.html";
+        
+        //window.location.href = "http://localhost:80/Gaby's%20shop/InicioVendedor.html";
     }else{
-        window.location.href = "http://localhost:80/Gaby's%20shop/Home.html";
+        //sesiones(correo, contrasena);
+        //window.location.href = "http://localhost:80/Gaby's%20shop/Home.html";
     }
+}
+
+function sesiones(correo, contrasena){
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST","http://localhost:80/Gaby's%20shop/sesiones", true);
+    //xhttp.setRequestHeader("Authorization", data.data.token_acceso);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.onload = function() {
+        if (this.status == 201) {
+            var data = JSON.parse(this.responseText);
+
+            if (data.success === true){
+                //var rol = JSON.stringify(data.data.rol);
+                localStorage.setItem('usuario_sesion', JSON.stringify(data.data));
+                var rol = data.data.rol;
+                console.log(rol);
+                if(rol == 0){
+                    window.location.href = "http://localhost:80/Gaby's%20shop/home.html";
+                }
+                else if(rol == 1){
+                    window.location.href = "http://localhost:80/Gaby's%20shop/inicioVendedor.html";
+                }
+            }
+        }
+        else {
+            var data = JSON.parse(this.responseText);
+
+            alert(data.messages);
+        }
+    };
+
+    var json = { "correo": correo, "contrasena": contrasena };
+    var json_string = JSON.stringify(json);
+    
+    xhttp.send(json_string);   
 }

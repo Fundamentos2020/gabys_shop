@@ -21,6 +21,7 @@ function actualizaProducto(){
     xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/productos/" + id_producto, false);
     //xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/usuarios/" + sesionJson.id_usuario, false);
     xhttp.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     const nombre = document.getElementById('nombreProducto').value;
     const descripcion = document.getElementById('desProd').value;
@@ -62,6 +63,7 @@ function cargaProductos(e){
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function(){//Funcion que lee lo que hay en el JSON para llenar la lista
     
@@ -94,6 +96,7 @@ function llena(e){
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos/" + id_producto, true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     const nombre = document.getElementById('nombreProducto');
     const descripcion = document.getElementById('desProd');
