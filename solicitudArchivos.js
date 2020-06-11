@@ -15,7 +15,9 @@ function guardaCambios(id_p){
     const xhr = new XMLHttpRequest();
     //xhr.open('PATCH', "http://localhost/gabys_shop-master/solicitud/" + 1, false);
     //xhr.open('GET', "http://localhost/gabys_shop/solicitud", true);
-    xhr.open('PATCH',"http://localhost/gabys_shop-master/solicitud/aprobado=0",false);
+    //xhr.open('PATCH',"http://localhost/Gaby's%20shop/solicitud/aprobado=0",false);
+    xhr.open('PATCH',"http://localhost/Gaby's%20shop/solicitud/" + id_p, false);
+    //xhr.open('PATCH',"http://localhost/gabys_shop-master/solicitud/aprobado=0",false);
     xhr.setRequestHeader("Content-Type", "application/json");
     //console.log(id_p);
     //console.log(id_v);
@@ -23,7 +25,6 @@ function guardaCambios(id_p){
     console.log("entre");
     console.log(xhr.status);
     var json = { 
-        "id_solicitud": id_p,
         "id_admin": sesionJson.id_usuario,
         "aprobada": 1
     };
@@ -34,19 +35,19 @@ function guardaCambios(id_p){
 
     //console.log(this.responseText);
 
-    //var data = JSON.parse(this.responseText);
+    var data = JSON.parse(xhr.responseText);
     //console.log(data);
     //console.log(data);
-    //if (data.success === true){
+    if (data.success === true){
         //localStorage.setItem('ltareas_sesion', JSON.stringify(data.data));
         //window.location.href = client;
         alert("Solicitud Aprobada");
         window.location.href = "SolicitudesVendedor.html";
-    /*}
+    }
     else{
         alert(data.messages);
         //window.location.href = client;
-    }*/
+    }
 }
 
 
@@ -57,7 +58,7 @@ function cargaSolicitudes(e) {
 
     const xhr = new XMLHttpRequest();
     //xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
-    xhr.open('GET', "http://localhost/gabys_shop-master/solicitud", true);
+    xhr.open('GET', "http://localhost/Gaby's%20shop/solicitud", true);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
         if (this.status === 200) {

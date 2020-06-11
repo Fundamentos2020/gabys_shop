@@ -45,9 +45,10 @@
         }
 
         public function setIdAdmi($id_admi){
-            if(!is_numeric($id_admi) /*|| /*$id_admi >=0*/ || $id_admi >= 2147483647){
-                throw new SolicitudException("Error en ID de admi, Solicitud");
-            }
+            if($id_admi !== null)
+                if(!is_numeric($id_admi) /*|| /*$id_admi >=0*/ || $id_admi >= 2147483647){
+                    throw new SolicitudException("Error en ID de admi, Solicitud");
+                }
             $this->_id_admi = $id_admi;
         }
 

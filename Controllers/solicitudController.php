@@ -155,6 +155,144 @@
             }
         }
     }
+    elseif(array_key_exists('id_solicitud',$_GET)){
+        $id_solicitud = $_GET['id_solicitud'];
+        if ($id_solicitud == '' || !is_numeric($id_solicitud)) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage("El id_solicitud no es valido");
+            $response->send();
+            exit();
+        }
+
+        if($_SERVER['REQUEST_METHOD'] === 'PATCH'){
+            try {
+                if ($_SERVER['CONTENT_TYPE'] !== 'application/json'){
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('Encabezado "Content type" no es JSON');
+                    $response->send();
+                    exit();
+                }
+    
+                $patchData = file_get_contents('php://input');
+    
+                if (!$json_data = json_decode($patchData)) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('El cuerpo de la solicitud no es un JSON válido');
+                    $response->send();
+                    exit();
+                }
+
+                $actualizaAdmin = false;
+                $actualizaAprobar = false;
+                $id_admin = $json_data->id_admin;
+                $ap = $json_data->aprobada;
+                if (isset($json_data->id_admin)) {
+                    $actualizaAdmin = true;
+                }
+    
+                if (isset($json_data->aprobada)) {
+                    $actualizaAprobar = true;
+                }
+    
+    
+                $query = $connection->prepare('SELECT * FROM solicitud WHERE id_solicitud = :id_solicitud');
+                $query->bindParam(':id_solicitud', $id_solicitud, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró la solicitud");
+                    $response->send();
+                    exit();
+                }
+    
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $solicitud = new Solicitud($row['id_solicitud'], $row['id_vendedor'], $row['solicitudRuta'], $row['id_admin'], $row['aprobada']);
+                }
+    
+                $cadena_query = 'UPDATE solicitud SET id_admin = :id_admin, aprobada = :_aprobado WHERE id_solicitud = :id_solicitud';
+                $query = $connection->prepare($cadena_query);
+                $query->bindParam(':id_admin', $id_admin, PDO::PARAM_INT);
+                $query->bindParam(':_aprobado', $ap, PDO::PARAM_STR);
+                $query->bindParam(':id_solicitud', $id_solicitud, PDO::PARAM_INT);
+                $query->execute();
+
+                $rowCount = $query->rowCount();
+    
+                if ($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(500);
+                    $response->setSuccess(false);
+                    $response->addMessage("Error al actualizar la informacion de la solicitud");
+                    $response->send();
+                    exit();
+                }
+    
+                $query = $connection->prepare('SELECT * FROM solicitud WHERE id_solicitud = :id_solicitud');
+                $query->bindParam(':id_solicitud', $id_solicitud, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+    
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontro la solicitud después de actualizar");
+                    $response->send();
+                    exit();
+                }
+    
+                $infosolicitud = array();
+    
+                while($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                    $solicitud = new Solicitud($row['id_solicitud'], $row['id_vendedor'], $row['solicitudRuta'], $row['id_admin'], $row['aprobada']);
+                    $infosolicitud = $solicitud->getSolicitud();
+                }
+    
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['solicitud'] = $infosolicitud;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);
+                $response->setSuccess(true);
+                $response->addMessage("Solicitud actualizada");
+                $response->setData($returnData);
+                $response->send();
+                exit();
+            }
+            catch(SolicitudException $e){
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e) {
+                error_log("Error en BD - " . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de solicitud");
+                $response->send();
+                exit();
+            }
+        }
+    }
+
     else{
         if($_SERVER['REQUEST_METHOD'] === 'GET'){       
             try{
@@ -184,7 +322,7 @@
                 //json_encode($productos);
                 exit();            
             }
-            catch(ProductoException $e){//Error en Tarea
+            catch(SolicitudException $e){//Error en Tarea
                 $response = new Response();
                 $response->setHttpStatusCode(500); 
                 $response->setSuccess(false);
