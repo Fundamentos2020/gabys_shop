@@ -284,49 +284,253 @@
             $response->send();
             exit();
         }
-        try{
-            $query = $connection->prepare('SELECT id_producto, id_vendedor, nombre, descripcion, precio, cantidad, descuento, aprobado, imagen FROM producto WHERE id_producto = :id_producto');
-            $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
-            $query->execute();
-    
-            $rowCount = $query->rowCount();    
-            $productos = array();
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+            try{
+                $query = $connection->prepare('SELECT id_producto, id_vendedor, nombre, descripcion, precio, cantidad, descuento, aprobado, imagen FROM producto WHERE id_producto = :id_producto');
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
         
-            while($row = $query->fetch(PDO::FETCH_ASSOC)){
-                $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
-                $producto->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
-                $infoproducto = $producto->getProducto();
+                $rowCount = $query->rowCount();    
+                $productos = array();
+            
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
+                    $producto->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
+                    $infoproducto = $producto->getProducto();
+                }
+                
+                $returnData = array();
+                $returnData['total registros'] = $rowCount;
+                $returnData['productos'] = $infoproducto;
+
+
+                $response = new Response();
+                $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
+                $response->setSuccess(true);
+                $response->setToCache(true);//Cache es solo para listados
+                $response->setData($returnData);
+                $response->send();
+                exit();          
             }
-            $returnData = array();
-            $returnData['total registros'] = $rowCount;
-            $returnData['productos'] = $infoproducto;
+            catch(ProductoException $e){//Error en Tarea
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e){//Error en la consulta
+                error_log("Error en BD" . $e);
 
-
-            $response = new Response();
-            $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
-            $response->setSuccess(true);
-            $response->setToCache(true);//Cache es solo para listados
-            $response->setData($returnData);
-            $response->send();
-            exit();            
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de producto");
+                $response->send();
+                exit();
+            }
         }
-        catch(ProductoException $e){//Error en Tarea
-            $response = new Response();
-            $response->setHttpStatusCode(500); 
-            $response->setSuccess(false);
-            $response->addMessage($e->getMessage());
-            $response->send();
-            exit();
-        }
-        catch(PDOException $e){//Error en la consulta
-            error_log("Error en BD" . $e);
+        elseif($_SERVER['REQUEST_METHOD'] === 'PATCH'){
+            try {
+                if ($_SERVER['CONTENT_TYPE'] !== 'application/json'){
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('Encabezado "Content type" no es JSON');
+                    $response->send();
+                    exit();
+                }
+    
+                $patchData = file_get_contents('php://input');
+    
+                if (!$json_data = json_decode($patchData)) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage('El cuerpo de la solicitud no es un JSON válido');
+                    $response->send();
+                    exit();
+                }
 
-            $response = new Response();
-            $response->setHttpStatusCode(500); 
-            $response->setSuccess(false);
-            $response->addMessage("Error en consulta de producto");
-            $response->send();
-            exit();
+                $actualizaNombre = false;
+                $actualizaDescripcion = false;
+                $actualizaPrecio = false;
+                $actualizaCantidad = false;
+                $actualizaDescuento = false;
+                $actualizaImagen = false;
+
+                $campos_query = "";
+
+                if (isset($json_data->nombre)) {
+                    $actualizaNombre = true;
+                    $campos_query .= "nombre = :nombre, ";
+                }
+
+                if (isset($json_data->descripcion)) {
+                    $actualizaDescripcion = true;
+                    $campos_query .= "descripcion = :descripcion, ";
+                }
+
+                if (isset($json_data->precio)) {
+                    $actualizaPrecio = true;
+                    $campos_query .= "precio = :precio, ";
+                }
+
+                if (isset($json_data->cantidad)) {
+                    $actualizaCantidad = true;
+                    $campos_query .= "cantidad = :cantidad, ";
+                }
+
+                if (isset($json_data->descuento)) {
+                    $actualizaDescuento = true;
+                    $campos_query .= "descuento = :descuento, ";
+                }
+
+                if (isset($json_data->imagen)) {
+                    $actualizaImagen = true;
+                    $campos_query .= "imagen = :imagen, ";
+                }
+
+                $campos_query = rtrim($campos_query, ", ");
+
+                if ($actualizaNombre === false && $actualizaDescripcion === false && $actualizaPrecio === false && $actualizaCantidad === false 
+                        && $actualizaDescuento === false && $actualizaImagen === false) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(400);
+                    $response->setSuccess(false);
+                    $response->addMessage("No hay campos para actualizar");
+                    $response->send();
+                    exit();
+                }
+
+                $query = $connection->prepare('SELECT * FROM producto WHERE id_producto = :id_producto');
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+            
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el producto");
+                    $response->send();
+                    exit();
+                }
+
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'],
+                    $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
+                }
+    
+                $cadena_query = 'UPDATE producto SET ' . $campos_query . ' WHERE id_producto = :id_producto';
+                $query = $connection->prepare($cadena_query);
+
+                if($actualizaNombre === true) {
+                    $producto->setNombreProducto($json_data->nombre);
+                    $up_nombre = $producto->getNombreProducto();
+                    $query->bindParam(':nombre', $up_nombre, PDO::PARAM_STR);
+                }
+
+                if($actualizaDescripcion === true) {
+                    $producto->setDescripcion($json_data->descripcion);
+                    $up_descripcion = $producto->getDescripcion();
+                    $query->bindParam(':descripcion', $up_descripcion, PDO::PARAM_STR);
+                }
+
+                if($actualizaPrecio === true) {
+                    $producto->setPrecio($json_data->precio);
+                    $up_precio = $producto->getPrecio();
+                    $query->bindParam(':precio', $up_precio, PDO::PARAM_STR);
+                }
+
+                if($actualizaCantidad === true) {
+                    $producto->setCantidad($json_data->cantidad);
+                    $up_cantidad = $producto->getCantidad();
+                    $query->bindParam(':cantidad', $up_cantidad, PDO::PARAM_INT);
+                }
+
+                if($actualizaDescuento === true) {
+                    $producto->setDescuento($json_data->descuento);
+                    $up_descuento = $producto->getDescuento();
+                    $query->bindParam(':descuento', $up_descuento, PDO::PARAM_INT);
+                }
+
+                if($actualizaImagen === true) {
+                    $producto->setImagen($json_data->imagen);
+                    $up_imagen = $producto->getImagen();
+                    $query->bindParam(':imagen', $up_imagen, PDO::PARAM_LOB);
+                }
+
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
+    
+                $rowCount = $query->rowCount();
+    
+                if ($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(500);
+                    $response->setSuccess(false);
+                    $response->addMessage("Error al actualizar la informacion del producto");
+                    $response->send();
+                    exit();
+                }
+
+                $query = $connection->prepare('SELECT * FROM producto WHERE id_producto = :id_producto');
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
+
+                $rowCount = $query->rowCount();
+
+                if($rowCount === 0) {
+                    $response = new Response();
+                    $response->setHttpStatusCode(404);
+                    $response->setSuccess(false);
+                    $response->addMessage("No se encontró el producto después de actualizar");
+                    $response->send();
+                    exit();
+                }
+
+                $infoproducto = array();
+    
+                while($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                    $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'],
+                    $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
+                    $producto->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
+                    $infoproducto = $producto->getProducto();
+                }
+
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['producto'] = $infoproducto;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);
+                $response->setSuccess(true);
+                $response->addMessage("Producto actualizado");
+                $response->setData($returnData);
+                $response->send();
+                exit();
+            }
+            catch(ProductoException $e){
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e) {
+                error_log("Error en BD - " . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500);
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de producto");
+                $response->send();
+                exit();
+            }
         }
     }
     else{//Sin parametros
@@ -488,7 +692,7 @@
                 $response->send();
                 exit();
             }
-            catch (UsuarioException $e) {
+            catch (ProductoException $e) {
                 $response = new Response();
                 $response->setHttpStatusCode(500);
                 $response->setSuccess(false);

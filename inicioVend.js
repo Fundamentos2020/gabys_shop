@@ -16,9 +16,6 @@ function cargaProductos(e) {
     sesionJson = JSON.parse(sesion);
     //console.log(sesionJson);
     const padre = document.getElementById('visualProd');
-    //console.log("holi");
-    //console.log("comoestas");
-    //console.log(sesionJson.id_usuario);
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
@@ -34,7 +31,7 @@ function cargaProductos(e) {
                     var html = "";
                     if(sesionJson.id_usuario == producto.id_vendedor){
                         html += `
-                        <div class="Productos col-m-3 col-s-12 p-r-1" onclick="verificaProd('${producto.id_producto}')">
+                        <div class="Productos col-m-3 col-s-12 p-r-1" onclick="location='./EditarProductoVendedor.html'">
                             <div class="prod border col-m-12 col-s-12">
                                 <div class="col-m-12 col-s-6">                                                      
                                 <div class="b-prod-top-s col-m-12 col-s-6">
