@@ -18,7 +18,7 @@
         exit();
     }
 
-    if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
+    /*if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
         $response = new Response();
         $response->setHttpStatusCode(401);
         $response->setSuccess(false);
@@ -51,15 +51,7 @@
         //$consulta_idUsuario = $row['id_usuario'];
         $consulta_cadTokenAcceso = $row['caducidad_token_acceso'];
         //$consulta_activo = $row['activo'];
-    
-        /*if($consulta_activo !== 'SI') {
-            $response = new Response();
-            $response->setHttpStatusCode(401);
-            $response->setSuccess(false);
-            $response->addMessage("Cuenta de usuario no activa");
-            $response->send();
-            exit();
-        }*/
+
         date_default_timezone_set("America/Mexico_City");
     
         if (strtotime($consulta_cadTokenAcceso) < time()) {
@@ -80,7 +72,7 @@
         $response->addMessage("Error al autenticar usuario");
         $response->send();
         exit();
-    }
+    }*/
 
 
     if(array_key_exists('aprobado', $_GET)) {//Parametro con valor de aprobado
@@ -546,12 +538,23 @@
                     $producto = new Producto($row['id_producto'], $row['id_vendedor'], $row['nombre'], $row['descripcion'], $row['precio'], $row['cantidad'], $row['descuento'], $row['aprobado'], $row['imagen']);
                     $producto->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
                     $productos[] = $producto->getProducto();
+                    /*$newquery = $connection->prepare('SELECT * FROM detalle_pedido WHERE id_producto = :id_producto');
+                    $newquery->bindParam(':id_producto', $producto->getId, PDO::PARAM_INT);
+                    $newquery->execute();
+                    //$detalles = 0;
+                    $rowDetalles = $newquery->rowCount();
+                    if($rowDetalles === 0){
+                        $detalles = 0;
+                    }
+                    else{
+                        $detalles = $rowDetalles;
+                    }
+                    $productos['detalles'] = $rowDetalles;*/
                 }
                 $returnData = array();
                 $returnData['total registros'] = $rowCount;
                 $returnData['productos'] = $productos;
-
-
+                //$returnData['detalles'] = $detalles;
                 $response = new Response();
                 $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
                 $response->setSuccess(true);

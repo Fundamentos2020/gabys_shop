@@ -11,7 +11,7 @@
 
         public function __construct($id_pedido, $id_producto, $cantidad, $subtotal){
             $this->setIdPedido($id_pedido);
-            $this->setIdProducto($id_prducto);
+            $this->setIdProducto($id_producto);
             $this->setCantidad($cantidad);
             $this->setSubtotal($subtotal);
        }

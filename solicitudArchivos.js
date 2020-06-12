@@ -6,63 +6,7 @@ var nombreP;
 var precioP;
 let nombreV;
 
-function checaSolicitud($id_v){
-    var sesion = localStorage.getItem('usuario_sesion');
-    if(sesion === null){
-        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
-    }
-    sesionJson = JSON.parse(sesion);
-    const xhr = new XMLHttpRequest();
-    //xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
-    xhr.open('GET', "http://localhost/Gaby's%20shop/solicitud/id_vendedor=" + $id_v, true);
-    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
-    xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
-        if (this.status === 200) {
-            //console.log(this.status);
-            //console.log(this.responseText);
-            var data = JSON.parse(this.responseText);
-            if (data.success === true){
-                solicitudes = data.data.solicitudes;
-
-                                    var html = "";
-                    html += `
-                        <div class="m-1-top-bot flexarchivo p-1 b-line-b">
-                        Tu solicitud aún no ha sido aprobada.
-                        </div> 
-                    `;
-                    padre.innerHTML += html;
-                /*if(solicitudes.aprobada === 0){
-                    var html = "";
-                    html += `
-                        <div class="m-1-top-bot flexarchivo p-1 b-line-b">
-                        Tu solicitud aún no ha sido aprobada.
-                        </div> 
-                    `;
-                    padre.innerHTML += html;
-                }
-                else{
-                    var html = "";
-                    html += `
-                        <div class="m-1-top-bot flexarchivo p-1 b-line-b">
-                        Tu solicitud ya fue aprobada.
-                        </div> 
-                    `;
-                    padre.innerHTML += html;
-                }*/
-            }
-            else {
-                //alert(data.messages);
-            }
-        }
-        else {
-            var data = JSON.parse(this.responseText);
-            
-            alert(data.messages);
-        }
-    }
-    xhr.send();
-}
 
 
 
@@ -143,7 +87,7 @@ function cargaSolicitudes(e) {
                     html += `
                         <div class="flexarchivo p-1" id="${soli.id_vendedor}">
                             <div class="border ImagenProd col-m-3 col-s-6 fondoblanco">
-                            <a href="./archivos/${soli.solicitudRuta}">Ver solicitud</a>
+                            <a href="./archivos/${soli.solicitudRuta}" target="_blank">Ver solicitud</a>
                             </div>
                             <div class="DetallesProd col-m-9 p-l-1 col-s-4">
 

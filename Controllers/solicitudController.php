@@ -365,6 +365,17 @@
 
             $rowCount = $query->rowCount();    
             $solicitudes = array();
+
+            if($rowCount === 0){
+                $returnData['total registros'] = $rowCount;
+                $response = new Response();
+                $response->setHttpStatusCode(401);//Cuando se ejecuto correctamente 
+                $response->setSuccess(true);
+                $response->setToCache(true);//Cache es solo para listados
+                $response->setData($returnData);
+                $response->send();
+                exit();  
+            }
         
             while($row = $query->fetch(PDO::FETCH_ASSOC)){
                 $solicitud = new Solicitud($row['id_solicitud'], $row['id_vendedor'], $row['solicitudRuta'], $row['id_admin'], $row['aprobada']);

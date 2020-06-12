@@ -1,7 +1,7 @@
 <?php
 
     require_once('../Models/DB.php');
-    require_once('../Models/Pedido.php');
+    require_once('../Models/DetallePedido.php');
     require_once('../Models/Response.php');
 
     try{//Conexion al principio
@@ -18,7 +18,7 @@
         exit();
     }
 
-    if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
+    /*if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
         $response = new Response();
         $response->setHttpStatusCode(401);
         $response->setSuccess(false);
@@ -52,14 +52,6 @@
         $consulta_cadTokenAcceso = $row['caducidad_token_acceso'];
         //$consulta_activo = $row['activo'];
     
-        /*if($consulta_activo !== 'SI') {
-            $response = new Response();
-            $response->setHttpStatusCode(401);
-            $response->setSuccess(false);
-            $response->addMessage("Cuenta de usuario no activa");
-            $response->send();
-            exit();
-        }*/
         date_default_timezone_set("America/Mexico_City");
     
         if (strtotime($consulta_cadTokenAcceso) < time()) {
@@ -80,10 +72,79 @@
         $response->addMessage("Error al autenticar usuario");
         $response->send();
         exit();
+    }*/
+
+    if(array_key_exists('id_producto', $_GET)){//Parametro con id del producto|
+        $id_producto = $_GET['id_producto'];
+        if ($id_producto == '' || !is_numeric($id_producto)) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage("El id del producto no puede estar vacío y debe ser numérico");
+            $response->send();
+            exit();
+        }
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+            try{
+                $query = $connection->prepare('SELECT * FROM detalle_pedido WHERE id_producto = :id_producto');
+                $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
+                $query->execute();
+        
+                $rowCount = $query->rowCount();    
+                
+            
+                if($rowCount === 0) {
+                    $returnData = array();
+                    $returnData['total_registros'] = 0;
+        
+                    $response = new Response();
+                    $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
+                    $response->setSuccess(true);
+                    $response->setToCache(true);//Cache es solo para listados
+                    $response->setData($returnData);
+                    $response->send();
+                    exit();
+                }
+
+                $detalles = array();
+                while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                    $pedido = new DetallePedido($row['id_pedido'], $row['id_producto'], $row['cantidad'], $row['subtotal']);
+                    $detalles[] = $pedido->getDetallePedido();
+                }
+
+                $returnData = array();
+                $returnData['total_registros'] = $rowCount;
+                $returnData['detalles'] = $detalles;
+    
+                $response = new Response();
+                $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
+                $response->setSuccess(true);
+                $response->setToCache(true);//Cache es solo para listados
+                $response->setData($returnData);
+                $response->send();
+                exit();            
+            }
+            catch(PedidoException $e){//Error en Tarea
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage($e->getMessage());
+                $response->send();
+                exit();
+            }
+            catch(PDOException $e){//Error en la consulta
+                error_log("Error en BD" . $e);
+    
+                $response = new Response();
+                $response->setHttpStatusCode(500); 
+                $response->setSuccess(false);
+                $response->addMessage("Error en consulta de producto");
+                $response->send();
+                exit();
+            }
+        }
     }
-
-
-    if($_SERVER['REQUEST_METHOD'] === 'POST'){//POST registro de nuevo predido
+    elseif($_SERVER['REQUEST_METHOD'] === 'POST'){//POST registro de nuevo predido
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $response = new Response();
             $response->setHttpStatusCode(405);
@@ -185,4 +246,5 @@
             exit();
         }
     }
+    
 ?>

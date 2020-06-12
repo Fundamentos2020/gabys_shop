@@ -71,7 +71,7 @@ function guardarProducto(e){
     var descripcion = document.getElementById('Descripcion').value;
     var precio = document.getElementById('Precio').value;
     var cantidad = document.getElementById('Cantidad').value;
-    var imagen = document.getElementById('Imagen').value;
+    var imagen = document.getElementById('foto').value;
 
     var json = {
         "id_vendedor": id_vendedor,

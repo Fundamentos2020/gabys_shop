@@ -37,6 +37,58 @@ function cargaProductos(e) {
                         <div class="Productos col-m-3 col-s-12 p-r-1" onclick="location='./EditarProductoVendedor.html'">
                             <div class="prod border col-m-12 col-s-12">
                                 <div class="col-m-12 col-s-6">                                                      
+                                <div class="b-prod-top-s col-m-12 col-s-6 id="p-${producto.id_producto}">
+                                    <img src="${producto.imagen}">
+                                    <div class="m-1">${producto.nombre}</div>
+                                    <div class="m-1">Precio: $ ${producto.precio} </div>                
+                                </div>
+                                </div>
+                            </div>
+                        </div> `;
+                        ventasProducto(producto.id_producto);
+                    }
+                    padre.innerHTML += html;
+                    //console.log(producto.id_producto);
+                    
+                });
+            }
+            else {
+                alert(data.messages);
+            }
+        }
+    }
+    xhr.send();
+}
+
+function ventasProducto(id_prod){
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', "http://localhost/Gaby's%20shop/detalle_pedido/id_producto=" + id_prod, true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+    var padre = document.getElementById('ventaN');
+
+
+    xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
+
+        if (this.status === 200) {
+            var data = JSON.parse(this.responseText);
+            if (data.success === true){
+                n = data.data.total_registros;
+                console.log("n= " + n);
+                var html = "";
+                html = `<div>Ventas</div>`;
+                padre.innerHTML += html;
+                /*productos.forEach(producto => {
+                    var html = "";
+                    if(sesionJson.id_usuario == producto.id_vendedor){
+                        html += `
+                        <div class="Productos col-m-3 col-s-12 p-r-1" onclick="location='./EditarProductoVendedor.html'">
+                            <div class="prod border col-m-12 col-s-12">
+                                <div class="col-m-12 col-s-6">                                                      
                                 <div class="b-prod-top-s col-m-12 col-s-6">
                                     <img src="${producto.imagen}">
                                     <div class="m-1">${producto.nombre}</div>
@@ -48,15 +100,14 @@ function cargaProductos(e) {
         
                     }
                     padre.innerHTML += html;
-                });
-            }
-            else {
-                alert(data.messages);
+                });*/
             }
         }
     }
     xhr.send();
 }
+
+
 
 function buscar(){
     borraProductos();
