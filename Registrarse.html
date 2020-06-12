@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +11,8 @@
 </head>
 
 <body class="fondo">
+
+    <form action="" method="POST" enctype="multipart/form-data">
     <div>
         <div class="imagen">
             <img src="Logo.png">
@@ -31,15 +34,15 @@
                 </div>
                 <div>
                     <div class="form_login">
-                            <input type="email" name="" id="correo" placeholder="Correo">
-                            <input type="password" name="" id="cont" placeholder="Contraseña">
-                            <input type="text" name="" id="nom" placeholder="Nombre">
-                            <input type="text" name="" id="apPat" placeholder="Apellido Paterno">
-                            <input type="text" name="" id="apMat" placeholder="Apellido Materno">
-                            <input type="text" name="" id="dir" placeholder="Direccion">
-                            <input type="text" name="" id="codPos" placeholder="Codigo Postal">
-                            <input type="text" name="" id="ciu" placeholder="Ciudad">
-                            <input type="text" name="" id="est" placeholder="Estado">
+                            <input type="email" name="correo" id="correo" placeholder="Correo">
+                            <input type="password" name="contrasena" id="cont" placeholder="Contraseña">
+                            <input type="text" name="nombre" id="nom" placeholder="Nombre">
+                            <input type="text" name="app" id="apPat" placeholder="Apellido Paterno">
+                            <input type="text" name="apm" id="apMat" placeholder="Apellido Materno">
+                            <input type="text" name="dir" id="dir" placeholder="Direccion">
+                            <input type="text" name="cp" id="codPos" placeholder="Codigo Postal">
+                            <input type="text" name="ciudad" id="ciu" placeholder="Ciudad">
+                            <input type="text" name="estado" id="est" placeholder="Estado">
                     </div>
                 </div>
             </div>
@@ -48,17 +51,22 @@
             <div class="">
                 <div class="p-1">
                     <img src="" alt="Establece tu foto de perfil">
-                    <input type="file" name="" id="foto" accept=".png, .jpg">
+                    <form action="" >
+                        <input type="file" id="foto" accept=".jpg" onchange="cambiarFile()">
+                        <br>
+                        <button class="boton" name="subir" id="bot-reg">Registrarse</button>
+                    </form>
                 </div>
             </div>
         </div>
         <div class="contenido">
             <div class="p-1 form_login">
-                <button class="boton" id="bot-reg">registrarse</button>
+                <!--<button class="boton" name="subir" id="bot-reg">registrarse</button>-->
                 <!--<button class="boton" onclick="location='/home.html'">Ir a la pagina principal</button>-->
             </div>
         </div>
     </div>
+    </form>
     <script src="registrarse.js"></script>
 </body>
 </html>
