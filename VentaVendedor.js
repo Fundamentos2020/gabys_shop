@@ -54,6 +54,7 @@ function guardarProducto(e){
             var data = JSON.parse(this.responseText);
             console.log("entre a estatus 201");
             console.log(data);
+            alert("Producto creado! Espera a que sea aprobado");
         }
         else {
             var data = JSON.parse(this.responseText);

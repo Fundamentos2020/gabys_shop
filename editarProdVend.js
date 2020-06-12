@@ -21,20 +21,21 @@ function actualizaProducto(){
     xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/productos/" + id_producto, false);
     //xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/usuarios/" + sesionJson.id_usuario, false);
     xhttp.setRequestHeader("Content-Type", "application/json");
-    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+    xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     const nombre = document.getElementById('nombreProducto').value;
     const descripcion = document.getElementById('desProd').value;
     const precio = document.getElementById('precioProd').value;
     const cantidad = document.getElementById('existProd').value;
     const foto = document.getElementById('foto').value;
+    console.log(foto);
 
     var json = {
         "nombre": nombre,
         "descripcion": descripcion,
         "precio": precio,
         "cantidad": cantidad,
-        "foto": foto
+        "imagen": foto
     };
 
     var json_string = JSON.stringify(json);

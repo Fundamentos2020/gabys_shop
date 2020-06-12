@@ -76,9 +76,9 @@ function cargaProducto(e){
         if (this.status === 200) {
             var data = JSON.parse(this.responseText);
             if (data.success === true){
-                productos = data.data;
+                productos = data.data.productos;
                 var html = "";
-                productos.productos.forEach(prod => {
+                productos.forEach(prod => {
                     //console.log(prod.id_producto);
                     //console.log(param);
                     if(param == prod.id_producto)

@@ -51,42 +51,55 @@
             </ul>
         </div>
 
-        <div class="p-l-1 p-t-1 col-m-10 col-s-12 textgeneral">
-            <div class="m-1">
-                <div>
-                    Seleccione el producto
+        <div class="col-m-10 col-s-12"> 
+            <div class="p-l-1 p-t-1 col-m-4 col-s-12 textgeneral">
+                <div class="m-1">
+                    <div>
+                        Seleccione el producto
+                    </div>
+                    <select name="" id="listaProductos">
+                        <option value="0" selected>Selecciona</option>
+                    </select>
                 </div>
-                <select name="" id="listaProductos">
-
-                </select>
+    
+                <div class="m-1">
+                    <div>
+                        Seleccione el descuento
+                    </div>
+                    <select name="" id="listaDescuentos">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                        <option value="60">60</option>
+                        <option value="65">65</option>
+                        <option value="70">70</option>
+                    </select>
+                </div>
+    
+                <div class="m-1">
+                    <input type="button" id="bot-descuento" value="Aplicar descuento" >
+                </div>
             </div>
 
-            <div class="m-1">
-                <div>
-                    Seleccione el descuento
+            <div class="p-l-1 p-t-1 col-m-8 col-s-12 textgeneral">
+                <div class="m-1">
+                    <div>
+                        Información del producto
+                        <div class="m-1-top-bot flexarchivo p-1 b-line-b" id="info-sel">
+                        </div>
+                    </div>
                 </div>
-                <select name="" id="listaDescuentos">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="25">25</option>
-                    <option value="30">30</option>
-                    <option value="35">35</option>
-                    <option value="40">40</option>
-                    <option value="45">45</option>
-                    <option value="50">50</option>
-                    <option value="55">55</option>
-                    <option value="60">60</option>
-                    <option value="65">65</option>
-                    <option value="70">70</option>
-                </select>
-            </div>
-
-            <div class="m-1">
-                <input type="button" id="bot-descuento" value="Aplicar descuento" >
             </div>
         </div>
+        
     </div>
     <script src="prodVendedor.js"></script>
     <script src="cerrarsesion.js"></script>
