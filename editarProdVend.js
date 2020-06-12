@@ -5,6 +5,7 @@ lista.addEventListener('change', llena);
 const botonActualiza = document.getElementById('bot-actualiza');
 botonActualiza.addEventListener("click", actualizaProducto);
 
+var foto = 0;
 
 function actualizaProducto(){
     var sesion = localStorage.getItem('usuario_sesion');
@@ -19,7 +20,7 @@ function actualizaProducto(){
     var xhttp = new XMLHttpRequest();
 
     xhttp.open("PATCH", "http://localhost:80/Gaby's%20shop/productos/" + id_producto, false);
-    //xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/usuarios/" + sesionJson.id_usuario, false);
+    //xhttp.open("PATCH", "http://localhost:80/gabys_shop-master/productos/" + id_producto, false);
     xhttp.setRequestHeader("Content-Type", "application/json");
     xhttp.setRequestHeader("Authorization", sesionJson.token_acceso);
 
@@ -27,15 +28,14 @@ function actualizaProducto(){
     const descripcion = document.getElementById('desProd').value;
     const precio = document.getElementById('precioProd').value;
     const cantidad = document.getElementById('existProd').value;
-    const foto = document.getElementById('foto').value;
-    console.log(foto);
+    const foto2 = document.getElementById('foto').value;
 
     var json = {
         "nombre": nombre,
         "descripcion": descripcion,
         "precio": precio,
         "cantidad": cantidad,
-        "imagen": foto
+        "foto": foto2
     };
 
     var json_string = JSON.stringify(json);
@@ -47,6 +47,25 @@ function actualizaProducto(){
     if (data.success === true){
         //localStorage.setItem('ltareas_sesion', JSON.stringify(data.data));
         //window.location.href = client;
+
+        if(foto !== 0){
+            //console.log(data.data.producto.id_producto);
+            var formData = new FormData();
+            formData.append("archivo", foto.files[0]);
+            formData.append("producto",data.data.producto.id_producto);
+            console.log(formData);
+
+            fetch("editarProducto.php", {
+                method: 'POST',
+                body: formData,
+            })
+                .then(respuesta => respuesta.text())
+                .then(decodificado => {
+                    //console.log(decodificado);
+                });
+                //alert("Producto cambiado");
+        }
+
         alert("Producto actualizado!");
         //window.localtion.href = "PerfilComprador.html";
     }
@@ -64,10 +83,11 @@ function cargaProductos(e){
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
+    //xhr.open('GET', "http://localhost/gabys_shop-master/productos", true);
     xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function(){//Funcion que lee lo que hay en el JSON para llenar la lista
-    
+        console.log(this.status);
         if(this.status === 200)
         {
             const data = JSON.parse(this.responseText);
@@ -96,7 +116,9 @@ function llena(e){
     console.log(id_producto);
 
     const xhr = new XMLHttpRequest();
+    //xhr.open('GET', "http://localhost/Gaby's%20shop/productos/" + id_producto, true);
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos/" + id_producto, true);
+    //xhr.open('GET', "http://localhost:80/gabys_shop-master/productos/" + id_producto, true);
     xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     const nombre = document.getElementById('nombreProducto');
@@ -118,4 +140,12 @@ function llena(e){
         }
     }
     xhr.send();
+}
+
+function cambiarFile(){
+    var input = document.getElementById('foto');
+    if(input.files && input.files[0]){
+        //alert("archivo seleccionado: " + input.files[0].name);
+        foto = input;
+    }else{alert("selecciona un archivo ");}
 }

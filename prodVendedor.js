@@ -45,8 +45,8 @@ function muestraInfo(){
                                             <div class="col-m-12 col-s-12 m-b-1">Nombre: ${productos.nombre}</div>
                                             <div class="col-m-12 col-s-12 m-b-1">Descripcion: ${productos.descripcion}</div>
                                             <div class="col-m-12 col-s-12 m-b-1">Precio: $${productos.precio}</div>
-                                            <div class="col-m-12 col-s-12 m-b-1">Descuento actual: ${productos.nombre}</div>
-                                            <div class="col-m-12 col-s-12 m-b-1">Precio con descuento: $${productos.nombre}</div> 
+                                            <div class="col-m-12 col-s-12 m-b-1">Descuento actual: ${productos.descuento}%</div>
+                                            <div class="col-m-12 col-s-12 m-b-1">Precio con descuento: $${precioF}</div> 
                                         </div>`;
                     padre.innerHTML += html;
             }

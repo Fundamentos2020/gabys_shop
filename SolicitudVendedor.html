@@ -53,17 +53,17 @@
         <div class="Productos col-m-10 col-s-12" id="ver">
                 <div class="Archivo m-1" id="sol">
                     <p class="m-1">Suba su archivo en formato PDF</p>
-                    <form enctype="multipart/form-data" method="post" action="pruebasolicitud.php">
+                    <!--<form enctype="multipart/form-data" method="post" action="pruebasolicitud.php">-->
                         <div class="m-1">
-                            <input type="file" name="archivo" id="solicitud" accept=".pdf">
+                            <input type="file" name="archivo" id="solicitud" accept=".pdf" onchange="cambiarFile()">
                         </div>
                         <div class="m-1">
-                           <input type="submit" value="subir" name="subir">                      
+                           <input type="submit" value="subir" name="subir" onclick="subirArchivo()">                      
                         </div>
                         <div id="usuario"> 
                             
                         </div>
-                    </form>
+                    <!--</form>-->
                 </div>
             </div>
         </div>

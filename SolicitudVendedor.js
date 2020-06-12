@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', carga);
 document.addEventListener('DOMContentLoaded', checaSolicitud);
 const inputFile = document.querySelector('#solicitud');
 
+var archivo = 0;
+
 function carga() {
     const padre = document.getElementById('usuario');
     var sesion = localStorage.getItem('usuario_sesion');
@@ -11,7 +13,6 @@ function carga() {
     sesionJson = JSON.parse(sesion);
 
     var html = `
-
     <input type="text" name="usuario" value="${sesionJson.id_usuario}" hidden>
     `;
 
@@ -27,6 +28,7 @@ function checaSolicitud() {
     const xhr = new XMLHttpRequest();
     //xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
     xhr.open('GET', "http://localhost/Gaby's%20shop/solicitud/id_vendedor=" + sesionJson.id_usuario, true);
+    //xhr.open('GET', "http://localhost/gabys_shop-master/solicitud/id_vendedor=" + sesionJson.id_usuario, true);
     xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     padre = document.getElementById('ver');
@@ -81,6 +83,7 @@ function verProductosPendientes(){
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
+    //xhr.open('GET', "http://localhost/gabys_shop-master/productos/aprobado=0", true);
     xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
@@ -128,4 +131,37 @@ function verProductosPendientes(){
         }
     }
     xhr.send();
+}
+
+function cambiarFile(){
+    var input = document.getElementById('solicitud');
+    if(input.files && input.files[0]){
+        //alert("archivo seleccionado: " + input.files[0].name);
+        archivo = input;
+    }else{alert("selecciona un archivo ");}
+}
+
+function subirArchivo(){
+
+    var sesion = localStorage.getItem('usuario_sesion');
+    sesionJson = JSON.parse(sesion);
+
+    var formData = new FormData();
+    formData.append("archivo", archivo.files[0]);
+    formData.append("usuario",sesionJson.id_usuario);
+    console.log(formData);
+    console.log(archivo.files[0].name);
+    fetch("pruebasolicitud.php", {
+        method: 'POST',
+        body: formData,
+    })
+        .then(respuesta => respuesta.text())
+        .then(decodificado => {
+            //console.log(decodificado);
+        });
+        //alert("Producto cambiado"); 
+        
+    alert("Solicitud enviada, esperando para ser aprobada");
+
+    window.location.href = "./SolicitudVendedor.html";
 }

@@ -350,7 +350,7 @@
                 $actualizaPrecio = false;
                 $actualizaCantidad = false;
                 $actualizaDescuento = false;
-                $actualizaImagen = false;
+                //$actualizaImagen = false;
 
                 $campos_query = "";
 
@@ -379,15 +379,15 @@
                     $campos_query .= "descuento = :descuento, ";
                 }
 
-                if (isset($json_data->imagen)) {
+                /*if (isset($json_data->imagen)) {
                     $actualizaImagen = true;
                     $campos_query .= "imagen = :imagen, ";
-                }
+                }*/
 
                 $campos_query = rtrim($campos_query, ", ");
 
                 if ($actualizaNombre === false && $actualizaDescripcion === false && $actualizaPrecio === false && $actualizaCantidad === false 
-                        && $actualizaDescuento === false && $actualizaImagen === false) {
+                        && $actualizaDescuento === false /*&& $actualizaImagen === false*/) {
                     $response = new Response();
                     $response->setHttpStatusCode(400);
                     $response->setSuccess(false);
@@ -449,11 +449,11 @@
                     $query->bindParam(':descuento', $up_descuento, PDO::PARAM_INT);
                 }
 
-                if($actualizaImagen === true) {
+                /*if($actualizaImagen === true) {
                     $producto->setImagen($json_data->imagen);
                     $up_imagen = $producto->getImagen();
                     $query->bindParam(':imagen', $up_imagen, PDO::PARAM_LOB);
-                }
+                }*/
 
                 $query->bindParam(':id_producto', $id_producto, PDO::PARAM_INT);
                 $query->execute();
