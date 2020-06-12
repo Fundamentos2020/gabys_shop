@@ -18,7 +18,7 @@
         exit();
     }
 
-    if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
+    /*if (!isset($_SERVER['HTTP_AUTHORIZATION']) || strlen($_SERVER['HTTP_AUTHORIZATION']) < 1) {
         $response = new Response();
         $response->setHttpStatusCode(401);
         $response->setSuccess(false);
@@ -52,14 +52,6 @@
         $consulta_cadTokenAcceso = $row['caducidad_token_acceso'];
         //$consulta_activo = $row['activo'];
     
-        /*if($consulta_activo !== 'SI') {
-            $response = new Response();
-            $response->setHttpStatusCode(401);
-            $response->setSuccess(false);
-            $response->addMessage("Cuenta de usuario no activa");
-            $response->send();
-            exit();
-        }*/
         date_default_timezone_set("America/Mexico_City");
     
         if (strtotime($consulta_cadTokenAcceso) < time()) {
@@ -80,7 +72,7 @@
         $response->addMessage("Error al autenticar usuario");
         $response->send();
         exit();
-    }
+    }*/
 
 
     if(array_key_exists('aprobado',$_GET)){
@@ -356,7 +348,61 @@
             }
         }
     }
+    elseif(array_key_exists('id_vendedor',$_GET)){
+        $id_vendedor = $_GET['id_vendedor'];
+        if ($id_vendedor == '' || !is_numeric($id_vendedor)) {
+            $response = new Response();
+            $response->setHttpStatusCode(400);
+            $response->setSuccess(false);
+            $response->addMessage("El id_vendedor no es valido");
+            $response->send();
+            exit();
+        }
+        try{
+            $query = $connection->prepare('SELECT * FROM solicitud WHERE id_vendedor = :id_vendedor');
+            $query->bindParam(':id_vendedor', $id_vendedor, PDO::PARAM_INT);
+            $query->execute();
 
+            $rowCount = $query->rowCount();    
+            $solicitudes = array();
+        
+            while($row = $query->fetch(PDO::FETCH_ASSOC)){
+                $solicitud = new Solicitud($row['id_solicitud'], $row['id_vendedor'], $row['solicitudRuta'], $row['id_admin'], $row['aprobada']);
+                //$solicitud->setImagen("data:imagen/jpg;base64,". base64_encode($row['imagen']));
+                $infoSolicitud = $solicitud->getSolicitud();
+            }
+            $returnData = array();
+            $returnData['total registros'] = $rowCount;
+            $returnData['solicitud'] = $infoSolicitud;
+
+
+            $response = new Response();
+            $response->setHttpStatusCode(200);//Cuando se ejecuto correctamente 
+            $response->setSuccess(true);
+            $response->setToCache(true);//Cache es solo para listados
+            $response->setData($returnData);
+            $response->send();
+            exit();            
+        }
+        catch(SolicitudException $e){//Error en Tarea
+            $response = new Response();
+            $response->setHttpStatusCode(500); 
+            $response->setSuccess(false);
+            $response->addMessage($e->getMessage());
+            $response->send();
+            exit();
+        }
+        catch(PDOException $e){//Error en la consulta
+            error_log("Error en BD" . $e);
+
+            $response = new Response();
+            $response->setHttpStatusCode(500); 
+            $response->setSuccess(false);
+            $response->addMessage("Error en consulta de solicitud");
+            $response->send();
+            exit();
+        }
+    }
     else{
         if($_SERVER['REQUEST_METHOD'] === 'GET'){       
             try{
@@ -400,7 +446,7 @@
                 $response = new Response();
                 $response->setHttpStatusCode(500); 
                 $response->setSuccess(false);
-                $response->addMessage("Error en consulta de producto");
+                $response->addMessage("Error en consulta de solicitud");
                 $response->send();
                 exit();
             }

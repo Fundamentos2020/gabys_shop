@@ -4,6 +4,66 @@ var pro = 3;
 //var pro = 4;
 var nombreP;
 var precioP;
+let nombreV;
+
+function checaSolicitud($id_v){
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    sesionJson = JSON.parse(sesion);
+    const xhr = new XMLHttpRequest();
+    //xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
+    xhr.open('GET', "http://localhost/Gaby's%20shop/solicitud/id_vendedor=" + $id_v, true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+
+    xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
+        if (this.status === 200) {
+            //console.log(this.status);
+            //console.log(this.responseText);
+            var data = JSON.parse(this.responseText);
+            if (data.success === true){
+                solicitudes = data.data.solicitudes;
+
+                                    var html = "";
+                    html += `
+                        <div class="m-1-top-bot flexarchivo p-1 b-line-b">
+                        Tu solicitud aún no ha sido aprobada.
+                        </div> 
+                    `;
+                    padre.innerHTML += html;
+                /*if(solicitudes.aprobada === 0){
+                    var html = "";
+                    html += `
+                        <div class="m-1-top-bot flexarchivo p-1 b-line-b">
+                        Tu solicitud aún no ha sido aprobada.
+                        </div> 
+                    `;
+                    padre.innerHTML += html;
+                }
+                else{
+                    var html = "";
+                    html += `
+                        <div class="m-1-top-bot flexarchivo p-1 b-line-b">
+                        Tu solicitud ya fue aprobada.
+                        </div> 
+                    `;
+                    padre.innerHTML += html;
+                }*/
+            }
+            else {
+                //alert(data.messages);
+            }
+        }
+        else {
+            var data = JSON.parse(this.responseText);
+            
+            alert(data.messages);
+        }
+    }
+    xhr.send();
+}
+
 
 
 function guardaCambios(id_p){
@@ -75,21 +135,27 @@ function cargaSolicitudes(e) {
             if (data.success === true){
                 solicitudes = data.data.solicitudes;
                 solicitudes.forEach(soli => {
+                    //obtenVendedor(soli.id_vendedor);
                     var html = "";
+                    //obtenVendedor(soli.id_vendedor, html);
+                    //var aldo = obtenVendedor(soli.id_vendedor);
+                    //console.log(aldo);
                     html += `
-                        <div class="m-1-top-bot flexarchivo p-1 b-line-b">
-                        <div class="border ImagenProd col-m-3 col-s-6 fondoblanco">
-                        <a href="./archivos/${soli.solicitudRuta}">Ver solicitud</a>
-                        </div>
-                        <div class="DetallesProd col-m-9 p-l-1 col-s-4">
+                        <div class="flexarchivo p-1" id="${soli.id_vendedor}">
+                            <div class="border ImagenProd col-m-3 col-s-6 fondoblanco">
+                            <a href="./archivos/${soli.solicitudRuta}">Ver solicitud</a>
+                            </div>
+                            <div class="DetallesProd col-m-9 p-l-1 col-s-4">
 
-                            <button class="teal p-1 textwhite" onclick="guardaCambios('${soli.id_solicitud}')">
-                                Aprobar
-                            </button>
-                        </div> 
-                    </div> 
-                    `;
-                    padre.innerHTML += html;
+                                <button class="teal p-1 textwhite" onclick="guardaCambios('${soli.id_solicitud}')">
+                                    Aprobar
+                                </button>
+                            </div> `;
+                    
+                    html += `</div>`;
+                    obtenVendedor(soli.id_vendedor, html);
+                    //padre.innerHTML += html;
+
                 });
             }
             else {
@@ -104,3 +170,34 @@ function cargaSolicitudes(e) {
     }
     xhr.send();
 }   
+
+function obtenVendedor(id_v, html){
+    var sesion = localStorage.getItem('usuario_sesion');
+    if(sesion === null){
+        window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
+    }
+    const padre = document.getElementById('muestraSoli');
+    sesionJson = JSON.parse(sesion);
+    const xhr = new XMLHttpRequest();
+    //xhr.open('GET', "http://localhost/Gaby's%20shop/productos/aprobado=0", true);
+    xhr.open('GET', "http://localhost/Gaby's%20shop/usuarios/" + id_v, true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+    xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
+        if (this.status === 200) {
+            //console.log(this.status);
+            //console.log(this.responseText);
+            var data = JSON.parse(this.responseText);
+            if (data.success === true){
+                user = data.data.usuario;
+                
+                html += `
+                <div class="p-1 b-line-b">
+                Nombre del vendedor: ${user.nombre} ${user.apellido_pat}
+                </div>`;
+                padre.innerHTML +=html;
+                
+            }
+        }
+    }
+    xhr.send();
+}
