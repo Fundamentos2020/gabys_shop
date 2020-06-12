@@ -33,21 +33,27 @@ function cargaProductos(e) {
                 productos.forEach(producto => {
                     var html = "";
                     if(sesionJson.id_usuario == producto.id_vendedor){
-                        html += `
+                        ventasProducto(producto.id_producto, producto.imagen, producto.nombre, producto.precio);
+                        //console.log(detalles);
+                        //console.log(detalles[0]);
+                        /*html += `
                         <div class="Productos col-m-3 col-s-12 p-r-1" onclick="location='./EditarProductoVendedor.html'">
                             <div class="prod border col-m-12 col-s-12">
                                 <div class="col-m-12 col-s-6">                                                      
                                 <div class="b-prod-top-s col-m-12 col-s-6 id="p-${producto.id_producto}">
-                                    <img src="${producto.imagen}">
-                                    <div class="m-1">${producto.nombre}</div>
-                                    <div class="m-1">Precio: $ ${producto.precio} </div>                
+                                    <img src="${producto.imagen}">`;
+                                    /*<div class="m-1">${producto.nombre}</div>
+                                    <div class="m-1">Precio: $ ${producto.precio} </div>  
+                                    <div class="m-1">Ventas: ${detalles[0]}  </div>  
+                                    <div class="m-1">Ventas: ${ve}</div>                
                                 </div>
                                 </div>
                             </div>
-                        </div> `;
-                        ventasProducto(producto.id_producto);
+                        </div> `;*/
+                        
+                        
                     }
-                    padre.innerHTML += html;
+                    //padre.innerHTML += html;
                     //console.log(producto.id_producto);
                     
                 });
@@ -60,7 +66,7 @@ function cargaProductos(e) {
     xhr.send();
 }
 
-function ventasProducto(id_prod){
+function ventasProducto(id_prod, imagen, nombre, precio){
     var sesion = localStorage.getItem('usuario_sesion');
     if(sesion === null){
         window.location.href = "http://localhost:80/Gaby's%20shop/index.html";
@@ -69,8 +75,9 @@ function ventasProducto(id_prod){
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/detalle_pedido/id_producto=" + id_prod, true);
     xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
-    var padre = document.getElementById('ventaN');
-
+    //var venta = document.getElementById('ventaN');
+    //console.log(venta.value);
+    const padre = document.getElementById('visualProd');
 
     xhr.onload = function () {//Funcion que lee lo que hay en el JSON para llenar la lista
 
@@ -80,8 +87,24 @@ function ventasProducto(id_prod){
                 n = data.data.total_registros;
                 console.log("n= " + n);
                 var html = "";
-                html = `<div>Ventas</div>`;
+                html =`
+                        <div class="Productos col-m-3 col-s-12 p-r-1" onclick="location='./EditarProductoVendedor.html'">
+                        <div class="prod border col-m-12 col-s-12">
+                            <div class="col-m-12 col-s-6">                                                      
+                            <div class="b-prod-top-s col-m-12 col-s-6">
+                                <img src="${imagen}">
+                                <div class="m-1">${nombre}</div>
+                                <div class="m-1">Precio: $ ${precio} </div>  
+                                <div class="m-1">Productos vendidos: ${n}  </div>            
+                            </div>
+                            </div>
+                        </div>
+                    </div> `;
                 padre.innerHTML += html;
+                //console.log(detalles);
+                /*var html = "";
+                html = `<div>Ventas</div>`;
+                venta.innerHTML += html;*/
                 /*productos.forEach(producto => {
                     var html = "";
                     if(sesionJson.id_usuario == producto.id_vendedor){
