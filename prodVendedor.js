@@ -19,6 +19,7 @@ function muestraInfo(){
     var padre = document.getElementById('info-sel');
     const xhr = new XMLHttpRequest();
     xhr.open('GET', "http://localhost/Gaby's%20shop/productos/" + id_producto, true);
+    //xhr.open('GET', "http://localhost/gabys_shop-master/productos/" + id_producto, true);
     xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
     
     xhr.onload = function(){//Funcion que lee lo que hay en el JSON para llenar la lista
@@ -38,16 +39,18 @@ function muestraInfo(){
                             precioF = productos.precio - descuento;
                         }
                         html +=  `      
-                                        <div class="ImagenProd col-m-3 col-s-6" id="holi">
-                                        <img src="${productos.imagen}">
-                                        </div>
-                                        <div class="DetallesProd col-m-9 p-l-1 col-s-4" id="holi1">
-                                            <div class="col-m-12 col-s-12 m-b-1">Nombre: ${productos.nombre}</div>
-                                            <div class="col-m-12 col-s-12 m-b-1">Descripcion: ${productos.descripcion}</div>
-                                            <div class="col-m-12 col-s-12 m-b-1">Precio: $${productos.precio}</div>
-                                            <div class="col-m-12 col-s-12 m-b-1">Descuento actual: ${productos.descuento}%</div>
-                                            <div class="col-m-12 col-s-12 m-b-1">Precio con descuento: $${precioF}</div> 
-                                        </div>`;
+                        <div class="m-1-top-bot flexarchivo p-1">
+                            <div class="ImagenProd1 ImagenProd2 col-m-5 col-s-7">
+                                <img src="${productos.imagen}">               
+                            </div>
+                            <div class="DetallesProd col-m-5 p-l-2 col-s-2">         
+                                <div class="col-m-12 col-s-12 m-b-1">Nombre: ${productos.nombre}</div>
+                                <div class="col-m-12 col-s-12 m-b-1">Descripcion: ${productos.descripcion}</div>
+                                <div class="col-m-12 col-s-12 m-b-1">Precio: $${productos.precio}</div>
+                                <div class="col-m-12 col-s-12 m-b-1">Descuento actual: ${productos.descuento}%</div>
+                                <div class="col-m-12 col-s-12 m-b-1">Precio con descuento: $${precioF}</div> 
+                            </div>
+                        </div> `;
                     padre.innerHTML += html;
             }
             else {
@@ -107,8 +110,9 @@ function cargaProductos(e){
     sesionJson = JSON.parse(sesion);
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
-    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+    //xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
+    xhr.open('GET', "http://localhost/gabys_shop-master/productos", true);
+    //xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function(){//Funcion que lee lo que hay en el JSON para llenar la lista
     
