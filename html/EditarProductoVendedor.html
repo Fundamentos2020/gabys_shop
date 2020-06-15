@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Editar producto</title>
+    <link rel="stylesheet" type="text/css" href="../css/home.css">
+</head>
+
+<body>
+    <div>
+        <div class="col-m-12 Encabezado col-s-12">
+            <div class="col-m-2 col-s-2 m-1-top-bot textcenter">
+                <a href="InicioVendedor.html">Gaby's shop</a>
+            </div>
+            <div class="col-s-6 col-m-8 m-1-top-bot textcenter">
+                <div class="Search col-s-8">
+                    <input type="search" name="" id=""  class="Search-s Search-m" class="col-m-12 col-s-12">
+                </div>
+                <div class="col-s-4">
+                    <input type="button" value="Buscar" class="boton-s boton-m" name="Buscar" class="col-m-12 col-s-12">
+                </div>
+            </div>
+            <div class="col-s-4 col-m-1 m-1-top-bot textcenter">
+                <a href="PerfilComprador.html">Perfil</a>
+            </div>
+        </div>
+
+        <div class="Menu col-m-2 col-s-12">
+            <ul class="p-0">
+                <div class="col-s-2 col-m-12 text">
+                    <li><a href="InicioVendedor.html">Inicio</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="PerfilComprador.html">Perfil</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="OfertasVendedor.html">Tus ofertas</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="VentaVendedor.html">Venta</a></li>
+                </div>
+                <div class="col-s-2 col-m-12">
+                    <li><a href="SolicitudVendedor.html">Enviar Solicitud</a></li>
+                </div>
+                <div class="col-s-2 col-m-12" id="cerrar_sesion">
+                    <li><a href="index.html">Cerrar Sesión</a></li>
+                </div>
+            </ul>
+        </div>
+
+        <div class="col-m-5 col-s-12 p-1 textgeneral">
+            <div>
+                <img src="">
+                <input type="file" name="" id="foto" accept=".jpg" onchange="cambiarFile()">
+            </div>
+
+            <div>
+                <button class="teal m-1-top-bot p-1 textwhite" id="bot-actualiza">
+                    Guardar cambios
+                </button>
+            </div>
+        </div>
+
+        <div class="col-m-5 col-s-12 p-1 textgeneral">
+
+            <div class="m-t-1">
+                <div>
+                    Seleccione el producto:
+                </div>
+                <select name="" id="listaProductos">
+                    <option value="0">--Selecciona--</option>
+                </select>
+            </div>
+
+            <div class="m-t-1">
+                <div>
+                    Nombre:
+                </div>
+                <input type="text" id="nombreProducto">
+            </div>
+
+            <div class="m-t-1">
+                <div>
+                    Descripción:
+                </div>
+                <textarea id="desProd"></textarea>
+            </div>
+
+            <div class="m-t-1">
+                <div>
+                    Precio:
+                </div>
+                <input type="text" id="precioProd">
+            </div>
+
+            <div class="m-t-1">
+                <div>
+                    Existencias:
+                </div>
+                <input type="number" id="existProd">
+            </div>
+        </div>
+        <script src="../js/editarProdVend.js"></script>
+        <script src="../js/cerrarsesion.js"></script>
+</body>

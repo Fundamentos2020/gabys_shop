@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../css/LogIn.css">
+    <title>Gaby's shop</title>
+</head>
+
+<body class="fondo">
+
+    <form action="" method="POST" enctype="multipart/form-data">
+    <div>
+        <div class="imagen">
+            <img src="../Imagenes/Logo.png">
+        </div>
+
+        <div>
+            <h1>Registrate</h1>
+            <div class="contenido">
+                <div>
+                    <div class="p-1">
+                        <h3>Elija su tipo de perfil:</h3>
+                        <div class="form_login">
+                                <label for="usu">Usuario: </label>
+                                <input type="radio" name="tipo" id="usu">
+                                <label for="ven">Vendedor: </label>
+                                <input type="radio" name="tipo" id="ven">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form_login">
+                            <input type="email" name="correo" id="correo" placeholder="Correo">
+                            <input type="password" name="contrasena" id="cont" placeholder="Contraseña">
+                            <input type="text" name="nombre" id="nom" placeholder="Nombre">
+                            <input type="text" name="app" id="apPat" placeholder="Apellido Paterno">
+                            <input type="text" name="apm" id="apMat" placeholder="Apellido Materno">
+                            <input type="text" name="dir" id="dir" placeholder="Direccion">
+                            <input type="text" name="cp" id="codPos" placeholder="Codigo Postal">
+                            <input type="text" name="ciudad" id="ciu" placeholder="Ciudad">
+                            <input type="text" name="estado" id="est" placeholder="Estado">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contenido">
+            <div class="">
+                <div class="p-1">
+                    <img src="" alt="Establece tu foto de perfil">
+                    <form action="" >
+                        <input type="file" id="foto" accept=".jpg" onchange="cambiarFile()">
+                        <br>
+                        <button class="boton" name="subir" id="bot-reg">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="contenido">
+            <div class="p-1 form_login">
+                <!--<button class="boton" name="subir" id="bot-reg">registrarse</button>-->
+                <!--<button class="boton" onclick="location='/home.html'">Ir a la pagina principal</button>-->
+            </div>
+        </div>
+    </div>
+    </form>
+    <script src="../js/registrarse.js"></script>
+</body>
+</html>
