@@ -17,7 +17,7 @@ function cargaProductos(e) {
     var xhr = new XMLHttpRequest();
     //xhr.open("GET", "./Controllers/productoController.php", true);
     xhr.open("GET", "http://localhost:80/Gaby's%20shop/productos", true);
-
+    //xhr.open("GET", "http://localhost:80/gabys_shop-master/productos", true);
     xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     //console.log(this.responseText);
@@ -31,17 +31,21 @@ function cargaProductos(e) {
                 productos.forEach(producto => {
                     var html = "";
                     html += `
-                        <div id="producto" class="Productos col-m-3 col-s-12 p-r-1" onclick="verificaProd('${producto.id_producto}')">
-                            <div class="prod border col-m-12 col-s-12">
-                                <div class="col-m-12 col-s-6">                                                      
-                                <div class="b-prod-top-s col-m-12 col-s-6">
-                                    <img src="${producto.imagen}">
-                                    <div class="m-1">${producto.nombre}</div>
-                                    <div class="m-1">Precio: $ ${producto.precio} </div>                
-                                </div>
-                                </div>
-                            </div>
-                        </div> `;
+                    <div class="Productos col-m-3 col-s-12 p-r-1" onclick="location='./EditarProductoVendedor.html'">
+                    <div class="prod border col-m-12 col-s-12">
+                        <div class="col-m-12 col-s-6">                                                      
+                        <div class="b-prod-top-s col-m-12 col-s-12">
+                            <img src="${producto.imagen}">               
+                        </div>
+                        </div>
+                        <div class="col-m-12 col-s-6">                                                      
+                        <div class="b-prod-top-s col-m-12 col-s-12">         
+                            <div class="m-1">${producto.nombre}</div>
+                            <div class="m-1">Precio: $ ${producto.precio} </div>
+                        </div>
+                        </div>
+                    </div>
+                </div> `;
         
                     padre.innerHTML += html;
                 });
