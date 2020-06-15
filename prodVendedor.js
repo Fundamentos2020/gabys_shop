@@ -39,11 +39,11 @@ function muestraInfo(){
                             precioF = productos.precio - descuento;
                         }
                         html +=  `      
-                        <div class="m-1-top-bot flexarchivo p-1">
-                            <div class="ImagenProd1 ImagenProd2 col-m-5 col-s-7">
+                        <div class="m-1-top-bot flexarchivo p-1" id="holi">
+                            <div class="ImagenProd1 ImagenProd2 col-m-5 col-s-12">
                                 <img src="${productos.imagen}">               
                             </div>
-                            <div class="DetallesProd col-m-5 p-l-2 col-s-2">         
+                            <div class="DetallesProd col-m-5 p-l-2 col-s-12">         
                                 <div class="col-m-12 col-s-12 m-b-1">Nombre: ${productos.nombre}</div>
                                 <div class="col-m-12 col-s-12 m-b-1">Descripcion: ${productos.descripcion}</div>
                                 <div class="col-m-12 col-s-12 m-b-1">Precio: $${productos.precio}</div>
@@ -110,9 +110,9 @@ function cargaProductos(e){
     sesionJson = JSON.parse(sesion);
 
     const xhr = new XMLHttpRequest();
-    //xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
-    xhr.open('GET', "http://localhost/gabys_shop-master/productos", true);
-    //xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
+    xhr.open('GET', "http://localhost/Gaby's%20shop/productos", true);
+    //xhr.open('GET', "http://localhost/gabys_shop-master/productos", true);
+    xhr.setRequestHeader("Authorization", sesionJson.token_acceso);
 
     xhr.onload = function(){//Funcion que lee lo que hay en el JSON para llenar la lista
     

@@ -34,8 +34,7 @@ function actualizaProducto(){
         "nombre": nombre,
         "descripcion": descripcion,
         "precio": precio,
-        "cantidad": cantidad,
-        "foto": foto2
+        "cantidad": cantidad
     };
 
     var json_string = JSON.stringify(json);

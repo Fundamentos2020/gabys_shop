@@ -25,7 +25,7 @@ function cargaInfo() {
                 var html = "";
 
                 html = `
-                <div class="">
+                <div class="ImagenProd">
                     <img src="${user.foto_perfil}" alt="Aqui deberia estar la imagen">
                     <div>${user.nombre} ${user.apellido_pat}</div>
                 </div>

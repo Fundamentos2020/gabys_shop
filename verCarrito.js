@@ -212,10 +212,10 @@ function obtenProducto(id_prod, cant){
                 }
                 html = `
                     <div class="m-1-top-bot flexarchivo p-1 b-line-b">
-                        <div class="border ImagenProd col-m-2 col-s-6">
+                        <div class="border ImagenProd col-m-2 col-s-12">
                         <img src="${pro.imagen}">
                         </div>
-                        <div class="DetallesProd col-m-9 p-l-1 col-s-4">
+                        <div class="DetallesProd col-m-9 p-l-1 col-s-12">
                             <div class="col-m-12 col-s-12 m-b-1">${pro.nombre}</div>
                             <div class="col-m-12 col-s-12 m-b-1">Cantidad: ${cant}</div>
                             <div class="col-m-12 col-s-12 m-b-1">Precio: $${precioFinal}</div>

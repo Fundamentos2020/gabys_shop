@@ -31,14 +31,14 @@ function cargaProductos(e) {
                 productos.forEach(producto => {
                     var html = "";
                     html += `
-                    <div class="Productos col-m-3 col-s-12 p-r-1" onclick="location='./EditarProductoVendedor.html'">
+                    <div class="Productos col-m-3 col-s-12 p-r-1" onclick="verificaProd('${producto.id_producto}')">
                     <div class="prod border col-m-12 col-s-12">
-                        <div class="col-m-12 col-s-6">                                                      
+                        <div class="col-m-12 col-s-12">                                                      
                         <div class="b-prod-top-s col-m-12 col-s-12">
                             <img src="${producto.imagen}">               
                         </div>
                         </div>
-                        <div class="col-m-12 col-s-6">                                                      
+                        <div class="col-m-12 col-s-12">                                                      
                         <div class="b-prod-top-s col-m-12 col-s-12">         
                             <div class="m-1">${producto.nombre}</div>
                             <div class="m-1">Precio: $ ${producto.precio} </div>

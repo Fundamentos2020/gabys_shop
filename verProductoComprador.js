@@ -92,10 +92,10 @@ function cargaProducto(e){
                             precioP = precioFinal;
                             html = `
                         
-                            <div class="border ImagenProd col-m-7 col-s-6">
+                            <div class="border ImagenProd col-m-7 col-s-12">
                                 <img src="${prod.imagen}">
                             </div>
-                            <div class="DetallesProd col-m-4 p-l-1 col-s-4">
+                            <div class="DetallesProd col-m-4 p-l-1 col-s-12">
                             ${prod.nombre}
                             <br> 
                             Precio:
@@ -120,10 +120,10 @@ function cargaProducto(e){
                             nombreP = prod.nombre;
                             precioP = prod.precio;
                             html = `
-                            <div class="border ImagenProd col-m-7 col-s-6">
+                            <div class="border ImagenProd col-m-7 col-s-12">
                                 <img src="${prod.imagen}">
                             </div>
-                            <div class="DetallesProd col-m-4 p-l-1 col-s-4">
+                            <div class="DetallesProd col-m-4 p-l-1 col-s-12">
                             ${prod.nombre}
                             <br> 
                             Precio: $ ${prod.precio}

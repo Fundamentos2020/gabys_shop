@@ -106,9 +106,6 @@ function verProductosPendientes(){
                                 <div class="col-m-12 col-s-12 m-b-1">Nombre: ${prod.nombre}</div>
                                 <div class="col-m-12 col-s-12 m-b-1">Descripcion: ${prod.descripcion}</div>
                                 <div class="col-m-12 col-s-12 m-b-1">Precio: $${prod.precio}</div>
-                                <button class="teal p-1 textwhite" onclick="location='./EditarProductoVendedor.html'">
-                                    Editar
-                                </button>
                             </div> 
                         </div> 
                         `;
